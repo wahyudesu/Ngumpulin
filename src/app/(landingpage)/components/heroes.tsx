@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { ComputerIcon as Windows } from "lucide-react";
 import ShimmerButton from "@/components/ui/shimmer-button";
 import HeroVideoDialog from "@/components/ui/hero-video-dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export function Heroes() {
   return (
@@ -17,7 +19,7 @@ export function Heroes() {
         }}
       />
       <div className="w-full">
-        <section className="container mx-auto text-center flex flex-col items-center justify-center px-6 lg:pb-8 sm:pt-24 gap-4 lg:gap-6 pt-6 md:pt-28 lg:pt-28">
+        <section className="container mx-auto text-center flex flex-col items-center justify-center px-6 lg:pb-8 gap-4 lg:gap-6 pt-2 md:pt-28 lg:pt-28">
           <div className="flex items-center justify-center">
             <ShimmerButton
               shimmerColor="blue"
@@ -34,15 +36,17 @@ export function Heroes() {
             <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl">
               Granola takes your raw meeting notes and makes them awesome
             </p>
-            <div className="flex justify-center space-x-4">
-              <Button className="h-12 bg-green-900 text-white hover:bg-green-800 transition-colors">
-                <Windows className="mr-2 h-5 w-5" />
-                Join the Windows Waitlist
-              </Button>
+            <div className="space-y-2">
+              <div className="flex justify-center space-x-4">
+                <div className="flex gap-2 pt-2">
+                  <Input id="input-22" className="flex-1" placeholder="Email" type="email" />
+                  <Button variant="default">Join Waitlist</Button>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                7 day free trial. No credit card required.
+              </p>
             </div>
-            <p className="text-sm text-muted-foreground">
-              7 day free trial. No credit card required.
-            </p>
           </div>
           <div className="relative mx-auto flex w-full items-center justify-center -px-10">
             <div className="relative w-[1000] ">

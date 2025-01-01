@@ -34,9 +34,9 @@ const items = [
 ];
 
 export const FAQ2 = () => (
-  <div className="w-full py-20 lg:py-40">
+  <div className="w-full py-10 lg:py-20">
     <div className="container mx-auto">
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-10 p-8">
         <div className="flex text-center justify-center items-center gap-4 flex-col">
           <Badge variant="outline">FAQ</Badge>
           <div className="flex gap-2 flex-col">

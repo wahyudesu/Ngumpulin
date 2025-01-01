@@ -11,9 +11,9 @@ export const Contact1 = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   return (
-    <div className="w-full py-20 lg:py-40">
+    <div className="w-full py-10">
       <div className="container max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2">
+        <div className="grid lg:grid-cols-2 p-8">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <div>
