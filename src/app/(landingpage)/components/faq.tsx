@@ -5,6 +5,7 @@ import { Accordion, AccordionContent, AccordionItem } from "@/components/ui/acco
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Plus } from "lucide-react";
 import Image from "next/image";
+import TabDemo from "./solution";
 
 const items = [
   {
@@ -36,6 +37,9 @@ const items = [
 export const FAQ2 = () => (
   <div className="w-full py-10 lg:py-20">
     <div className="container mx-auto">
+      <div className="flex">
+        <TabDemo/>
+      </div>
       {/* FAQ */}
       <div className="flex flex-col gap-10 p-7">
         <div className="flex text-center justify-center items-center gap-4 flex-col">

@@ -7,6 +7,7 @@ import { FAQ2 } from "@/app/(landingpage)/components/faq";
 import { Contact1 } from "@/app/(landingpage)/components/contact";
 import Problem from "./components/problem";
 import LogoCloud from "./components/logo-cloud";
+
 export default function HomePage() {
   return (
     <div className="light-theme">
