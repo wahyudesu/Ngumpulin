@@ -6,7 +6,7 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ title, body }) => (
-  <div className="border rounded-lg p-4 gap-2">
+  <div className="border rounded-lg p-4 gap-2 bg-primary-foreground">
     <div className="font-medium">{title}</div>
     <div className="text-2xl">{body}</div>
   </div>
@@ -16,7 +16,7 @@ interface CardStatsProps {
   cardData: { title: string; body: number }[];
 }
 
-const CardStats: React.FC<CardStatsProps> = () => {
+const Cardstats_alternative: React.FC<CardStatsProps> = () => {
   const cardData = [
     { title: 'Total tugas', body: 5 },
     { title: 'Total kehadiran siswa', body: 10 },
@@ -35,4 +35,4 @@ const CardStats: React.FC<CardStatsProps> = () => {
   );
 };
 
-export default CardStats;
+export default Cardstats_alternative;

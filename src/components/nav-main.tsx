@@ -39,7 +39,6 @@ export function NavMain({
 
   return (
     <SidebarGroup>
-      {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
       <SidebarMenu>
         {items.map((item) => {
           const isActive = pathname === item.url;
@@ -51,8 +50,8 @@ export function NavMain({
                   tooltip={item.title}
                   className={`${
                     isActive
-                      ? "border bg-white p-4 font-medium text-black"
-                      : "py-4 font-normal text-black/50 dark:text-white"
+                      ? "border-2 bg-primary-foreground py-5 font-medium"
+                      : "py-5 font-normal opacity-75"
                   }`}
                 >
                   <a href={item.url}>
@@ -60,29 +59,6 @@ export function NavMain({
                     <span>{item.title}</span>
                   </a>
                 </SidebarMenuButton>
-                {item.items?.length ? (
-                  <>
-                    <CollapsibleTrigger asChild>
-                      <SidebarMenuAction className="data-[state=open]:rotate-90">
-                        <ChevronRight />
-                        <span className="sr-only">Toggle</span>
-                      </SidebarMenuAction>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <SidebarMenuSub>
-                        {item.items?.map((subItem) => (
-                          <SidebarMenuSubItem key={subItem.title}>
-                            <SidebarMenuSubButton asChild>
-                              <a href={subItem.url}>
-                                <span>{subItem.title}</span>
-                              </a>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
-                      </SidebarMenuSub>
-                    </CollapsibleContent>
-                  </>
-                ) : null}
               </SidebarMenuItem>
             </Collapsible>
           );

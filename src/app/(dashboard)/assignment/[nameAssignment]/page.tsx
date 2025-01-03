@@ -115,7 +115,7 @@ const AssignmentDetail = () => {
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>kontol</BreadcrumbPage>
+                <BreadcrumbPage>{name}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>

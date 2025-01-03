@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { usePathname } from "next/navigation";
-import { BookOpen, Bot, Settings2, SquareTerminal } from "lucide-react";
+import { BookOpen, Bot, SquareTerminal } from "lucide-react";
 import { SearchForm } from "@/components/search-form";
 import { NavMain } from "@/components/nav-main";
 import {
@@ -13,10 +13,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger
 } from "@/components/ui/sidebar";
 import Logo from "./Logo";
-import { SidebarOptInForm } from "./sidebar-opt-in-form";
-import { ThemeSwitcher } from "@/app/ThemeSwitcher";
+import Toogletheme  from "@/app/themeswitch";
+import Feedback from "./feedback";
 
 const data = {
   user: {
@@ -54,7 +55,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton size="lg" asChild>
               <Logo />
             </SidebarMenuButton>
-            <ThemeSwitcher />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -67,7 +67,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         />
       </SidebarContent>
       <SidebarFooter>
-        <SidebarOptInForm />
+        <Toogletheme/>
+        <Feedback/>
       </SidebarFooter>
     </Sidebar>
   );

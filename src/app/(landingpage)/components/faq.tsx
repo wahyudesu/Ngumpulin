@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem } from "@/components/ui/accordion";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Plus } from "lucide-react";
-
+import Image from "next/image";
 
 const items = [
   {
@@ -36,7 +36,8 @@ const items = [
 export const FAQ2 = () => (
   <div className="w-full py-10 lg:py-20">
     <div className="container mx-auto">
-      <div className="flex flex-col gap-10 p-8">
+      {/* FAQ */}
+      <div className="flex flex-col gap-10 p-7">
         <div className="flex text-center justify-center items-center gap-4 flex-col">
           <Badge variant="outline">FAQ</Badge>
           <div className="flex gap-2 flex-col">
@@ -56,13 +57,12 @@ export const FAQ2 = () => (
             </Button>
           </div>
         </div>
-
         <div className="max-w-3xl w-full mx-auto text-left">
           <Accordion type="single" collapsible className="w-full" defaultValue="3">
           {items.map((item) => (
-            <AccordionItem value={item.id} key={item.id} className="py-2">
+            <AccordionItem value={item.id} key={item.id}>
               <AccordionPrimitive.Header className="flex">
-                <AccordionPrimitive.Trigger className="flex flex-1 items-center justify-between py-2 text-left text-[15px] font-semibold leading-6 transition-all [&>svg>path:last-child]:origin-center [&>svg>path:last-child]:transition-all [&>svg>path:last-child]:duration-200 [&[data-state=open]>svg>path:last-child]:rotate-90 [&[data-state=open]>svg>path:last-child]:opacity-0 [&[data-state=open]>svg]:rotate-180">
+                <AccordionPrimitive.Trigger className="flex flex-1 items-center justify-between py-4 text-left text-[15px] font-semibold leading-6 transition-all [&>svg>path:last-child]:origin-center [&>svg>path:last-child]:transition-all [&>svg>path:last-child]:duration-200 [&[data-state=open]>svg>path:last-child]:rotate-90 [&[data-state=open]>svg>path:last-child]:opacity-0 [&[data-state=open]>svg]:rotate-180">
                   {item.title}
                   <Plus
                     size={16}

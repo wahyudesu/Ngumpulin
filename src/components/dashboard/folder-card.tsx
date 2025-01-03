@@ -15,7 +15,6 @@ interface Folder {
   dueDate: Date | null;
   className: string | null;
   description: string | null;
-  assignmentType: string | null;
 }
 
 const AssignmentFolders = () => {
@@ -38,8 +37,8 @@ const AssignmentFolders = () => {
         >
           <CardHeader className="flex justify-between">
             <div className="gap-2 flex justify-start">
-              <Badge className="rounded-lg py-1 bg-violet-700/40">2 SDT B</Badge>
-              <Badge className="rounded-lg py-1 bg-violet-700/40">2 IT B</Badge>
+              <Badge className="rounded-lg py-1 bg-secondary text-primary hover:text-white">2 SDT B</Badge>
+              <Badge className="rounded-lg py-1 bg-secondary text-primary hover:text-white">2 IT B</Badge>
             </div>
             <div className="flex justify-start">
               <UpdateAssignmentFolder id={assignment.id}/>

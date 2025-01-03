@@ -11,16 +11,15 @@ import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 export default function TugasPage() {
   return (
     <div className="flex h-screen flex-col">
-      <header className="flex shrink-0 items-center gap-2">
+      <header className="flex shrink-0 items-center gap-2 h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/assignment">Assignment</BreadcrumbLink>
+                <BreadcrumbLink href="/assignment" className="text-base">Assignment</BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
             </BreadcrumbList>
           </Breadcrumb>
         </div>

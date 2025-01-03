@@ -63,6 +63,7 @@ const AssignmentUploadForm = () => {
         body: JSON.stringify({
           nameStudent, // Nama siswa
           filePaths,   // URL file
+          name,
         }),
       });
       

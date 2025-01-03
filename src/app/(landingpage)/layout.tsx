@@ -2,7 +2,6 @@ import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-// import {Header1} from "@/app/(landingpage)/components/navbar";
 import Navbar from "./components/navbar";
 import {Footer1} from "@/app/(landingpage)/components/footer";
 

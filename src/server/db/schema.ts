@@ -40,8 +40,6 @@ export const documents = pgTable('documents', {
   folder: text('folder'),
   uploadedDate: timestamp('uploadedDate', { withTimezone: true }).defaultNow(),
   embedding: vector('embedding', { size: 1024 }),
-  // classId: numeric('classId'),
-  // folderId: numeric('folderId')
 });
 
 // Table "classes"
@@ -60,8 +58,7 @@ export const folders = pgTable('folders', {
   dueDate: timestamp('dueDate', { precision: 3 }),
   className: text('className'),
   description: text('description'),
-  assignmentType: text('assignmentType'),
-  attachmenturl: text('documentUrl'),
+  attachmentUrl: text('attachmentUrl'),
   usePassword: boolean('usePassword').default(true),
   password: text('password')
 });
