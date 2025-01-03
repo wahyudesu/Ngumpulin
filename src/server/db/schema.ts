@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, numeric } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, numeric, boolean } from 'drizzle-orm/pg-core';
 import { customType } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
@@ -61,7 +61,9 @@ export const folders = pgTable('folders', {
   className: text('className'),
   description: text('description'),
   assignmentType: text('assignmentType'),
-  attachmenturl: text('documentUrl')
+  attachmenturl: text('documentUrl'),
+  usePassword: boolean('usePassword').default(true),
+  password: text('password')
 });
 
 // Relations for documents

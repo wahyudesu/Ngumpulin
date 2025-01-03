@@ -4,6 +4,7 @@ import ShimmerButton from "@/components/ui/shimmer-button";
 import HeroVideoDialog from "@/components/ui/hero-video-dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 export function Heroes() {
   return (
@@ -80,6 +81,18 @@ export function Heroes() {
             </div>
           </div>
         </section>
+
+        {/* Cloud Section */}
+        <div className="bg-white sm:py-32">
+          <p className="text-center text-xl font-semibold text-gray-500 mb-16">
+            Trusted by individuals at
+          </p>
+          <div className="flex items-center justify-center max-h-12 w-full object-contain lg:col-span-1 space-x-10">
+            <Image src="/logo/Logo_PENS.png" alt="PENS" width={120} height={120} className="grayscale hover:grayscale-0" />
+            <Image src="/logo/logo-unair.png" alt="UNAIR" width={120} height={120} className="grayscale hover:grayscale-0" />
+            <Image src="/logo/logo-unesa.png" alt="UNESA" width={120} height={120} className="grayscale hover:grayscale-0" />
+          </div>
+        </div>
       </div>
     </div>
   );
