@@ -5,11 +5,13 @@ import { Heroes } from "@/app/(landingpage)/components/heroes";
 import { CTA1 } from "@/app/(landingpage)/components/cta";
 import { FAQ2 } from "@/app/(landingpage)/components/faq";
 import { Contact1 } from "@/app/(landingpage)/components/contact";
+import Problem from "./components/problem";
 
 export default function HomePage() {
   return (
-    <div>
+    <div className="light-theme">
       <Heroes />
+      <Problem/>
       <FAQ2 />
       <Contact1/>
       <CTA1 />
