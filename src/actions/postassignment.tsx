@@ -21,7 +21,6 @@ export const savefolders = async (formData: FormData) => {
         dueDate: new Date(data.due_date as string),
         className: data.kelas as string,
         description: data.description as string,
-        assignmentType: data.assignment_type as string,
     });
   } catch (error) {
     console.error("Error creating folder:", error);

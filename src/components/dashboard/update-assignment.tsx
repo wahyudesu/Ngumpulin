@@ -32,7 +32,6 @@ import { Pencil, Trash } from 'lucide-react';
 const assignmentSchema = z.object({
   nameAssignment: z.string().min(1, 'Nama tugas harus diisi'),
   className: z.string().min(1, 'Kelas harus diisi'),
-  assignmentType: z.string().min(1, 'Jenis dokumen harus diisi'),
   description: z.string().min(1, 'Deskripsi harus diisi'),
   dueDate: z.string().optional(),
 });
@@ -48,7 +47,6 @@ const UpdateAssignmentFolder = ({ id }: { id: number }) => {
 const Modal = ({ id, side }: { id: number; side: 'bottom' }) => {
   const [nameAssignment, setNameAssignment] = useState('');
   const [className, setClassName] = useState('');
-  const [assignmentType, setAssignmentType] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -64,7 +62,6 @@ const Modal = ({ id, side }: { id: number; side: 'bottom' }) => {
           const assignment = data[0];
           setNameAssignment(assignment?.nameAssignment || '');
           setClassName(assignment?.className || '');
-          setAssignmentType(assignment?.assignmentType || '');
           setDescription(assignment?.description || '');
           setDueDate(
             assignment?.dueDate
@@ -91,7 +88,6 @@ const Modal = ({ id, side }: { id: number; side: 'bottom' }) => {
     const result = assignmentSchema.safeParse({
       nameAssignment,
       className,
-      assignmentType,
       description,
       dueDate,
     });
@@ -177,17 +173,6 @@ const Modal = ({ id, side }: { id: number; side: 'bottom' }) => {
                   onChange={(e) => setClassName(e.target.value)}
                 />
                 {errors.className && <p className="text-red-500">{errors.className}</p>}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="assignment">Jenis Dokumen</Label>
-                <Input
-                  name="assignment_type"
-                  placeholder="Contoh: Laporan"
-                  required
-                  value={assignmentType}
-                  onChange={(e) => setAssignmentType(e.target.value)}
-                />
-                {errors.assignmentType && <p className="text-red-500">{errors.assignmentType}</p>}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="description">Deskripsi</Label>

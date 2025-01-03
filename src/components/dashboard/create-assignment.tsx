@@ -20,7 +20,6 @@ import { addFolderAssignment } from '@/actions/getassignment';
 const assignmentSchema = z.object({
   nameAssignment: z.string().min(1, 'Nama tugas harus diisi'),
   classType: z.string().min(1, 'Kelas harus diisi'),
-  assignmentType: z.string().min(1, 'Jenis dokumen harus diisi'),
   description: z.string().min(1, 'Deskripsi harus diisi'),
   dueDate: z.string().optional(),
 });
@@ -28,7 +27,6 @@ const assignmentSchema = z.object({
 const ResponsiveModalBottom = () => {
   const [nameAssignment, setNameAssignment] = useState('');
   const [classType, setClassType] = useState('');
-  const [assignmentType, setAssignmentType] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -43,7 +41,6 @@ const ResponsiveModalBottom = () => {
     const result = assignmentSchema.safeParse({
       nameAssignment,
       classType,
-      assignmentType,
       description,
       dueDate,
     });
@@ -78,7 +75,6 @@ const ResponsiveModalBottom = () => {
       // Reset form setelah sukses
       setNameAssignment('');
       setClassType('');
-      setAssignmentType('');
       setDescription('');
       setDueDate('');
       
@@ -123,17 +119,6 @@ const ResponsiveModalBottom = () => {
                   onChange={(e) => setClassType(e.target.value)}
                 />
                 {errors.classType && <p className="text-red-500">{errors.classType}</p>}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="assignment">Jenis Dokumen</Label>
-                <Input
-                  name="assignment_type"
-                  placeholder="Contoh: Laporan"
-                  required
-                  value={assignmentType}
-                  onChange={(e) => setAssignmentType(e.target.value)}
-                />
-                {errors.assignmentType && <p className="text-red-500">{errors.assignmentType}</p>}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="description">Deskripsi</Label>
