@@ -12,8 +12,8 @@ const LogoCloud = () => (
           <Image src="/logo/Logo_PENS.png" alt="PENS" width={60} height={60} className="grayscale hover:grayscale-0" />
           <Image src="/logo/logo-unair.png" alt="UNAIR" width={60} height={60} className="grayscale hover:grayscale-0" />
           <Image src="/logo/logo-unesa.png" alt="UNESA" width={60} height={60} className="grayscale hover:grayscale-0" />
-          <Image src="/logo/logo-unesa.png" alt="UNESA" width={60} height={60} className="grayscale hover:grayscale-0" />
-          <Image src="/logo/logo-unesa.png" alt="UNESA" width={60} height={60} className="grayscale hover:grayscale-0" />
+          {/* <Image src="/logo/logo-unesa.png" alt="UNESA" width={60} height={60} className="grayscale hover:grayscale-0" />
+          <Image src="/logo/logo-unesa.png" alt="UNESA" width={60} height={60} className="grayscale hover:grayscale-0" /> */}
         </div>
       </div>
     </div>

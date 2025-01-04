@@ -12,7 +12,7 @@ export const Contact1 = () => {
 
   return (
     <div className="w-full py-10">
-      <div className="container max-w-6xl mx-auto">
+      <div className="container max-w-6xl mx-auto lg:px-24">
         <div className="grid lg:grid-cols-2 p-8 gap-10">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
@@ -59,7 +59,7 @@ export const Contact1 = () => {
             </div>
           </div>
 
-          <div className="justify-center flex items-center">
+          <div className="justify-end flex items-center">
             <div className="rounded-md max-w-sm border p-8 gap-4">
                 <SubscribeCard/>
             </div>

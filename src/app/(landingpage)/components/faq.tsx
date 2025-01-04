@@ -35,11 +35,11 @@ const items = [
 ];
 
 export const FAQ2 = () => (
-  <div className="w-full py-10 lg:py-20">
-    <div className="container mx-auto">
-      <div className="flex">
+  <div className="w-full py-10 lg:py-10">
+    <div className="container mx-auto items-center">
+      {/* <div className="flex max-w-xl justify-center item-center">
         <TabDemo/>
-      </div>
+      </div> */}
       {/* FAQ */}
       <div className="flex flex-col gap-10 p-7">
         <div className="flex text-center justify-center items-center gap-4 flex-col">
@@ -64,7 +64,7 @@ export const FAQ2 = () => (
         <div className="max-w-3xl w-full mx-auto text-left">
           <Accordion type="single" collapsible className="w-full" defaultValue="3">
           {items.map((item) => (
-            <AccordionItem value={item.id} key={item.id}>
+            <AccordionItem value={item.id} key={item.id} className="border-b">
               <AccordionPrimitive.Header className="flex">
                 <AccordionPrimitive.Trigger className="flex flex-1 items-center justify-between py-4 text-left text-[15px] font-semibold leading-6 transition-all [&>svg>path:last-child]:origin-center [&>svg>path:last-child]:transition-all [&>svg>path:last-child]:duration-200 [&[data-state=open]>svg>path:last-child]:rotate-90 [&[data-state=open]>svg>path:last-child]:opacity-0 [&[data-state=open]>svg]:rotate-180">
                   {item.title}
@@ -82,28 +82,6 @@ export const FAQ2 = () => (
             </AccordionItem>
           ))}
         </Accordion>
-        {/* <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>Is it accessible?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It adheres to the WAI-ARIA design pattern.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-2">
-            <AccordionTrigger>Is it styled?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It comes with default styles that matches the other
-              components&apos; aesthetic.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-3">
-            <AccordionTrigger>Is it animated?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It&apos;s animated by default, but you can disable it if you
-              prefer.
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion> */}
         </div>
       </div>
     </div>

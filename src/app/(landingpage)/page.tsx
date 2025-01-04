@@ -7,6 +7,7 @@ import { FAQ2 } from "@/app/(landingpage)/components/faq";
 import { Contact1 } from "@/app/(landingpage)/components/contact";
 import Problem from "./components/problem";
 import LogoCloud from "./components/logo-cloud";
+import SolutionsSection from "./components/solution";
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
       <Heroes />
       <LogoCloud/>
       <Problem/>
+      <SolutionsSection/>
       <FAQ2 />
       <Contact1/>
       <CTA1 />

@@ -57,7 +57,7 @@ const AssignmentFolders = () => {
             </div>
           </CardBody>
           <CardFooter className="justify-between gap-2">
-            <Badge className="text-xs rounded-md bg-white border-black/40 text-black tracking-tight font-light hover:text-white shadow-sm">
+            <Badge variant="outline" className="border-black/40 text-black tracking-tight font-light hover:text-white shadow-sm">
               {assignment.dueDate
                 ? new Date(assignment.dueDate).toLocaleDateString("id-ID", {
                     weekday: "long",

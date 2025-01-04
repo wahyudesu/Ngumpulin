@@ -32,12 +32,9 @@ const ArrowIcon = () => (
 export default function Problem() {
   return (
     <div className="flex flex-col items-center justify-center p-4 space-y-8">
-      {/* <h1 className="text-4xl font-bold text-white text-center">
-        Simplify Your Workflow
+      <h1 className="text-4xl font-bold text-primary text-center">
+        The Problem is
       </h1>
-      <h2 className="text-2xl text-zinc-400 text-center">
-        Stop wasting time on repetitive tasks
-      </h2> */}
     <br>
     </br>
       {/* Card */}
