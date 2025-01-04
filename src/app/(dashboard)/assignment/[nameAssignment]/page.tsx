@@ -12,13 +12,71 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Trash, ExternalLink } from "lucide-react";
+import { Trash, ExternalLink, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Document } from "@/server/db/types";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
+import { SquareArrowOutUpRight } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Check, Copy } from "lucide-react";
+import { cn } from "@/lib/utils";
+import Download_data from "./download-data";
+
+// Komponen ButtonDemo yang ditempatkan langsung di sini
+function ButtonDemo() {
+  const [copied, setCopied] = useState<boolean>(false);
+
+  const handleCopy = async () => {
+    try {
+      // await navigator.clipboard.writeText("string to copy");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
+
+  return (
+    <TooltipProvider delayDuration={0}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="outline"
+            size="default" // Ubah dari `size="icon"` ke `size="default"` agar tombol menyesuaikan panjang teks
+            className={cn(
+              "disabled:opacity-100 relative",
+              "rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg"
+            )}
+            onClick={handleCopy}
+            aria-label={copied ? "Copied" : "Copy to clipboard"}
+            disabled={copied}
+          >
+            <div
+              className={cn(
+                "absolute inset-0 flex items-center justify-center transition-all",
+                copied ? "scale-100 opacity-100" : "scale-0 opacity-0",
+              )}
+            >
+              <Check className="stroke-emerald-500" size={16} strokeWidth={2} aria-hidden="true" />
+            </div>
+            <div
+              className={cn(
+                "flex items-center justify-center transition-all",
+                copied ? "scale-0 opacity-0" : "scale-100 opacity-100",
+              )}
+            >
+              Link tugas
+            </div>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent className="px-2 py-1 text-xs">Click to copy</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
 
 // Enum untuk sort direction
 enum SortDirection {
@@ -121,20 +179,25 @@ const AssignmentDetail = () => {
           </Breadcrumb>
         </div>
       </header>
-      <div className="p-4 mx-auto mt-8 w-full max-w-6xl rounded">
+      <div className="p-4 mx-auto mt-8 w-full max-w-7xl rounded">
         <h1 className="text-xl font-bold">Nama Tugas: {name}</h1>
         <div className="mt-4 flex gap-2 justify-between">
           <div className="flex gap-2">
-            <Link href={`/${name}/submit`}>
-              <Button className="text-white py-2 px-4 rounded">
-                Form Upload
-              </Button>
-            </Link>
-            <Button className="text-white py-2 px-4 rounded">
-              Bagikan Link Share
-            </Button>
+            <div className="inline-flex -space-x-px rounded-lg shadow-sm shadow-black/5 rtl:space-x-reverse">
+              <ButtonDemo /> {/* Panggil ButtonDemo di sini */}
+              <Link href={`/${name}/submit`} target="_blank" rel="noopener noreferrer">
+                <Button
+                  className="rounded-none shadow-none last:rounded-e-lg focus-visible:z-10"
+                  variant="outline"
+                  size="icon"
+                  aria-label="Open link in new tab"
+                >
+                  <SquareArrowOutUpRight size={16} strokeWidth={2} aria-hidden="true" />
+                </Button>
+              </Link>
+            </div>
+            <Download_data/>
           </div>
-          {/* <DownloadFiles bucketName="Next Task" folderName={doc.folder} /> */}
         </div>
         <Input
           placeholder="Cari dokumen..."
@@ -143,77 +206,79 @@ const AssignmentDetail = () => {
           className="mt-4 w-full"
         />
       </div>
-      <div className="mx-auto w-full max-w-6xl rounded border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>#</TableHead>
-              <TableHead
-                className="cursor-pointer"
-                onClick={() => handleSort("nameStudent")}
-              >
-                Nama Siswa{" "}
-                {sortColumn === "nameStudent" &&
-                  (sortDirection === SortDirection.ASC ? "\u2191" : "\u2193")}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer"
-                onClick={() => handleSort("documentName")}
-              >
-                Nama Dokumen{" "}
-                {sortColumn === "documentName" &&
-                  (sortDirection === SortDirection.ASC ? "\u2191" : "\u2193")}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer"
-                onClick={() => handleSort("uploadedDate")}
-              >
-                Tanggal Upload{" "}
-                {sortColumn === "uploadedDate" &&
-                  (sortDirection === SortDirection.ASC ? "\u2191" : "\u2193")}
-              </TableHead>
-              <TableHead>URL Dokumen</TableHead>
-              <TableHead>Aksi</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sortedDocuments.length > 0 ? (
-              sortedDocuments.map((doc, index) => (
-                <TableRow key={doc.id}>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{doc.nameStudent}</TableCell>
-                  <TableCell>{doc.documentName}</TableCell>
-                  <TableCell>{doc.uploadedDate ? new Date(doc.uploadedDate).toLocaleString(): "Tanggal tidak tersedia"}
-                  </TableCell>
-                  <TableCell>
-                    <a
-                      href={doc.documentUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline flex items-center gap-1"
-                    >
-                      <ExternalLink size={16} /> Buka
-                    </a>
-                  </TableCell>
-                  <TableCell className="flex gap-2">
-                    <button
-                      onClick={() => handleDelete(doc.id)}
-                      className="text-red-500 hover:underline flex items-center gap-1"
-                    >
-                      <Trash size={16} /> Hapus
-                    </button>
+      <div className="px-10">
+        <div className="mx-auto w-full max-w-7xl rounded border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>#</TableHead>
+                <TableHead
+                  className="cursor-pointer"
+                  onClick={() => handleSort("nameStudent")}
+                >
+                  Nama Siswa{" "}
+                  {sortColumn === "nameStudent" &&
+                    (sortDirection === SortDirection.ASC ? "\u2191" : "\u2193")}
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer"
+                  onClick={() => handleSort("documentName")}
+                >
+                  Nama Dokumen{" "}
+                  {sortColumn === "documentName" &&
+                    (sortDirection === SortDirection.ASC ? "\u2191" : "\u2193")}
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer"
+                  onClick={() => handleSort("uploadedDate")}
+                >
+                  Tanggal Upload{" "}
+                  {sortColumn === "uploadedDate" &&
+                    (sortDirection === SortDirection.ASC ? "\u2191" : "\u2193")}
+                </TableHead>
+                <TableHead>URL Dokumen</TableHead>
+                <TableHead>Aksi</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sortedDocuments.length > 0 ? (
+                sortedDocuments.map((doc, index) => (
+                  <TableRow key={doc.id}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{doc.nameStudent}</TableCell>
+                    <TableCell>{doc.documentName}</TableCell>
+                    <TableCell>{doc.uploadedDate ? new Date(doc.uploadedDate).toLocaleString(): "Tanggal tidak tersedia"}
+                    </TableCell>
+                    <TableCell>
+                      <a
+                        href={doc.documentUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline flex items-center gap-1"
+                      >
+                        <ExternalLink size={16} /> Buka
+                      </a>
+                    </TableCell>
+                    <TableCell className="flex gap-2">
+                      <button
+                        onClick={() => handleDelete(doc.id)}
+                        className="text-red-500 hover:underline flex items-center gap-1"
+                      >
+                        <Trash size={16} /> Hapus
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center">
+                    Tidak ada dokumen ditemukan untuk tugas ini.
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center">
-                  Tidak ada dokumen ditemukan untuk tugas ini.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   );
