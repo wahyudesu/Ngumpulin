@@ -11,7 +11,7 @@ import SolutionsSection from "./components/solution";
 
 export default function HomePage() {
   return (
-    <div className="light-theme">
+    <div>
       <Heroes />
       <LogoCloud/>
       <Problem/>

@@ -1,118 +1,74 @@
 import Link from "next/link";
+import { Github, Linkedin, Slack, Twitter } from 'lucide-react';
 
-export const Footer1 = () => {
-  const navigationItems = [
-    {
-      title: "Home",
-      href: "/",
-      description: "",
-    },
-    {
-      title: "Product",
-      description: "Managing a small business today is already tough.",
-      items: [
-        {
-          title: "Reports",
-          href: "/reports",
-        },
-        {
-          title: "Statistics",
-          href: "/statistics",
-        },
-        {
-          title: "Dashboards",
-          href: "/dashboards",
-        },
-        {
-          title: "Recordings",
-          href: "/recordings",
-        },
-      ],
-    },
-    {
-      title: "Company",
-      description: "Managing a small business today is already tough.",
-      items: [
-        {
-          title: "About us",
-          href: "/about",
-        },
-        {
-          title: "Fundraising",
-          href: "/fundraising",
-        },
-        {
-          title: "Investors",
-          href: "/investors",
-        },
-        {
-          title: "Contact us",
-          href: "/contact",
-        },
-      ],
-    },
-  ];
-
+export function Footer() {
   return (
-    <div className="w-full py-20 lg:py-40 bg-foreground text-background p-8">
-      <div className="container mx-auto">
-        <div className="grid lg:grid-cols-2 gap-10 items-center">
-          <div className="flex gap-8 flex-col items-start ">
-            <div className="flex gap-2 flex-col">
-              <h2 className="text-3xl md:text-5xl tracking-tighter max-w-xl font-regular text-left">
-                TWBlocks™
-              </h2>
-              <p className="text-lg max-w-lg leading-relaxed tracking-tight text-background/75 text-left">
-                Managing a small business today is already tough.
-              </p>
-            </div>
-            <div className="flex gap-20 flex-row">
-              <div className="flex flex-col text-sm max-w-lg leading-relaxed tracking-tight text-background/75 text-left">
-                <p>1 Tailwind Way</p>
-                <p>Menlo Park</p>
-                <p>CA 94025</p>
-              </div>
-              <div className="flex flex-col text-sm max-w-lg leading-relaxed tracking-tight text-background/75 text-left">
-                <Link href="/">Terms of service</Link>
-                <Link href="/">Privacy Policy</Link>
-              </div>
-            </div>
+    <footer className="w-full border-t py-12 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-80">
+      <div className="container grid gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="space-y-6">
+            <Link href="/" className="flex items-center space-x-2">
+              <span className="text-xl font-bold">Mintlify</span>
+            </Link>
           </div>
-          <div className="grid lg:grid-cols-3 gap-10 items-start">
-            {navigationItems.map((item) => (
-              <div
-                key={item.title}
-                className="flex text-base gap-1 flex-col items-start"
-              >
-                <div className="flex flex-col gap-2">
-                  {item.href ? (
-                    <Link
-                      href={item.href}
-                      className="flex justify-between items-center"
-                    >
-                      <span className="text-xl">{item.title}</span>
-                    </Link>
-                  ) : (
-                    <p className="text-xl">{item.title}</p>
-                  )}
-                  {item.items &&
-                    item.items.map((subItem) => (
-                      <Link
-                        key={subItem.title}
-                        href={subItem.href}
-                        className="flex justify-between items-center"
-                      >
-                        <span className="text-background/75">
-                          {subItem.title}
-                        </span>
-                      </Link>
-                    ))}
-                </div>
-              </div>
-            ))}
+          <div className="space-y-3">
+            <h4 className="font-medium">Documentation</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="#">Getting Started</Link></li>
+              <li><Link href="#">Components</Link></li>
+              <li><Link href="#">API playground</Link></li>
+              <li><Link href="#">Pricing</Link></li>
+            </ul>
+          </div>
+          <div className="space-y-3">
+            <h4 className="font-medium">Resources</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="#">Customers</Link></li>
+              <li><Link href="#">Enterprise</Link></li>
+              <li><Link href="#">Request Preview</Link></li>
+              <li><Link href="#">Integrations</Link></li>
+              <li><Link href="#">Templates</Link></li>
+              <li><Link href="#">Wall of Love</Link></li>
+            </ul>
+          </div>
+          <div className="space-y-3">
+            <h4 className="font-medium">Company</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="#">Blog</Link></li>
+              <li><Link href="#">Careers</Link></li>
+              <li><Link href="#">Public Roadmap</Link></li>
+              <li><Link href="#">Security</Link></li>
+            </ul>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-blue-50 py-2 px-4 rounded-xl">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center space-x-2">
+              <div className="h-2 w-2 rounded-full bg-green-500" />
+              <span className="text-sm text-muted-foreground">All systems normal</span>
+            </div>
+            <p className="text-sm text-muted-foreground">© 2025 Mintlify, Inc.</p>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Link href="#" className="text-muted-foreground hover:text-foreground">
+              <Twitter className="h-5 w-5" />
+              <span className="sr-only">Twitter</span>
+            </Link>
+            <Link href="#" className="text-muted-foreground hover:text-foreground">
+              <Linkedin className="h-5 w-5" />
+              <span className="sr-only">LinkedIn</span>
+            </Link>
+            <Link href="#" className="text-muted-foreground hover:text-foreground">
+              <Github className="h-5 w-5" />
+              <span className="sr-only">GitHub</span>
+            </Link>
+            <Link href="#" className="text-muted-foreground hover:text-foreground">
+              <Slack className="h-5 w-5" />
+              <span className="sr-only">Slack</span>
+            </Link>
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
-};
+}

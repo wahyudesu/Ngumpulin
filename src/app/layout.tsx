@@ -1,15 +1,15 @@
 import "@/styles/globals.css";
-import { Gabarito } from "next/font/google"; // Impor font Gabarito
+
+import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { Providers } from "./providers";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Gabarito } from 'next/font/google'
 
-// Konfigurasi font Gabarito
 const gabarito = Gabarito({
-  weight: "400", // Regular
-  subsets: ["latin"], // Subset yang digunakan
-  variable: "--font-gabarito", // Variabel CSS untuk font
-});
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -24,9 +24,9 @@ export default function RootLayout({
     // <ClerkProvider>
       <html
         lang="en"
-        className={`${gabarito.variable}`} // Terapkan font Gabarito
-        suppressHydrationWarning
-      >
+        className={gabarito.className}
+        // className={`${GeistSans.variable}`} suppressHydrationWarning
+        >
         <body>
           <Providers>{children}</Providers>
         </body>

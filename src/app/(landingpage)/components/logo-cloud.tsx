@@ -14,7 +14,7 @@ const LogoCloud = () => {
       <div className="container mx-auto px-4">
         {/* Teks Deskripsi */}
         <div className="text-center mb-4 lg:mb-12">
-          <p className="text-sm md:text-xl font-medium text-gray-500 max-w-xs md:max-w-lg mx-auto">
+          <p className="text-sm md:text-xl font-normal text-gray-500 max-w-xs md:max-w-lg mx-auto">
             150+ dosen dari berbagai universitas mempercayakan tugasnya kepada kami
           </p>
         </div>

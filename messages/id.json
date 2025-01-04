@@ -1,0 +1,19 @@
+{
+    "Landingpage" :{
+        "navbar": {
+
+        },
+        "heroes": {
+            "heading" : "Selamat datang di gelora bung karno",
+            "subheading" : "Bwahwahwahwahwah"   
+        },
+        "FAQ": {
+            "heading" : "Selamat datang di gelora bung karno",
+            "subheading" : "Bwahwahwahwahwah"   
+        },
+        "Problem": {
+            "heading" : "Selamat datang di gelora bung karno",
+        }
+        
+    }
+}
