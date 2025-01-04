@@ -16,35 +16,34 @@ import Logo from '@/components/Logo'
 const navItems = [
   { name: 'Features', href: '/features' },
   { name: 'Pricing', href: '/pricing' },
+  { name: 'Resources', href: '/resources' },
   { name: 'About', href: '/about' },
+
 ]
 
 export default function Navbar() {
   return (
-    <nav className="bg-white py-1">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="bg-white py-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-24">
         <div className="flex justify-between items-center h-16">
-          {/* Logo and Desktop Menu */}
           <div className="flex items-centerspace-x-4 gap-4">
             <Logo/>
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-4">
-              {navItems.map((item) => (
-                <Button variant="ghost">
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="text-gray-700 hover:text-indigo-600 px-0 py-2 rounded-md text-sm font-medium"
-                  >
-                    {item.name}
-                  </Link>
-                </Button>
-              ))}
-            </div>
           </div>
-
+          <div className="hidden md:flex items-center space-x-4">
+            {navItems.map((item) => (
+              <Button variant="ghost">
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-700 hover:text-indigo-600 px-0 py-2 rounded-md text-sm font-medium"
+                >
+                  {item.name}
+                </Link>
+              </Button>
+            ))}
+          </div>
           <div className="hidden md:flex items-center gap-2">
-            <Button variant="outline">Login</Button>
+            {/* <Button variant="outline">Login</Button> */}
             <Button>Get started for free</Button>
           </div>
 

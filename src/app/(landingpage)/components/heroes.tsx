@@ -31,11 +31,11 @@ export function Heroes() {
             </ShimmerButton>
           </div>
           <div className="space-y-6 max-w-[800px]">
-            <h1 className="text-5xl md:text-7xl max-w-2xl tracking-tighter text-center font-semibold">
+            <h1 className="text-5xl md:text-6xl max-w-xl tracking-tighter text-center font-semibold">
               Automate your workflow with Ai
             </h1>
-            <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl">
-              Granola takes your raw meeting notes and makes them awesome
+            <p className="mx-auto max-w-[600px] text-muted-foreground md:text-md">
+              Meet the modern standard for documentation. Beautiful out of the box, easy to maintain, and built to convert users.
             </p>
             <div className="space-y-2">
               <div className="flex justify-center space-x-4">

@@ -1,9 +1,15 @@
 import "@/styles/globals.css";
-
-import { GeistSans } from "geist/font/sans";
+import { Gabarito } from "next/font/google";
 import { type Metadata } from "next";
 import Navbar from "./components/navbar";
-import {Footer1} from "@/app/(landingpage)/components/footer";
+import { Footer1 } from "@/app/(landingpage)/components/footer";
+
+// Konfigurasi font Gabarito
+const gabarito = Gabarito({
+  weight: "400", // Regular
+  subsets: ["latin"], // Subset yang digunakan
+  variable: "--font-gabarito", // Variabel CSS untuk font
+});
 
 export const metadata: Metadata = {
   title: "Ngumpulin",
@@ -17,7 +23,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable}`}
+      className={`${gabarito.variable}`}
       suppressHydrationWarning
     >
       <body>

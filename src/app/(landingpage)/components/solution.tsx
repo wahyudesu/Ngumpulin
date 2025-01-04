@@ -45,9 +45,9 @@ const TabAccordion = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 my-8">
+    <div className="w-full max-w-4xl mx-auto px-6 py-20 my-8">
       {/* Headings dan Sub-headings */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
           Grow your social reach with less effort for less money
         </h2>

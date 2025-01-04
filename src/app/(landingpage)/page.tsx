@@ -17,7 +17,6 @@ export default function HomePage() {
       <Problem/>
       <SolutionsSection/>
       <FAQ2 />
-      <Contact1/>
       <CTA1 />
     </div>
   );

@@ -31,8 +31,8 @@ const ArrowIcon = () => (
 
 export default function Problem() {
   return (
-    <div className="flex flex-col items-center justify-center p-4 space-y-8">
-      <h1 className="text-4xl font-bold text-primary text-center">
+    <div className="flex flex-col items-center justify-center px-6 py-20 space-y-8 bg-slate-700">
+      <h1 className="text-4xl font-bold text-white text-center">
         The Problem is
       </h1>
     <br>

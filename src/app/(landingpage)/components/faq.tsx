@@ -35,7 +35,7 @@ const items = [
 ];
 
 export const FAQ2 = () => (
-  <div className="w-full py-10 lg:py-10">
+  <div className="bg-blue-50 w-full py-10 lg:py-10">
     <div className="container mx-auto items-center">
       {/* <div className="flex max-w-xl justify-center item-center">
         <TabDemo/>
@@ -45,7 +45,7 @@ export const FAQ2 = () => (
         <div className="flex text-center justify-center items-center gap-4 flex-col">
           <Badge variant="outline">FAQ</Badge>
           <div className="flex gap-2 flex-col">
-            <h4 className="text-3xl md:text-5xl tracking-tighter max-w-xl text-center font-regular">
+            <h4 className="text-3xl md:text-5xl tracking-tighter max-w-xl text-center font-extrabold">
               This is the start of something new
             </h4>
             <p className="text-lg leading-relaxed tracking-tight text-muted-foreground max-w-xl text-center">
