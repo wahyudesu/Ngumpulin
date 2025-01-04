@@ -24,7 +24,7 @@ export default function TugasPage() {
           </Breadcrumb>
         </div>
       </header>
-      <main className="flex flex-1 flex-col gap-6 p-6 w-full max-w-7xl mx-16 mt-8">
+      <main className="flex flex-1 flex-col gap-6 p-4 w-full max-w-7xl mt-8">
         <section>
           <CardStats cardData={[]} />
         </section>

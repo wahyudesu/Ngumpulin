@@ -18,7 +18,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar/>
       <SidebarInset>
         <div className={`${GeistSans.className} flex flex-col min-h-screen`}>
           <main className="flex flex-1 flex-col gap-4 p-4 pt-4 justify-center">
