@@ -38,7 +38,7 @@ export const documents = pgTable('documents', {
   documentName: text('documentName').notNull(),
   documentUrl: text('documentUrl').notNull(),
   folder: text('folder'),
-  uploadedDate: timestamp('uploadedDate', { withTimezone: true }).defaultNow(),
+  uploadedDate: timestamp('uploadedDate', { withTimezone: true }).defaultNow().notNull(),
   embedding: vector('embedding', { size: 1024 }),
 });
 
@@ -55,7 +55,7 @@ export const folders = pgTable('folders', {
   id: serial('id').primaryKey(),
   nameAssignment: text('nameAssignment').notNull(),
   createdAt: timestamp('createdAt', { precision: 3 }).defaultNow(),
-  dueDate: timestamp('dueDate', { precision: 3 }),
+  dueDate: timestamp('dueDate', { precision: 3 }).notNull(),
   className: text('className'),
   description: text('description'),
   attachmentUrl: text('attachmentUrl'),

@@ -1,13 +1,20 @@
 import { getDataByNameLabel } from "@/actions/getassignment";
 import { Badge } from "@/components/ui/badge";
+import { useParams } from 'next/navigation';
 
-export default async function AssignmentPage() {
-  const nameAssignment = "Assignment 3"; // Nama folder tugas
-  const id = 4; // ID dokumen spesifik
+interface AssignmentPageProps {
+  params: {
+    id: string;
+    nameAssignment: string;
+  };
+}
+
+export default async function AssignmentPage({ params }: AssignmentPageProps) {
+  const { id, nameAssignment } = params;
 
   try {
     // Panggil fungsi getDataByNameLabel dengan nameAssignment dan id
-    const status = await getDataByNameLabel(nameAssignment, id);
+    const status = await getDataByNameLabel(nameAssignment, parseInt(id));
     const badgeVariant = status === "Terlambat" ? "destructive" : "success";
 
     return (
