@@ -44,7 +44,11 @@ export default function Navbar() {
           </div>
           <div className="hidden md:flex items-center gap-2">
             {/* <Button variant="outline">Login</Button> */}
-            <Button>Get started for free</Button>
+            <Button>
+              <Link href={'/assignment'}>
+              Get started for free
+              </Link>
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
