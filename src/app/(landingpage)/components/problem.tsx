@@ -5,15 +5,18 @@ import { motion } from 'framer-motion'
 
 // Data untuk daftar tugas dan waktu
 const tasks = [
-  { time: '4 hrs', description: 'to set up emails' },
-  { time: '+ 6 hrs', description: 'designing a landing page' },
-  { time: '+ 4 hrs', description: 'to handle Stripe webhooks' },
-  { time: '+ 2 hrs', description: 'for SEO tags' },
-  { time: '+ 1 hr', description: 'applying for Google OAuth' },
-  { time: '+ 3 hrs', description: 'for DNS records' },
-  { time: '+ 2 hrs', description: 'for protected API routes' },
-  { time: '+ ∞ hrs', description: 'overthinking...' },
-]
+  { time: '8 hrs', description: 'conducting research' },
+  { time: '+4 hrs', description: 'writing research papers' },
+  { time: '+3 hrs', description: 'supervising graduate students' },
+  { time: '+2 hrs', description: 'attending faculty meetings' },
+  { time: '+1 hr', description: 'grading assignments' },
+  { time: '+2 hrs', description: 'preparing lectures' },
+  { time: '+1 hr', description: 'advising students' },
+  { time: '+3 hrs', description: 'managing administrative tasks' },
+  { time: '+2 hrs', description: 'designing final projects' },
+  { time: '+4 hrs', description: 'spending time with family' },
+  { time: '+ ∞ hrs', description: 'overthinking work-life balance' }
+];
 
 // Komponen kecil untuk menampilkan ikon panah
 const ArrowIcon = () => (

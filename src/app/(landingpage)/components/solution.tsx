@@ -16,24 +16,25 @@ const TabAccordion = () => {
     {
       id: 'image1',
       icon: Command,
-      title: 'Fitur Pertama',
-      content: "Schedule your content to be posted on your social accounts at the perfect time.",
+      title: 'Plagiarism Detection',
+      content:
+        'Easily check student assignments for originality with advanced plagiarism detection, ensuring academic integrity and saving you time on manual reviews.',
       imageUrl: '/fitur/contoh1.png', // Gambar dari folder public/fitur
     },
     {
       id: 'image2',
       icon: AtSign,
-      title: 'Fitur Kedua',
+      title: 'AI-Powered Assignment Creator',
       content:
-        "Proven viral templates to create content for your brand in minutes. (The same templates we've used to get over 60,000 app downloads to our own apps) Drag and drop using our video maker and get 1000s of potential customers to your page.",
+        'Generate customized assignments in minutes using AI, tailored to your curriculum and student needs. Choose from templates or let the tool design questions, saving you hours of preparation.',
       imageUrl: '/fitur/contoh2.png', // Gambar dari folder public/fitur
     },
     {
       id: 'image3',
       icon: Eclipse,
-      title: 'Fitur Ketiga',
+      title: 'Automatic Feedback and Correction',
       content:
-        'View all of your posted content and scheduled content in one place, edit scheduled posts and view your past posts.',
+        'Provide instant feedback and corrections on student submissions with automated grading tools, allowing you to focus on teaching while students get detailed insights to improve.',
       imageUrl: '/fitur/contoh3.png', // Gambar dari folder public/fitur
     },
   ];

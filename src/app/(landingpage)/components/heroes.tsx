@@ -25,10 +25,10 @@ export function Heroes() {
           {/* Heading and Description */}
           <div className="space-y-6 max-w-[800px]">
             <h1 className="text-5xl md:text-6xl max-w-xl tracking-tighter font-semibold">
-              Automate your workflow with AI
+              Teach Smarter, Not Harder
             </h1>
             <p className="mx-auto max-w-[600px] text-muted-foreground md:text-md">
-              Meet the modern standard for documentation. Beautiful out of the box, easy to maintain, and built to convert users.
+            Maximize your impact with Ngumpulin—an AI-powered workspace designed to simplify task assessment, resource creation, and feedback.
             </p>
 
             {/* Email Input and Button */}

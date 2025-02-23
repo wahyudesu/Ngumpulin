@@ -10,7 +10,7 @@ const LogoCloud = () => {
   ];
 
   return (
-    <div className="w-full py-8 lg:py-16 bg-white">
+    <div className="w-full py-8 lg:py-16 bg-white mb-4">
       <div className="container mx-auto px-4">
         {/* Teks Deskripsi */}
         <div className="text-center mb-4 lg:mb-12">
@@ -29,7 +29,7 @@ const LogoCloud = () => {
               <Image
                 src={logo.src}
                 alt={logo.alt}
-                width={80} // Sesuaikan ukuran sesuai kebutuhan
+                width={80}
                 height={80}
                 className="object-contain"
               />
