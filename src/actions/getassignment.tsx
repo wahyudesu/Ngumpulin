@@ -11,16 +11,28 @@ export const getDataAssignment = async () => {
   return data;
 };
 
-// Menambahkan folder baru
-export const addFolderAssignment = async (nameAssignment: string, className?: string, description?: string, dueDate?: Date) => {
-  await db.insert(folders).values({
-    nameAssignment: nameAssignment,
-    className: className || null, // Jika className tidak ada, set null
-    description: description || null, // Jika description tidak ada, set null
-    dueDate: dueDate, // Jika dueDate tidak ada, set null
-  });
+export const addFolderAssignment = async (
+  nameAssignment: string,
+  className?: string,
+  description?: string,
+  dueDate?: Date
+) => {
+  const values: any = { nameAssignment };
+
+  if (className !== null && className !== undefined) {
+    values.className = className;
+  }
+  if (description !== null && description !== undefined) {
+    values.description = description;
+  }
+  if (dueDate !== null && dueDate !== undefined) {
+    values.dueDate = dueDate;
+  }
+
+  await db.insert(folders).values(values);
   revalidatePath("/assignment");
 };
+
 
 // Menghapus folder
 export const deleteFolderAssignment = async (id: number) => {
