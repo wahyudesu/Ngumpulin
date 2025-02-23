@@ -3,7 +3,7 @@ import { eq, and, lt } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/server/db";
 import { documents, folders } from "@/server/db/schema";
-import { cosineSimilarity } from "@/lib/cosinesimilarity";
+// import { cosineSimilarity } from "@/lib/cosinesimilarity";
 
 // Mengambil data dari tabel folders
 export const getDataAssignment = async () => {
