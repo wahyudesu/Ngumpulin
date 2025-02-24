@@ -10,27 +10,27 @@ import TabDemo from "./solution";
 const items = [
   {
     id: "1",
-    title: "What makes Origin UI different?",
+    title: "Jenis tugas apa saja yang bisa diproses?",
     content:
-      "Origin UI focuses on developer experience and performance. Built with TypeScript, it offers excellent type safety, follows accessibility standards, and provides comprehensive documentation with regular updates.",
+      "Untuk saat ini tugas yang paling optimal adalah jenis tugas laprak. Namun di masa mendatang akan dengan berbagai jenis tugas lain seperti essay, ppt, excel, code file, dan lain-lain",
   },
   {
     id: "2",
-    title: "How can I customize the components?",
+    title: "Apakah platform ini mempunyai sistem yang aman?",
     content:
-      "Use our CSS variables for global styling, or className and style props for component-specific changes. We support CSS modules, Tailwind, and dark mode out of the box.",
+      "Yap, sangat aman. Autentifikasinya menggunakan clerk, dan arcjet sebagai secure code injection, dan set up formnya menggunakan password by default.",
   },
   {
     id: "3",
-    title: "Is Origin UI optimized for performance?",
+    title: "Apakah ada integrasi dengan LMS yang dimiliki oleh kampus",
     content:
-      "Yes, with tree-shaking, code splitting, and minimal runtime overhead. Most components are under 5KB gzipped.",
+      "Tidak bisa, sistem kampus biasanya jadul. Tapi hasil penugasan bisa diexport menjadi csv, excel, atau pdf untuk kemudian bisa diolah di proses selanjutnya",
   },
   {
     id: "4",
-    title: "How accessible are the components?",
+    title: "Apakah hanya untuk tugas saja? untuk ujian bagaimana?",
     content:
-      "All components follow WAI-ARIA standards, featuring proper ARIA attributes, keyboard navigation, and screen reader support. Regular testing ensures compatibility with NVDA, VoiceOver, and JAWS.",
+      "Saat ini hanya berfokus ke penugasan, jika banyak feedback terkait fitur ujian, ke depannya memungkinkan untuk terdapat fitur pembuatan dan pengecekan ujian seperti UTS/UAS",
   },
 ];
 
