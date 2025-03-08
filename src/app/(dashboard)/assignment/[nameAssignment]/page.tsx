@@ -43,7 +43,7 @@ const AssignmentDetail = () => {
       if (name) {
         try {
           const fetchedDocuments = await getDataByName(name);
-          setDocuments(fetchedDocuments as Document[]);
+          setDocuments(fetchedDocuments as unknown as Document[]);
         } catch (error) {
           console.error("Error fetching documents:", error);
         }
