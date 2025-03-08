@@ -20,6 +20,61 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import Download_data from "./download-data";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { Check, Copy, SquareArrowOutUpRight } from "lucide-react";
+
+function ButtonDemo() {
+  const [copied, setCopied] = useState<boolean>(false);
+
+  const handleCopy = async () => {
+    try {
+      // await navigator.clipboard.writeText("string to copy");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
+
+  return (
+    <TooltipProvider delayDuration={0}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="outline"
+            size="default" // Ubah dari `size="icon"` ke `size="default"` agar tombol menyesuaikan panjang teks
+            className={cn(
+              "disabled:opacity-100 relative",
+              "rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg"
+            )}
+            onClick={handleCopy}
+            aria-label={copied ? "Copied" : "Copy to clipboard"}
+            disabled={copied}
+          >
+            <div
+              className={cn(
+                "absolute inset-0 flex items-center justify-center transition-all",
+                copied ? "scale-100 opacity-100" : "scale-0 opacity-0",
+              )}
+            >
+              <Check className="stroke-emerald-500" size={16} strokeWidth={2} aria-hidden="true" />
+            </div>
+            <div
+              className={cn(
+                "flex items-center justify-center transition-all",
+                copied ? "scale-0 opacity-0" : "scale-100 opacity-100",
+              )}
+            >
+              Link tugas
+            </div>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent className="px-2 py-1 text-xs">Click to copy</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
 
 enum SortDirection {
   ASC = "asc",
@@ -108,7 +163,22 @@ const AssignmentDetail = () => {
       <div className="p-4 mx-auto mt-8 w-full max-w-7xl rounded">
         <h1 className="text-xl font-bold">Nama Tugas: {name}</h1>
         <div className="mt-4 flex gap-2 justify-between">
-          <Download_data />
+          <div className="flex gap-2">
+            <div className="inline-flex -space-x-px rounded-lg shadow-sm shadow-black/5 rtl:space-x-reverse">
+              <ButtonDemo /> {/* Panggil ButtonDemo di sini */}
+              <Link href={`/${name}/submit`} target="_blank" rel="noopener noreferrer">
+                <Button
+                  className="rounded-none shadow-none last:rounded-e-lg focus-visible:z-10"
+                  variant="outline"
+                  size="icon"
+                  aria-label="Open link in new tab"
+                >
+                  <SquareArrowOutUpRight size={16} strokeWidth={2} aria-hidden="true" />
+                </Button>
+              </Link>
+            </div>
+            <Download_data/>
+          </div>
         </div>
         <Input placeholder="Cari dokumen..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="mt-4 w-full" />
       </div>
