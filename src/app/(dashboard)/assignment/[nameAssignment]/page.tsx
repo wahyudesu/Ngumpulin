@@ -19,7 +19,6 @@ import { Document } from "@/server/db/types";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
-import { SquareArrowOutUpRight } from "lucide-react";
 import Download_data from "./download-data";
 
 enum SortDirection {
@@ -36,7 +35,6 @@ const AssignmentDetail = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortColumn, setSortColumn] = useState<keyof Document>("nameStudent");
   const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.ASC);
-  const [inputValues, setInputValues] = useState<{ [key: number]: string }>({});
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -123,33 +121,27 @@ const AssignmentDetail = () => {
                 <TableHead onClick={() => handleSort("nameStudent")}>Nama Siswa</TableHead>
                 <TableHead onClick={() => handleSort("uploadedDate")}>Waktu Mengumpulkan</TableHead>
                 <TableHead onClick={() => handleSort("uploadedDate")}>Tanggal Mengumpulkan</TableHead>
-                <TableHead>Plagiarism</TableHead>
                 <TableHead>URL Dokumen</TableHead>
-                <TableHead>Input Nilai</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {sortedDocuments.length > 0 ? (
-                sortedDocuments.map((doc, index) => {
-                  const highestPlagiarism = doc.plagiarism?.length ? doc.plagiarism.reduce((max, p) => (p.similarity > max.similarity ? p : max), doc.plagiarism[0]) : null;
-                  return (
-                    <TableRow key={String(doc.id)}>
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell>{doc.nameStudent}</TableCell>
-                      <TableCell>{doc.uploadedDate ? `${new Date(doc.uploadedDate).getHours() + 24}:${new Date(doc.uploadedDate).getMinutes()}` : "-"}</TableCell>
-                      <TableCell>{doc.uploadedDate ? new Date(doc.uploadedDate).toLocaleDateString("id-ID") : "-"}</TableCell>
-                      <TableCell title={highestPlagiarism ? `${highestPlagiarism.similarity}% - ${highestPlagiarism.name}` : "Aman"}>{highestPlagiarism && highestPlagiarism.similarity > 70 ? "Plagiarism" : "Aman"}</TableCell>
-                      <TableCell>
-                        <a href={doc.documentUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline flex items-center gap-1">
-                          <ExternalLink size={16} /> Buka
-                        </a>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
+                sortedDocuments.map((doc, index) => (
+                  <TableRow key={String(doc.id)}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{doc.nameStudent}</TableCell>
+                    <TableCell>{doc.uploadedDate ? `${new Date(doc.uploadedDate).getHours() + 24}:${new Date(doc.uploadedDate).getMinutes()}` : "-"}</TableCell>
+                    <TableCell>{doc.uploadedDate ? new Date(doc.uploadedDate).toLocaleDateString("id-ID") : "-"}</TableCell>
+                    <TableCell>
+                      <a href={doc.documentUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline flex items-center gap-1">
+                        <ExternalLink size={16} /> Buka
+                      </a>
+                    </TableCell>
+                  </TableRow>
+                ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center">Tidak ada dokumen ditemukan.</TableCell>
+                  <TableCell colSpan={5} className="text-center">Tidak ada dokumen ditemukan.</TableCell>
                 </TableRow>
               )}
             </TableBody>
