@@ -57,6 +57,34 @@
       "when": 1735912051371,
       "tag": "0007_rapid_living_tribunal",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1740629356497,
+      "tag": "0008_free_the_phantom",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1740669238576,
+      "tag": "0009_flaky_lady_mastermind",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1740669277909,
+      "tag": "0010_brainy_madrox",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1741218519932,
+      "tag": "0011_tired_millenium_guard",
+      "breakpoints": true
     }
   ]
 }

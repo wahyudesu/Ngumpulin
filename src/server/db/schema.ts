@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, numeric, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, numeric, boolean, jsonb } from 'drizzle-orm/pg-core';
 import { customType } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
@@ -40,6 +40,12 @@ export const documents = pgTable('documents', {
   folder: text('folder'),
   uploadedDate: timestamp('uploadedDate', { withTimezone: true }).defaultNow().notNull(),
   embedding: vector('embedding', { size: 1024 }),
+  plagiarism: jsonb('plagiarism'),
+  label: text('status').default('aman'),
+  grade: numeric('grade'),
+  feedback: text('feedback'),
+  sentences: numeric('sentences'),
+  page: numeric('page')
 });
 
 // Table "classes"
