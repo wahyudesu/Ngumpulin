@@ -10,7 +10,7 @@ import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function TugasPage() {
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col ">
       <header className="flex shrink-0 items-center gap-2 h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger className="-ml-1" />
@@ -24,7 +24,7 @@ export default function TugasPage() {
           </Breadcrumb>
         </div>
       </header>
-      <main className="flex flex-1 flex-col gap-6 p-4 w-full max-w-7xl mt-8">
+      <main className="flex flex-1 flex-col gap-6 p-4 w-full max-w-7xl mt-8 overflow-y-scroll">
         <section>
           <CardStats cardData={[]} />
         </section>

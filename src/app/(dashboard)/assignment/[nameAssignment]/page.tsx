@@ -136,14 +136,14 @@ const AssignmentDetail = () => {
 
   // Update grade function
   const updateGrade = (id: Number, newGrade: any) => {
-    setDocuments(documents.map(doc => 
+    setDocuments(documents.map(doc =>
       doc.id === id ? { ...doc, grade: newGrade } : doc
     ));
   };
 
   // Update feedback function
   const updateFeedback = (id: Number, newFeedback: any) => {
-    setDocuments(documents.map(doc => 
+    setDocuments(documents.map(doc =>
       doc.id === id ? { ...doc, feedback: newFeedback } : doc
     ));
   };
@@ -171,7 +171,7 @@ const AssignmentDetail = () => {
         const minutes = date.getMinutes().toString().padStart(2, "0");
         const formattedTime = `${hour}:${minutes}`;
         const formattedDate = date.toLocaleDateString("id-ID");
-        if(row.original.label == "aman"){
+        if (row.original.label == "aman") {
 
           return (
             <div className="flex items-center gap-2">
@@ -186,7 +186,7 @@ const AssignmentDetail = () => {
             <span className="text-red-800">{formattedDate}</span>
           </div>
         );
-        
+
       },
     },
     {
@@ -195,7 +195,11 @@ const AssignmentDetail = () => {
       cell: ({ row }) => {
         const plagiarism = row.original.plagiarism || []; // Ensure it's always an array
 
-        const label = plagiarism.length === 0 ? "aman" : "terdeteksi";
+        const isAllWithinThreshold = plagiarism.length === 0 ||
+          plagiarism.every((item: any) => item.similarity <= 70);
+
+        const label = plagiarism.length === 0 ||
+          plagiarism.every((item: any) => item.similarity < 70) ? "aman" : "terdeteksi";
 
         return (
           <TooltipProvider>
@@ -205,16 +209,13 @@ const AssignmentDetail = () => {
                   {label}
                 </Badge>
               </TooltipTrigger>
-              {label === "aman" ? (
-                <TooltipContent className="bg-green-700 text-white p-2 rounded">
-                  <p>Tidak ada plagiarisme terdeteksi</p>
-                </TooltipContent>
-              ) : (
-                <TooltipContent className="bg-destructive text-white p-2 rounded">
+              
+                <TooltipContent className={label === "aman" ? "bg-green-700" : "bg-destructive" + " text-white p-2 rounded"}>
                   <div>
-                    <p>Terdeteksi {plagiarism.length} sumber plagiarisme dengan:</p>
+                    <p>Terdeteksi {plagiarism.length} sumber plagiarisme.</p>
                     <ul className="mt-2 list-disc pl-4">
                       {plagiarism.map((item: any, index: number) => (
+                  
                         <li key={index}>
                           <span className="font-bold">{item.name}</span> dengan similarity <span className="font-bold">{item.similarity}%</span>
                         </li>
@@ -222,7 +223,6 @@ const AssignmentDetail = () => {
                     </ul>
                   </div>
                 </TooltipContent>
-              )}
             </Tooltip>
           </TooltipProvider>
         );
@@ -252,18 +252,18 @@ const AssignmentDetail = () => {
       cell: ({ row }) => {
         return (
           <div>
-          {row.original.sentences || 0} / {row.original.page || 0}
-        </div>
-      )
-    }
+            {row.original.sentences || 0} / {row.original.page || 0}
+          </div>
+        )
+      }
     },
     {
       accessorKey: "grade",
       header: "Nilai",
       cell: ({ row }) => (
-        <GradeEditModal 
-          document={row.original} 
-          onSave={updateGrade} 
+        <GradeEditModal
+          document={row.original}
+          onSave={updateGrade}
         />
       ),
     },
@@ -271,9 +271,9 @@ const AssignmentDetail = () => {
       accessorKey: "feedback",
       header: "Feedback",
       cell: ({ row }) => (
-        <FeedbackEditModal 
-          document={row.original} 
-          onSave={updateFeedback} 
+        <FeedbackEditModal
+          document={row.original}
+          onSave={updateFeedback}
         />
       ),
     },
@@ -299,7 +299,7 @@ const AssignmentDetail = () => {
   });
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex flex-col">
       <header className="flex shrink-0 items-center gap-2">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger className="-ml-1" />
