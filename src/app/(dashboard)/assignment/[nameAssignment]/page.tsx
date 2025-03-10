@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { getDataByName } from "@/actions/getassignment";
 import {
   Table,
@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Check, Copy, SquareArrowOutUpRight, ArrowUp, ArrowDown, ArrowUpDown, Edit, PenSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Document } from "@/server/db/types";
@@ -22,9 +22,35 @@ import { Separator } from "@/components/ui/separator";
 import Download_data from "./download-data";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { Check, Copy, SquareArrowOutUpRight } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-function ButtonDemo() {
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+  getSortedRowModel,
+  SortingState,
+  getFilteredRowModel,
+  ColumnFiltersState,
+  getPaginationRowModel,
+  VisibilityState,
+} from "@tanstack/react-table";
+import { Badge } from "@/components/ui/badge";
+import { undefined } from "zod";
+import { FeedbackEditModal, GradeEditModal } from "./modals";
+
+function CopyLinkButton() {
   const [copied, setCopied] = useState<boolean>(false);
 
   const handleCopy = async () => {
@@ -43,7 +69,7 @@ function ButtonDemo() {
         <TooltipTrigger asChild>
           <Button
             variant="outline"
-            size="default" // Ubah dari `size="icon"` ke `size="default"` agar tombol menyesuaikan panjang teks
+            size="default"
             className={cn(
               "disabled:opacity-100 relative",
               "rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg"
@@ -76,10 +102,6 @@ function ButtonDemo() {
   );
 }
 
-enum SortDirection {
-  ASC = "asc",
-  DESC = "desc",
-}
 
 const AssignmentDetail = () => {
   const params = useParams();
@@ -87,9 +109,14 @@ const AssignmentDetail = () => {
   const name = decodeURIComponent(geturlname);
 
   const [documents, setDocuments] = useState<Document[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [sortColumn, setSortColumn] = useState<keyof Document>("nameStudent");
-  const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.ASC);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [filterValue, setFilterValue] = useState("");
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -97,6 +124,7 @@ const AssignmentDetail = () => {
         try {
           const fetchedDocuments = await getDataByName(name);
           setDocuments(fetchedDocuments as unknown as Document[]);
+          console.log(documents)
         } catch (error) {
           console.error("Error fetching documents:", error);
         }
@@ -106,43 +134,172 @@ const AssignmentDetail = () => {
     fetchDocuments();
   }, [name]);
 
-  const filteredDocuments = useMemo(() => {
-    return documents.filter((doc) =>
-      [doc.nameStudent, doc.documentName, doc.folder]
-        .join(" ")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    );
-  }, [documents, searchTerm]);
-
-  const sortedDocuments = useMemo(() => {
-    return [...filteredDocuments].sort((a, b) => {
-      const aValue = a[sortColumn];
-      const bValue = b[sortColumn];
-
-      if (typeof aValue === "string" && typeof bValue === "string") {
-        return sortDirection === SortDirection.ASC ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-      }
-
-      if (typeof aValue === "number" && typeof bValue === "number") {
-        return sortDirection === SortDirection.ASC ? aValue - bValue : bValue - aValue;
-      }
-
-      return 0;
-    });
-  }, [filteredDocuments, sortColumn, sortDirection]);
-
-  const handleSort = (column: keyof Document) => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC);
-    } else {
-      setSortColumn(column);
-      setSortDirection(SortDirection.ASC);
-    }
+  // Update grade function
+  const updateGrade = (id: Number, newGrade: any) => {
+    setDocuments(documents.map(doc =>
+      doc.id === id ? { ...doc, grade: newGrade } : doc
+    ));
   };
 
+  // Update feedback function
+  const updateFeedback = (id: Number, newFeedback: any) => {
+    setDocuments(documents.map(doc =>
+      doc.id === id ? { ...doc, feedback: newFeedback } : doc
+    ));
+  };
+
+  const columns: ColumnDef<Document>[] = [
+    {
+      accessorKey: "index",
+      header: "#",
+      cell: ({ row }) => row.index + 1,
+      enableSorting: false,
+    },
+    {
+      accessorKey: "nameStudent",
+      header: "Nama Siswa",
+      cell: ({ row }) => row.original.nameStudent,
+    },
+    {
+      accessorKey: "uploadedDate",
+      header: "Tanggal Mengumpulkan",
+      cell: ({ row }) => {
+        if (!row.original.uploadedDate) return "-";
+
+        const date = new Date(row.original.uploadedDate);
+        const hour = date.getHours().toString().padStart(2, "0");
+        const minutes = date.getMinutes().toString().padStart(2, "0");
+        const formattedTime = `${hour}:${minutes}`;
+        const formattedDate = date.toLocaleDateString("id-ID");
+        if (row.original.label == "aman") {
+
+          return (
+            <div className="flex items-center gap-2">
+              <Badge variant="success">{formattedTime}</Badge>
+              <span className="text-green-800">{formattedDate}</span>
+            </div>
+          );
+        }
+        return (
+          <div className="flex items-center gap-2">
+            <Badge variant="destructive">{formattedTime}</Badge>
+            <span className="text-red-800">{formattedDate}</span>
+          </div>
+        );
+
+      },
+    },
+    {
+      accessorKey: "plagiarism",
+      header: "Plagiarisme",
+      cell: ({ row }) => {
+        const plagiarism = row.original.plagiarism || []; // Ensure it's always an array
+
+        const isAllWithinThreshold = plagiarism.length === 0 ||
+          plagiarism.every((item: any) => item.similarity <= 70);
+
+        const label = plagiarism.length === 0 ||
+          plagiarism.every((item: any) => item.similarity < 70) ? "aman" : "terdeteksi";
+
+        return (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Badge variant={label === "aman" ? "success2" : "destructive2"} className="w-4/5 justify-center">
+                  {label}
+                </Badge>
+              </TooltipTrigger>
+              
+                <TooltipContent className={label === "aman" ? "bg-green-700" : "bg-destructive" + " text-white p-2 rounded"}>
+                  <div>
+                    <p>Terdeteksi {plagiarism.length} sumber plagiarisme.</p>
+                    <ul className="mt-2 list-disc pl-4">
+                      {plagiarism.map((item: any, index: number) => (
+                  
+                        <li key={index}>
+                          <span className="font-bold">{item.name}</span> dengan similarity <span className="font-bold">{item.similarity}%</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        );
+      },
+    },
+    {
+      accessorKey: "documentUrl",
+      header: "URL Dokumen",
+      enableSorting: false,
+      cell: ({ row }) => (
+        <div>
+          <a
+            href={row.original.documentUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline flex items-center gap-1"
+          >
+            <ExternalLink size={16} /> Buka
+          </a>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "sentences",
+      header: "Kalimat / Halaman",
+      enableSorting: false,
+      cell: ({ row }) => {
+        return (
+          <div>
+            {row.original.sentences || 0} / {row.original.page || 0}
+          </div>
+        )
+      }
+    },
+    {
+      accessorKey: "grade",
+      header: "Nilai",
+      cell: ({ row }) => (
+        <GradeEditModal
+          document={row.original}
+          onSave={updateGrade}
+        />
+      ),
+    },
+    {
+      accessorKey: "feedback",
+      header: "Feedback",
+      cell: ({ row }) => (
+        <FeedbackEditModal
+          document={row.original}
+          onSave={updateFeedback}
+        />
+      ),
+    },
+  ];
+
+  const table = useReactTable({
+    data: documents,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+    },
+  });
+
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex flex-col">
       <header className="flex shrink-0 items-center gap-2">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger className="-ml-1" />
@@ -165,7 +322,7 @@ const AssignmentDetail = () => {
         <div className="mt-4 flex gap-2 justify-between">
           <div className="flex gap-2">
             <div className="inline-flex -space-x-px rounded-lg shadow-sm shadow-black/5 rtl:space-x-reverse">
-              <ButtonDemo /> {/* Panggil ButtonDemo di sini */}
+              <CopyLinkButton />
               <Link href={`/${name}/submit`} target="_blank" rel="noopener noreferrer">
                 <Button
                   className="rounded-none shadow-none last:rounded-e-lg focus-visible:z-10"
@@ -177,41 +334,67 @@ const AssignmentDetail = () => {
                 </Button>
               </Link>
             </div>
-            <Download_data/>
+            <Download_data />
           </div>
         </div>
-        <Input placeholder="Cari dokumen..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="mt-4 w-full" />
-      </div>
-      <div className="px-10">
-        <div className="mx-auto w-full max-w-7xl rounded border">
+        <Input
+          placeholder="Cari Mahasiswa..."
+          value={(table.getColumn("nameStudent")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("nameStudent")?.setFilterValue(event.target.value)
+          }
+          className="mt-4 w-full"
+        />
+
+        <div className="mx-auto mt-4 w-full max-w-7xl rounded border">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>#</TableHead>
-                <TableHead onClick={() => handleSort("nameStudent")}>Nama Siswa</TableHead>
-                <TableHead onClick={() => handleSort("uploadedDate")}>Waktu Mengumpulkan</TableHead>
-                <TableHead onClick={() => handleSort("uploadedDate")}>Tanggal Mengumpulkan</TableHead>
-                <TableHead>URL Dokumen</TableHead>
-              </TableRow>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      onClick={header.column.getToggleSortingHandler()}
+                      className={header.column.getCanSort() ? "cursor-pointer select-none " : ""}
+                    >
+                      <div className="flex items-center gap-x-2">
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+
+                        {header.column.getCanSort() && (
+                          (() => {
+                            const sortIcon = {
+                              asc: <ArrowUp size={15} />,
+                              desc: <ArrowDown size={15} />,
+                            }[header.column.getIsSorted() as string] ?? <ArrowUpDown size={15} />;
+
+                            return sortIcon;
+                          })()
+                        )}
+                      </div>
+                    </TableHead>
+                  ))}
+                </TableRow>
+              ))}
             </TableHeader>
             <TableBody>
-              {sortedDocuments.length > 0 ? (
-                sortedDocuments.map((doc, index) => (
-                  <TableRow key={String(doc.id)}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{doc.nameStudent}</TableCell>
-                    <TableCell>{doc.uploadedDate ? `${new Date(doc.uploadedDate).getHours() + 24}:${new Date(doc.uploadedDate).getMinutes()}` : "-"}</TableCell>
-                    <TableCell>{doc.uploadedDate ? new Date(doc.uploadedDate).toLocaleDateString("id-ID") : "-"}</TableCell>
-                    <TableCell>
-                      <a href={doc.documentUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline flex items-center gap-1">
-                        <ExternalLink size={16} /> Buka
-                      </a>
-                    </TableCell>
+              {table.getRowModel().rows.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center">Tidak ada dokumen ditemukan.</TableCell>
+                  <TableCell colSpan={columns.length} className="text-center">
+                    Tidak ada dokumen ditemukan.
+                  </TableCell>
                 </TableRow>
               )}
             </TableBody>

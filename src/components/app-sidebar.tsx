@@ -48,7 +48,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
 
   return (
-    <Sidebar variant="inset" {...props}>
+    <Sidebar variant="inset" {...props} className="box-shadow">
       <SidebarHeader>
         <SidebarMenu className="ml-2 py-2">
           <SidebarMenuItem className="flex items-center justify-between">
