@@ -30,10 +30,10 @@ export default function Navbar() {
             <Logo/>
           </div>
           <div className="hidden md:flex items-center space-x-4">
-            {navItems.map((item) => (
-              <Button variant="ghost">
+            {navItems.map((item, index) => (
+              <Button key={index} variant="ghost">
                 <Link
-                  key={item.name}
+                  key={index}
                   href={item.href}
                   className="text-gray-700 hover:text-indigo-600 px-0 py-2 rounded-md text-sm font-medium"
                 >

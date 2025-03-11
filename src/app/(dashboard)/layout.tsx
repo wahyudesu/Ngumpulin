@@ -20,7 +20,7 @@ export default function RootLayout({
     <SidebarProvider>
       <AppSidebar/>
       <SidebarInset>
-        <div className={`${GeistSans.className} flex flex-col min-h-screen`}>
+        <div className={`${GeistSans.className} flex flex-col`}>
           <main className="flex flex-1 flex-col gap-4 p-4 pt-4 justify-center">
             {children}
           </main>
