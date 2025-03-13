@@ -1,1 +1,0 @@
-ALTER TABLE "documents" ALTER COLUMN "folder" DROP NOT NULL;

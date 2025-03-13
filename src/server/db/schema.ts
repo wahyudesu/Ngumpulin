@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, numeric, boolean, jsonb } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, numeric, boolean, jsonb, integer } from 'drizzle-orm/pg-core';
 import { customType } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
@@ -34,18 +34,20 @@ export const users = pgTable('userss', {
 // Table "documents"
 export const documents = pgTable('documents', {
   id: serial('id').primaryKey(),
-  nameStudent: text('nameStudent').notNull(),
-  documentName: text('documentName').notNull(),
-  documentUrl: text('documentUrl').notNull(),
-  folder: text('folder'),
-  uploadedDate: timestamp('uploadedDate', { withTimezone: true }).defaultNow().notNull(),
-  embedding: vector('embedding', { size: 1024 }),
-  plagiarism: jsonb('plagiarism'),
-  label: text('status').default('aman'),
-  grade: numeric('grade'),
-  feedback: text('feedback'),
-  sentences: numeric('sentences'),
-  page: numeric('page')
+  nameStudent: text('nameStudent').notNull(), //nama mahasiswa
+  documentName: text('documentName').notNull(), //nama file document mahasiswa
+  documentUrl: text('documentUrl').notNull(), //file url document mahasiswa
+  folder: text('folder'), //folder tugas
+  uploadedDate: timestamp('uploadedDate').defaultNow().notNull(), //waktu tugas tersubmit
+  deadline: timestamp('deadline'), //batas waktu pengumpulan
+  embedding: vector('embedding', { size: 1024 }), //for AI use case
+  plagiarism: jsonb('plagiarism'), //plagiarism terhadap mahasiswa yang lain (2 teratas)
+  email: text('email'), //email mahasiswa
+  grade: numeric('grade'), //nilai tugas
+  feedback: text('feedback'), //koreksi dan feedback
+  class: text('class'), //kelas mahasiswa
+  sentences: integer('sentences'), //jumlah kalimat pada tugas
+  page: integer('page') //jumlah halaman pada tugas
 });
 
 // Table "classes"

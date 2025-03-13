@@ -1,1 +1,0 @@
-ALTER TABLE "classes" ALTER COLUMN "createdAt" DROP NOT NULL;

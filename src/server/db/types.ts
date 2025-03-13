@@ -1,13 +1,15 @@
 export type Document = {
   id: number;
   nameStudent: string;
+  email: string;
+  class: string;
   documentName: string;
   documentUrl: string;
   folder?: string;
   uploadedDate: Date;
   embedding?: number[];
+  deadline: Date;
   plagiarism?: Record<string, any>;
-  label: string;
   grade?: number;
   feedback?: string;
   sentences?: number;

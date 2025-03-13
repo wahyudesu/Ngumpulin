@@ -85,6 +85,41 @@
       "when": 1741218519932,
       "tag": "0011_tired_millenium_guard",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1741847913467,
+      "tag": "0012_natural_wilson_fisk",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1741848258639,
+      "tag": "0013_flashy_roughhouse",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1741848321451,
+      "tag": "0014_young_kabuki",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1741848345048,
+      "tag": "0015_lush_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1741848576811,
+      "tag": "0016_free_bloodaxe",
+      "breakpoints": true
     }
   ]
 }
