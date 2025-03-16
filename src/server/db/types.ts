@@ -1,5 +1,6 @@
 export type Document = {
-  id: number;
+  id: string;
+  NRP: number;
   nameStudent: string;
   email: string;
   class: string;
@@ -14,4 +15,5 @@ export type Document = {
   feedback?: string;
   sentences?: number;
   page?: number;
+  isiTugas: string;
 };

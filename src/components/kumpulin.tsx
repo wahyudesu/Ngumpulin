@@ -8,11 +8,14 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+const classes = ["Class A", "Class B", "Class C", "Class D"];
+
 const AssignmentUploadForm = () => {
   const params = useParams();
   const geturlname = params?.nameAssignment as string;
   const name = decodeURIComponent(geturlname);
   const [emailStudent, setEmailStudent] = useState("");
+  const [selectedClass, setSelectedClass] = useState<string>("");
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -20,109 +23,68 @@ const AssignmentUploadForm = () => {
     setEmailStudent(e.target.value);
   };
 
+  const handleClassChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedClass(e.target.value);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const files = fileInputRef.current?.files;
-    if (!emailStudent || !files || files.length === 0) {
+    if (!emailStudent || !selectedClass || !files || files.length === 0) {
       alert("Please fill in all fields and select at least one file.");
       return;
     }
 
-    setStatusMessage("Fetching class from Supabase...");
-
-    // Ambil className dari tabel folders berdasarkan nameAssignment
-    const { data: folderData, error: folderError } = await supabase
-      .from("folders")
-      .select("className")
-      .eq("nameAssignment", name)
-      .limit(1)
-      .single();
-    
-    console.log("Debug - folderData:", folderData); // Log hasil data
-
-    if (folderError || !folderData) {
-      setStatusMessage(`Error fetching folder data: ${folderError?.message || "No folder found"}`);
-      return;
-    }
-
-    const { className } = folderData;
-
     setStatusMessage("Uploading files to Supabase Storage...");
 
     try {
-      // Array untuk menyimpan data file yang akan dikirim ke Flask dan disimpan ke tabel documents
-      const fileDataList: { uuid: string; nameFile: string; urlFile: string; class: string }[] = [];
+      const fileDataList = [];
 
-      // Upload files ke Supabase Storage dan generate UUID
       for (const file of files) {
         const uuid = uuidv4();
-        const filePath = `${className}/${uuid}_${file.name}`; // Gunakan className sebagai folder
+        const filePath = `${selectedClass}/${uuid}_${file.name}`;
 
-        // Upload file ke Supabase Storage
         const { error: uploadError } = await supabase.storage
           .from("Kumpulin")
           .upload(filePath, file);
 
         if (uploadError) throw new Error(uploadError.message);
 
-        // Ambil public URL dari file yang di-upload
         const { data: publicUrlData } = supabase.storage
           .from("Kumpulin")
           .getPublicUrl(filePath);
 
         if (!publicUrlData?.publicUrl) throw new Error("Failed to get public URL");
 
-        // Simpan data file ke array
         fileDataList.push({
           uuid,
           nameFile: file.name,
           urlFile: publicUrlData.publicUrl,
-          class: className, // Sesuai dengan kolom 'class' di tabel documents
+          class: selectedClass,
         });
       }
 
-      setStatusMessage("Files uploaded to Supabase Storage successfully.");
-
-      // Simpan data ke tabel documents di Supabase
       setStatusMessage("Saving file metadata to Supabase table...");
+
       const { error: insertError } = await supabase
         .from("documents")
         .insert(
           fileDataList.map((fileData) => ({
-            uuid: fileData.uuid,
-            nameFile: fileData.nameFile,
-            urlFile: fileData.urlFile,
-            class: fileData.class, // Kolom 'class' di tabel documents
-            emailStudent,
+            id: fileData.uuid,
+            documentName: fileData.nameFile,
+            documentUrl: fileData.urlFile,
+            class: fileData.class,
+            // class: selectedClass,
+            email: emailStudent,
+            folder: name,
             uploadedDate: new Date().toISOString(),
           }))
         );
 
       if (insertError) throw new Error(insertError.message);
 
-      setStatusMessage("File metadata saved to Supabase successfully.");
-
-      // Kirim data ke Flask API
-      setStatusMessage("Sending file paths to Flask API...");
-      const response = await fetch("http://127.0.0.1:5000/upload", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          uuid: fileDataList[0].uuid,
-          file_url: fileDataList[0].urlFile,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to send data to Flask API");
-      }
-
       setStatusMessage("Upload Successful!");
-
     } catch (error) {
       setStatusMessage(`Error: ${error}`);
     }
@@ -142,6 +104,21 @@ const AssignmentUploadForm = () => {
             className="w-full border p-2 rounded"
             placeholder="Enter student's email"
           />
+        </div>
+
+        <div>
+          <label htmlFor="classSelect" className="block">Pilih Kelas</label>
+          <select
+            id="classSelect"
+            value={selectedClass}
+            onChange={handleClassChange}
+            className="w-full border p-2 rounded"
+          >
+            <option value="">Pilih Kelas</option>
+            {classes.map((className) => (
+              <option key={className} value={className}>{className}</option>
+            ))}
+          </select>
         </div>
 
         <div>
