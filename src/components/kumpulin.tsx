@@ -10,6 +10,13 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const classes = ["Class A", "Class B", "Class C", "Class D"];
 
+type FileData = {
+  uuid: string;
+  nameFile: string;
+  urlFile: string;
+  class: string;
+};
+
 const AssignmentUploadForm = () => {
   const params = useParams();
   const geturlname = params?.nameAssignment as string;
@@ -39,7 +46,7 @@ const AssignmentUploadForm = () => {
     setStatusMessage("Uploading files to Supabase Storage...");
 
     try {
-      const fileDataList = [];
+      const fileDataList: FileData[] = [];
 
       for (const file of files) {
         const uuid = uuidv4();
@@ -65,24 +72,46 @@ const AssignmentUploadForm = () => {
         });
       }
 
+      if (fileDataList.length === 0) {
+        throw new Error("No files were processed.");
+      }
+
       setStatusMessage("Saving file metadata to Supabase table...");
 
       const { error: insertError } = await supabase
         .from("documents")
         .insert(
           fileDataList.map((fileData) => ({
-            id: fileData.uuid,
-            documentName: fileData.nameFile,
-            documentUrl: fileData.urlFile,
+            uuid: fileData.uuid,
+            nameFile: fileData.nameFile,
+            urlFile: fileData.urlFile,
             class: fileData.class,
-            // class: selectedClass,
-            email: emailStudent,
-            folder: name,
+            emailStudent,
             uploadedDate: new Date().toISOString(),
           }))
         );
 
       if (insertError) throw new Error(insertError.message);
+
+      if (fileDataList[0]) {
+        setStatusMessage("Sending file paths to Fastapi...");
+
+        const response = await fetch("http://127.0.0.1:5000/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uuid: fileDataList[0].uuid,
+            file_url: fileDataList[0].urlFile,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to send data to Fastapi");
+        }
+      }
 
       setStatusMessage("Upload Successful!");
     } catch (error) {
@@ -128,6 +157,7 @@ const AssignmentUploadForm = () => {
             type="file"
             id="file"
             className="w-full border p-2 rounded"
+            multiple
           />
         </div>
 
