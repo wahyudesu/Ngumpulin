@@ -33,23 +33,23 @@ export const users = pgTable('users', {
 
 // Table "documents"
 export const documents = pgTable('documents', {
-  id: uuid('id').primaryKey(),
-  NRP: text('NRP'),
-  nameStudent: text('nameStudent').notNull(), //nama mahasiswa
-  documentName: text('documentName').notNull(), //nama file document mahasiswa
-  documentUrl: text('documentUrl').notNull(), //file url document mahasiswa
-  folder: text('folder'), //folder tugas
-  uploadedDate: timestamp('uploadedDate').defaultNow().notNull(), //waktu tugas tersubmit
-  deadline: timestamp('deadline'), //batas waktu pengumpulan
-  embedding: vector('embedding', { size: 1024 }), //for AI use case
-  plagiarism: jsonb('plagiarism'), //plagiarism terhadap mahasiswa yang lain (2 teratas)
-  email: text('email'), //email mahasiswa
-  grade: numeric('grade'), //nilai tugas
-  feedback: text('feedback'), //koreksi dan feedback
-  class: text('class'), //kelas mahasiswa
-  sentences: integer('sentences'), //jumlah kalimat pada tugas
-  page: integer('page'), //jumlah halaman pada tugas
-  isiTugas: text('isiTugas')
+  id: uuid('id').primaryKey(), //frontend
+  NRP: text('NRP'), //backend
+  nameStudent: text('nameStudent').notNull(), //backend
+  documentName: text('documentName').notNull(), //frontend
+  documentUrl: text('documentUrl').notNull(), //frontend
+  folder: text('folder'), //frontend
+  uploadedDate: timestamp('uploadedDate').defaultNow().notNull(), //frontend
+  deadline: timestamp('deadline'), //frontend
+  embedding: vector('embedding', { size: 1024 }), //backend - for AI use case
+  plagiarism: jsonb('plagiarism'), //backend - plagiarism terhadap mahasiswa yang lain (2 teratas)
+  email: text('email'), //frontend
+  grade: numeric('grade'), //after frontend
+  feedback: text('feedback'), //backend
+  class: text('class'), //backend/fronted
+  sentences: integer('sentences'), //backend
+  page: integer('page'), //backend
+  isiTugas: text('isiTugas') //backend
 });
 
 // Table "classes"
