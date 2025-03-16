@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, numeric, boolean, jsonb, integer } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, numeric, boolean, jsonb, integer, uuid } from 'drizzle-orm/pg-core';
 import { customType } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
@@ -23,7 +23,7 @@ export const vector = customType<{
 });
 
 // Table "users"
-export const users = pgTable('userss', {
+export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull(),
@@ -33,7 +33,8 @@ export const users = pgTable('userss', {
 
 // Table "documents"
 export const documents = pgTable('documents', {
-  id: serial('id').primaryKey(),
+  id: uuid('id').primaryKey(),
+  NRP: text('NRP'),
   nameStudent: text('nameStudent').notNull(), //nama mahasiswa
   documentName: text('documentName').notNull(), //nama file document mahasiswa
   documentUrl: text('documentUrl').notNull(), //file url document mahasiswa
@@ -47,7 +48,8 @@ export const documents = pgTable('documents', {
   feedback: text('feedback'), //koreksi dan feedback
   class: text('class'), //kelas mahasiswa
   sentences: integer('sentences'), //jumlah kalimat pada tugas
-  page: integer('page') //jumlah halaman pada tugas
+  page: integer('page'), //jumlah halaman pada tugas
+  isiTugas: text('isiTugas')
 });
 
 // Table "classes"
