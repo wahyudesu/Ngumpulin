@@ -8,7 +8,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const classes = ["Class A", "Class B", "Class C", "Class D"];
+const classes = ["2 SDT B", "2 SDT A"];
 
 type FileData = {
   uuid: string;
@@ -50,7 +50,7 @@ const AssignmentUploadForm = () => {
 
       for (const file of files) {
         const uuid = uuidv4();
-        const filePath = `${selectedClass}/${uuid}_${file.name}`;
+        const filePath = `${name}/${selectedClass}/${file.name}`;
 
         const { error: uploadError } = await supabase.storage
           .from("Kumpulin")
@@ -82,36 +82,37 @@ const AssignmentUploadForm = () => {
         .from("documents")
         .insert(
           fileDataList.map((fileData) => ({
-            uuid: fileData.uuid,
-            nameFile: fileData.nameFile,
-            urlFile: fileData.urlFile,
+            id: fileData.uuid,
+            documentName: fileData.nameFile,
+            documentUrl: fileData.urlFile,
             class: fileData.class,
-            emailStudent,
+            email: emailStudent,
+            folder: name,
             uploadedDate: new Date().toISOString(),
           }))
         );
 
       if (insertError) throw new Error(insertError.message);
 
-      if (fileDataList[0]) {
-        setStatusMessage("Sending file paths to Fastapi...");
+      // if (fileDataList[0]) {
+      //   setStatusMessage("Sending file paths to Fastapi...");
 
-        const response = await fetch("http://127.0.0.1:5000/upload", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            uuid: fileDataList[0].uuid,
-            file_url: fileDataList[0].urlFile,
-          }),
-        });
+      //   const response = await fetch("http://127.0.0.1:5000/upload", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       uuid: fileDataList[0].uuid,
+      //       file_url: fileDataList[0].urlFile,
+      //     }),
+      //   });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to send data to Fastapi");
-        }
-      }
+      //   if (!response.ok) {
+      //     const errorData = await response.json();
+      //     throw new Error(errorData.error || "Failed to send data to Fastapi");
+      //   }
+      // }
 
       setStatusMessage("Upload Successful!");
     } catch (error) {
