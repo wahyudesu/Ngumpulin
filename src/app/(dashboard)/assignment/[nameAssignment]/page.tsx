@@ -135,14 +135,14 @@ const AssignmentDetail = () => {
   }, [name]);
 
   // Update grade function
-  const updateGrade = (id: Number, newGrade: any) => {
+  const updateGrade = (id: String, newGrade: any) => {
     setDocuments(documents.map(doc =>
       doc.id === id ? { ...doc, grade: newGrade } : doc
     ));
   };
 
   // Update feedback function
-  const updateFeedback = (id: Number, newFeedback: any) => {
+  const updateFeedback = (id: String, newFeedback: any) => {
     setDocuments(documents.map(doc =>
       doc.id === id ? { ...doc, feedback: newFeedback } : doc
     ));
