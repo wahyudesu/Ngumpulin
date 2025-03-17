@@ -75,10 +75,14 @@ export default function Navbar() {
                       </Link>
                     ))}
                   </div>
-                  <Button variant="outline" className="w-full">
-                    Login
-                  </Button>
-                  <Button className="w-full">Sign Up</Button>
+                  <Link href={'/assignment'}>
+                    <Button variant="outline" className="w-full">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href={'/assignment'}>
+                    <Button className="w-full">Sign Up</Button>
+                  </Link>
                 </DrawerHeader>
               </DrawerContent>
             </Drawer>

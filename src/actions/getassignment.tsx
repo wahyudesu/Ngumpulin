@@ -56,15 +56,15 @@ export const getDataByName = async (nameAssignment: string) => {
   return data;
 };
 
-export const getDataByNameLabel = async (nameAssignment: string, documentId: number) => {
+export const getDataByNameLabel = async (nameAssignment: string, documentId: string) => {
   // Ambil uploadedDate dari tabel documents
   const data = await db
     .select({ uploadedDate: documents.uploadedDate })
     .from(documents)
     .where(
       and(
-        eq(documents.folder, nameAssignment), // Kondisi 1: folder sesuai dengan nameAssignment
-        eq(documents.id, documentId) // Kondisi 2: id sesuai dengan documentId
+        eq(documents.folder, nameAssignment),
+        eq(documents.id, documentId)
       )
     );
 
@@ -99,6 +99,7 @@ export const getDataByNameLabel = async (nameAssignment: string, documentId: num
   }
 };
 
+
 // Mengedit folder
 export const editFolderAssignment = async (id: number, nameAssignment: string, className?: string, description?: string, dueDate?: Date) => {
   await db
@@ -113,39 +114,3 @@ export const editFolderAssignment = async (id: number, nameAssignment: string, c
 
   // revalidatePath("/");
 };
-
-export const getplagiarism = async (nameAssignment: string, documentId: number) => {
-  try {
-    // Ambil uploadedDate dari dokumen saat ini
-    const currentDocument = await db
-      .select({ embedding: documents.embedding })
-      .from(documents)
-      .where(
-        and(
-          eq(documents.folder, nameAssignment), // Kondisi 1: folder sesuai dengan nameAssignment
-          eq(documents.id, documentId) // Kondisi 2: id sesuai dengan documentId
-        )
-      )
-      .limit(1);
-
-    // Ambil dokumen-dokumen sebelumnya (id < documentId)
-    const previousDocuments = await db
-      .select({ id: documents.id, embedding: documents.embedding })
-      .from(documents)
-      .where(
-        and(
-          eq(documents.folder, nameAssignment), // Kondisi 1: folder sesuai dengan nameAssignment
-          lt(documents.id, documentId) // Kondisi 2: id lebih kecil dari documentId
-        )
-      )
-
-    return {
-      currentDocument: currentDocument[0], // Dokumen saat ini
-      previousDocuments, // Dokumen-dokumen sebelumnya
-    };
-  } catch (error) {
-    console.error("Error fetching documents:", error);
-    throw new Error("Gagal mengambil data dokumen");
-  }
-};
-
