@@ -171,8 +171,10 @@ const AssignmentDetail = () => {
         const minutes = date.getMinutes().toString().padStart(2, "0");
         const formattedTime = `${hour}:${minutes}`;
         const formattedDate = date.toLocaleDateString("id-ID");
-        if (row.original.label == "aman") {
 
+        const isOnTime = row.original.plagiarism?.every((item: any) => item.similarity <= 70) ?? true;
+
+        if (isOnTime) {
           return (
             <div className="flex items-center gap-2">
               <Badge variant="success">{formattedTime}</Badge>
@@ -186,8 +188,8 @@ const AssignmentDetail = () => {
             <span className="text-red-800">{formattedDate}</span>
           </div>
         );
-
       },
+
     },
     {
       accessorKey: "plagiarism",
