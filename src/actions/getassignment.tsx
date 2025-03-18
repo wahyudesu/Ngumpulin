@@ -56,7 +56,7 @@ export const getDataByName = async (nameAssignment: string) => {
   return data;
 };
 
-export const getDataByNameLabel = async (nameAssignment: string, documentId: string) => {
+export const getDataByNameLabel = async (nameAssignment: string) => {
   // Ambil uploadedDate dari tabel documents
   const data = await db
     .select({ uploadedDate: documents.uploadedDate })
@@ -64,7 +64,7 @@ export const getDataByNameLabel = async (nameAssignment: string, documentId: str
     .where(
       and(
         eq(documents.folder, nameAssignment),
-        eq(documents.id, documentId)
+        // eq(documents.id, documentId)
       )
     );
 

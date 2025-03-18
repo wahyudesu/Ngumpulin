@@ -3,16 +3,14 @@ import { Badge } from "@/components/ui/badge";
 
 export default async function AssignmentPage() {
   const nameAssignment = "Assignment 3"; // Nama folder tugas
-  const id = 4; // ID dokumen spesifik
 
   try {
     // Panggil fungsi getDataByNameLabel dengan nameAssignment dan id
-    const status = await getDataByNameLabel(nameAssignment, id);
+    const status = await getDataByNameLabel(nameAssignment);
     const badgeVariant = status === "Terlambat" ? "destructive" : "success";
 
     return (
       <div>
-        <h1>Detail Assignment: {id}</h1>
         <h2>Status Pengumpulan:</h2>
         {/* Tampilkan status dalam Badge dengan variant yang sesuai */}
         <Badge variant={badgeVariant}>
