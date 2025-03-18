@@ -5,8 +5,22 @@ import HeroVideoDialog from "@/components/ui/hero-video-dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { FormEvent, useForm } from "@formspree/react";
+import { useState } from "react";
+import { SubmissionData, FieldValues } from "@formspree/core";
 
 export function Heroes() {
+  const [state, handleSubmit, reset] = useForm("xnnpnley");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleFormSubmit = async (e: FormEvent | SubmissionData<FieldValues>) => {
+    await handleSubmit(e);
+    if (state.succeeded) {
+      setIsSubmitted(true);
+      reset();
+    }
+  };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="w-full">
@@ -28,15 +42,19 @@ export function Heroes() {
               Teach Smarter, Not Harder
             </h1>
             <p className="mx-auto max-w-[600px] text-muted-foreground md:text-md">
-            Maximize your impact with Ngumpulin—an AI-powered workspace designed to simplify task assessment, resource creation, and feedback.
+              Maximize your impact with Ngumpulin—an AI-powered workspace designed to simplify task assessment, resource creation, and feedback.
             </p>
 
             {/* Email Input and Button */}
             <div className="space-y-2">
-              <div className="flex justify-center gap-2 pt-2">
-                <Input id="input-22" className="flex-1" placeholder="Email" type="email" />
-                <Button variant="default">Join Waitlist</Button>
-              </div>
+              {isSubmitted ? (
+                <div className="text-green-600">Thank you for signing up!</div>
+              ) : (
+                <form onSubmit={handleFormSubmit} className="flex justify-center gap-2 pt-2">
+                  <Input id="email" name="email" className="flex-1" placeholder="Email" type="email" required />
+                  <Button type="submit" disabled={state.submitting} variant="default">Join Waitlist</Button>
+                </form>
+              )}
               <p className="text-sm text-muted-foreground">
                 7 day free trial. No credit card required.
               </p>
