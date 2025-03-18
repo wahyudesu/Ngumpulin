@@ -2,9 +2,10 @@ import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-import { Providers } from "./providers";
+// import { Providers } from "./providers";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Gabarito } from 'next/font/google'
+import { PostHogProvider } from "./providers";
 
 const gabarito = Gabarito({
   subsets: ['latin'],
@@ -28,7 +29,7 @@ export default function RootLayout({
         // className={`${GeistSans.variable}`} suppressHydrationWarning
         >
         <body>
-          <Providers>{children}</Providers>
+          <PostHogProvider>{children}</PostHogProvider>
         </body>
       </html>
     // </ClerkProvider>
