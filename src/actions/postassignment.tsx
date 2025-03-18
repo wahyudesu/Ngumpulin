@@ -31,50 +31,50 @@ export const savefolders = async (formData: FormData) => {
   // redirect("/assignment");
 };
 
-export async function uploadassignment(formData: FormData): Promise<any> {
-  // Mengambil file dan input
-  const file = formData.get("file") as File | null;
-  const nameStudent = formData.get("nameStudent") as string;
-  const folder = formData.get("folder") as string | null;
+// export async function uploadassignment(formData: FormData): Promise<any> {
+//   // Mengambil file dan input
+//   const file = formData.get("file") as File | null;
+//   const nameStudent = formData.get("nameStudent") as string;
+//   const folder = formData.get("folder") as string | null;
 
-  if (!file || !nameStudent) {
-    throw new Error("Incomplete form data");
-  }
+//   if (!file || !nameStudent) {
+//     throw new Error("Incomplete form data");
+//   }
 
-  // Kirim file ke API
-  try {
-    const flaskResponse = await fetch("http://127.0.0.1:5000/upload", {
-      method: "POST",
-      body: formData,
-    });
+//   // Kirim file ke API
+//   try {
+//     const flaskResponse = await fetch("http://127.0.0.1:5000/upload", {
+//       method: "POST",
+//       body: formData,
+//     });
 
-    if (!flaskResponse.ok) {
-      const errorData = await flaskResponse.json();
-      throw new Error(errorData.error || "Failed to upload file to Flask API");
-    }
-    console.log(flaskResponse);
+//     if (!flaskResponse.ok) {
+//       const errorData = await flaskResponse.json();
+//       throw new Error(errorData.error || "Failed to upload file to Flask API");
+//     }
+//     console.log(flaskResponse);
 
-    // Mengambil Dokumen URL
-    const { data } = await supabase.storage
-      .from('Pdf document homework')
-      .getPublicUrl(file.name, { download: true });
+//     // Mengambil Dokumen URL
+//     const { data } = await supabase.storage
+//       .from('Pdf document homework')
+//       .getPublicUrl(file.name, { download: true });
 
-    const publicUrl: string = data?.publicUrl || '';
-    console.log('Public URL:', publicUrl);
+//     const publicUrl: string = data?.publicUrl || '';
+//     console.log('Public URL:', publicUrl);
 
-    // Simpan data ke database documents
-    const insertedDocument = await db.insert(documents).values({
-      nameStudent: nameStudent,
-      documentName: file.name,
-      documentUrl: publicUrl,
-      folder: folder || null,
-      uploadedDate: new Date(),
-      embedding: null, // Jika belum ada embedding, bisa diisi null atau kosong
-    });
+//     // Simpan data ke database documents
+//     const insertedDocument = await db.insert(documents).values({
+//       nameStudent: nameStudent,
+//       documentName: file.name,
+//       documentUrl: publicUrl,
+//       folder: folder || null,
+//       uploadedDate: new Date(),
+//       embedding: null, // Jika belum ada embedding, bisa diisi null atau kosong
+//     });
 
-    return { document: insertedDocument, publicUrl }; // Return document metadata dan URL
-  } catch (error) {
-    console.error("Error in uploadassignment:", error);
-    throw error;
-  }
-}
+//     return { document: insertedDocument, publicUrl }; // Return document metadata dan URL
+//   } catch (error) {
+//     console.error("Error in uploadassignment:", error);
+//     throw error;
+//   }
+// }
