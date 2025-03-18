@@ -25,7 +25,7 @@ export default function RootLayout({
     // <ClerkProvider>
       <html
         lang="en"
-        className={gabarito.className}
+        className={GeistSans.className}
         // className={`${GeistSans.variable}`} suppressHydrationWarning
         >
         <body>
