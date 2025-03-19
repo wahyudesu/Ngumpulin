@@ -21,7 +21,12 @@ const ClassCRUD: React.FC = () => {
 
   const fetchClasses = async () => {
     const data = await getDataClass();
-    setClassesList(data);
+    const formattedData = data.map((cls) => ({
+      ...cls,
+      id: cls.id.toString(),
+      totalStudent: Number(cls.totalStudent),
+    }));
+    setClassesList(formattedData);
   };
 
   useEffect(() => {
