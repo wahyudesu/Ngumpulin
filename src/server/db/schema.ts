@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, numeric, boolean, jsonb, integer, uuid } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, numeric, boolean, jsonb, integer, uuid, real } from 'drizzle-orm/pg-core';
 import { customType } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
@@ -69,6 +69,7 @@ export const folders = pgTable('folders', {
   className: text('className'),
   description: text('description'),
   attachmentUrl: text('attachmentUrl'),
+  plagiarismThresholds: real('plagiarismThresholds').array(),
   usePassword: boolean('usePassword').default(true),
   password: text('password')
 });
