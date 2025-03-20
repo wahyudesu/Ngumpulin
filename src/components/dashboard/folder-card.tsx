@@ -52,12 +52,12 @@ const AssignmentFolders = () => {
                 {assignment.nameAssignment}
               </Link>
             </div>
-            <div className="text-black/70 text-sm tracking-tight line-clamp-3">
+            <div className="opacity-75 text-sm tracking-tight line-clamp-3">
               {assignment.description}
             </div>
           </CardBody>
           <CardFooter className="justify-between gap-2">
-            <Badge variant="outline" className="border-black/40 text-black tracking-tight font-light hover:text-white shadow-sm">
+            <Badge variant="outline" className="border tracking-tight font-light hover:bg-black/10 shadow-sm">
               {assignment.dueDate
                 ? new Date(assignment.dueDate).toLocaleDateString("id-ID", {
                     weekday: "long",
@@ -67,11 +67,11 @@ const AssignmentFolders = () => {
                 : "N/A"}
             </Badge>
             <div className="flex gap-2">
-              <Badge className="gap-1 rounded-lg bg-white border-gray-200 text-black/80 border px-1">
+              <Badge variant ="secondary" className="gap-1 rounded-lg border-gray-200 border px-1">
                 <Paperclip size={12} />
                 2
               </Badge>
-              <Badge className="gap-1 rounded-lg bg-white border-gray-200 text-black/80 border px-1">
+              <Badge variant ="secondary" className="gap-1 rounded-lg border-gray-200 border px-1">
                 <User2 size={12} />
                 2
               </Badge>

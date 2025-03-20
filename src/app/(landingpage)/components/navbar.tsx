@@ -45,7 +45,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-2">
             {/* <Button variant="outline">Login</Button> */}
             <Button>
-              <Link href={'/assignment'}>
+              <Link href={'/sign-in'}>
               Get started for free
               </Link>
             </Button>

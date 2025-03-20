@@ -33,7 +33,6 @@ export const addFolderAssignment = async (
   revalidatePath("/assignment");
 };
 
-
 // Menghapus folder
 export const deleteFolderAssignment = async (id: number) => {
   await db.delete(folders).where(eq(folders.id, id));

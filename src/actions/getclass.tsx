@@ -10,9 +10,15 @@ export const getDataClass = async () => {
   return data;
 };
 
+export const getDataClassName = async () => {
+  const data = await db.select().from(classes);
+  return data;
+};
+
 // Menambahkan folder baru
-export const addClass = async (className: string, totalStudent: number) => {
+export const addClass = async (id: number, className: string, totalStudent: number) => {
   await db.insert(classes).values({
+    id,
     className,
     totalStudent: totalStudent.toString(),
   });

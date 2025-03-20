@@ -1,3 +1,5 @@
+"use client"
+
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import tailwindcssAnimate from "tailwindcss-animate";
@@ -9,7 +11,7 @@ export default {
   	extend: {
   		fontFamily: {
   			sans: [
-  				'var(--font-geist-sans)',
+  				'var(--font-gabarito)',
                     ...fontFamily.sans
                 ]
   		},
