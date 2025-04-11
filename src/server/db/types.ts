@@ -10,7 +10,7 @@ export type Document = {
   uploadedDate: Date;
   embedding?: number[];
   deadline: Date;
-  plagiarism?: Record<string, any>;
+  plagiarismThresholds?: Record<string, any>;
   grade?: number;
   feedback?: string;
   sentences?: number;
