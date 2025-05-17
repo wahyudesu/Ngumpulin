@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export default function Navbar() {
   return (
-    <nav className="flex h-[64px] items-center justify-between px-4">
+    <nav className="fixed flex h-[64px] items-center justify-between px-4">
       <Logo />
       <div className="flex items-center gap-4">
         <Button asChild variant={'link'}>

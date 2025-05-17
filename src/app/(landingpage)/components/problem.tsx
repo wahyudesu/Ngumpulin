@@ -36,23 +36,26 @@ export default function Problem() {
   return (
     <div className="flex flex-col items-center justify-center px-6 py-20 space-y-8 bg-slate-700">
       <h1 className="text-4xl font-bold text-white text-center">
-        The Problem is
+        Teachers are overwhelmed with tasks
       </h1>
-    <br>
-    </br>
+      <p className="text-zinc-300 text-center mt-2 max-w-2xl">
+        Your time is split between a dozen responsibilities. Plagiarism checking shouldn’t be one more burden.
+      </p>
+      <br>
+      </br>
       {/* Card */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="max-w-md w-full space-y-6 text-zinc-400 text-lg bg-red-900 p-8 rounded-lg shadow-xl"
       >
         <h1 className="sr-only">Daftar Tugas dan Waktu</h1>
-        
+
         {/* Daftar tugas */}
         <ul className="space-y-2">
           {tasks.map((task, index) => (
-            <motion.li 
+            <motion.li
               key={index}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -74,7 +77,7 @@ export default function Problem() {
         </div>
 
         {/* Pesan penutup */}
-        <motion.div 
+        <motion.div
           className="pt-8 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
