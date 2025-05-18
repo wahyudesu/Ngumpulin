@@ -1,6 +1,7 @@
 "use client";
+
 import { useState } from "react";
-import { motion } from "framer-motion"; // Fixed import from 'framer-motion' not 'motion/react'
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 type Tab = {
@@ -22,21 +23,15 @@ export const Tabs = ({
   tabClassName?: string;
   contentClassName?: string;
 }) => {
-  if (!propTabs || propTabs.length === 0) {
-    return null;
-  }
-
   const [active, setActive] = useState<Tab>(propTabs[0]!);
   const [tabs, setTabs] = useState<Tab[]>(propTabs);
 
   const moveSelectedTabToTop = (idx: number) => {
     const newTabs = [...propTabs];
     const selectedTab = newTabs.splice(idx, 1);
-    if (selectedTab.length > 0) { // Check if we actually got a tab
-      newTabs.unshift(selectedTab[0]!);
-      setTabs(newTabs);
-      setActive(selectedTab[0]!);
-    }
+    newTabs.unshift(selectedTab[0]!);
+    setTabs(newTabs);
+    setActive(newTabs[0]!);
   };
 
   const [hovering, setHovering] = useState(false);
@@ -72,6 +67,7 @@ export const Tabs = ({
                 )}
               />
             )}
+
             <span className="relative block text-black dark:text-white">
               {tab.title}
             </span>
@@ -92,7 +88,6 @@ export const Tabs = ({
 export const FadeInDiv = ({
   className,
   tabs,
-  active,
   hovering,
 }: {
   className?: string;
@@ -102,9 +97,8 @@ export const FadeInDiv = ({
   hovering?: boolean;
 }) => {
   const isActive = (tab: Tab) => {
-    return tab.value === tabs[0]?.value;
+    return tab.value === tabs[0]!.value;
   };
-
   return (
     <div className="relative w-full h-full">
       {tabs.map((tab, idx) => (

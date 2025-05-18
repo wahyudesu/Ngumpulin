@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Github, Linkedin, Slack, Twitter } from 'lucide-react';
+import Logo from '@/components/Logo'
 
 export function Footer() {
   return (
@@ -7,9 +8,7 @@ export function Footer() {
       <div className="container grid gap-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           <div className="space-y-6">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold">Mintlify</span>
-            </Link>
+            <Logo />
           </div>
           <div className="space-y-3">
             <h4 className="font-medium">Documentation</h4>
@@ -47,7 +46,7 @@ export function Footer() {
               <div className="h-2 w-2 rounded-full bg-green-500" />
               <span className="text-sm text-muted-foreground">All systems normal</span>
             </div>
-            <p className="text-sm text-muted-foreground">© 2025 Mintlify, Inc.</p>
+            <p className="text-sm text-muted-foreground">© 2025 Ngumpulin, Inc.</p>
           </div>
           <div className="flex items-center space-x-4">
             <Link href="#" className="text-muted-foreground hover:text-foreground">

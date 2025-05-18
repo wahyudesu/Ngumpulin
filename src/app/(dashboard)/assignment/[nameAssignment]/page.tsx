@@ -172,7 +172,7 @@ const AssignmentDetail = () => {
         const formattedTime = `${hour}:${minutes}`;
         const formattedDate = date.toLocaleDateString("id-ID");
 
-        const isOnTime = row.original.plagiarism?.every((item: any) => item.similarity <= 70) ?? true;
+        const isOnTime = row.original.plagiarismThresholds?.every((item: any) => item.similarity <= 70) ?? true;
 
         if (isOnTime) {
           return (
@@ -195,7 +195,7 @@ const AssignmentDetail = () => {
       accessorKey: "plagiarism",
       header: "Plagiarisme",
       cell: ({ row }) => {
-        const plagiarism = row.original.plagiarism || []; // Ensure it's always an array
+        const plagiarism = row.original.plagiarismThresholds || []; // Ensure it's always an array
 
         const isAllWithinThreshold = plagiarism.length === 0 ||
           plagiarism.every((item: any) => item.similarity <= 70);
@@ -211,20 +211,20 @@ const AssignmentDetail = () => {
                   {label}
                 </Badge>
               </TooltipTrigger>
-              
-                <TooltipContent className={label === "aman" ? "bg-green-700" : "bg-destructive" + " text-white p-2 rounded"}>
-                  <div>
-                    <p>Terdeteksi {plagiarism.length} sumber plagiarisme.</p>
-                    <ul className="mt-2 list-disc pl-4">
-                      {plagiarism.map((item: any, index: number) => (
-                  
-                        <li key={index}>
-                          <span className="font-bold">{item.name}</span> dengan similarity <span className="font-bold">{item.similarity}%</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </TooltipContent>
+
+              <TooltipContent className={label === "aman" ? "bg-green-700" : "bg-destructive" + " text-white p-2 rounded"}>
+                <div>
+                  <p>Terdeteksi {plagiarism.length} sumber plagiarisme.</p>
+                  <ul className="mt-2 list-disc pl-4">
+                    {plagiarism.map((item: any, index: number) => (
+
+                      <li key={index}>
+                        <span className="font-bold">{item.name}</span> dengan similarity <span className="font-bold">{item.similarity}%</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         );

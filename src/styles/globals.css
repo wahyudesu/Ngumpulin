@@ -85,3 +85,23 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer base {
+  :root {
+    /* Shades of blue from light to dark */
+    --chart-1: 210 100% 65%; /* light blue */
+    --chart-2: 210 90% 55%;  /* medium blue */
+    --chart-3: 210 85% 45%;  /* darker blue */
+    --chart-4: 210 80% 35%;  /* even darker */
+    --chart-5: 210 75% 25%;  /* darkest */
+  }
+
+  .dark {
+    /* Adjusted for dark theme: slightly more saturated or lighter */
+    --chart-1: 210 100% 70%;
+    --chart-2: 210 90% 60%;
+    --chart-3: 210 85% 50%;
+    --chart-4: 210 80% 40%;
+    --chart-5: 210 75% 30%;
+  }
+}

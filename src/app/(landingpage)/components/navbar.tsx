@@ -14,13 +14,6 @@ import Logo from '@/components/Logo'
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
-const navItems = [
-  { name: 'Features', href: '/features' },
-  { name: 'Pricing', href: '/pricing' },
-  { name: 'Resources', href: '/resources' },
-  { name: 'About', href: '/about' },
-
-]
 
 export default function Navbar() {
 
@@ -58,17 +51,6 @@ export default function Navbar() {
             <Logo />
           </div>
           <div className="hidden md:flex items-center space-x-4">
-            {navItems.map((item, index) => (
-              <Button key={index} variant="ghost">
-                <Link
-                  key={index}
-                  href={item.href}
-                  className="text-gray-700 hover:text-indigo-600 px-0 py-2 rounded-md text-sm font-medium"
-                >
-                  {item.name}
-                </Link>
-              </Button>
-            ))}
           </div>
           <div className="hidden md:flex items-center gap-2">
             {/* <Button variant="outline">Login</Button> */}
@@ -93,15 +75,6 @@ export default function Navbar() {
                     <Logo />
                   </DrawerTitle>
                   <div className="flex flex-col gap-1 items-start mt-4">
-                    {navItems.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        className="text-gray-700 hover:text-indigo-600 py-2 rounded-md text-md font-semibold"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
                   </div>
                   <Link href={'/assignment'}>
                     <Button variant="outline" className="w-full">

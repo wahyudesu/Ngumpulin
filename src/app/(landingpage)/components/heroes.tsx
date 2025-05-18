@@ -34,7 +34,7 @@ export function Heroes() {
           {/* Heading and Description */}
           <div className="space-y-6 max-w-[800px]">
             <h1 className="text-5xl md:text-6xl max-w-xl tracking-tighter font-semibold">
-              Teaching Just Got
+              Teaching Is Now
               <br />
               <FlipWords words={words} />
             </h1>
