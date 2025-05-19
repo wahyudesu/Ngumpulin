@@ -19,9 +19,6 @@ export const CTA1 = () => (
             </p>
           </div>
           <div className="flex flex-row gap-4">
-            <Button className="gap-4" variant="outline">
-              Jump on a call <PhoneCall className="w-4 h-4" />
-            </Button>
             <Button className="gap-4">
               Sign up here <MoveRight className="w-4 h-4" />
             </Button>
