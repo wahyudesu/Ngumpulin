@@ -28,6 +28,7 @@ export const addFolderAssignment = async (
   if (dueDate !== null && dueDate !== undefined) {
     values.dueDate = dueDate;
   }
+  console.log("Values to insert:", values);
 
   await db.insert(folders).values(values);
   revalidatePath("/assignment");

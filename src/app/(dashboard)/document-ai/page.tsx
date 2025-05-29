@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
-import { getDataClass, addClass } from '@/actions/getclass';
+import { getDataClass, addClass } from '@/actions/class';
 
 interface Class {
   id: string; // Menggunakan string untuk id acak
@@ -33,14 +33,11 @@ const ClassCRUD: React.FC = () => {
     fetchClasses();
   }, []);
 
-  const generateRandomId = () => {
-    return Math.random();
-  };
 
   const handleAddClass = async () => {
     if (!className || !totalStudent) return;
 
-    await addClass(generateRandomId(), className, Number(totalStudent));
+    await addClass(className, Number(totalStudent));
 
     setClassName('');
     setTotalStudent('');

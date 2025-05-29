@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/toaster";
 // import HoverDevCards from "@/components/dock";
 
 export const metadata: Metadata = {
@@ -18,7 +19,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <SidebarProvider>
-      <AppSidebar/>
+      <AppSidebar />
       <SidebarInset>
         <div className={`${GeistSans.className} flex flex-col`}>
           <main className="flex flex-1 flex-col gap-4 p-4 pt-4 justify-center">
@@ -26,6 +27,7 @@ export default function RootLayout({
           </main>
         </div>
       </SidebarInset>
+      <Toaster />
     </SidebarProvider>
   );
 }
