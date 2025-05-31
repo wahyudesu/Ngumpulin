@@ -4,7 +4,6 @@ import { Footer } from "@/app/(landingpage)/components/footer";
 import { Gabarito } from 'next/font/google'
 =======
 import {Footer} from "@/app/(landingpage)/components/footer";
->>>>>>> Stashed changes
 
 export default function LandingPageLayout({
   children,

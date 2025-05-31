@@ -12,8 +12,8 @@ import { Separator } from "@/components/ui/separator";
 import { Table2, Grid3X3, Download, Link } from "lucide-react";
 
 // Import 2 komponen modular
-import { TableView } from "@/app/(dashboard)/components/assignment/table-view";
-import { GalleryView } from "@/app/(dashboard)/components/assignment/gallery-view";
+import { TableView } from "@/components/assignment/table-view";
+import { GalleryView } from "@/components/assignment/gallery-view";
 
 const AssignmentDetail = () => {
   const params = useParams();
