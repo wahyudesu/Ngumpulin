@@ -12,8 +12,8 @@ import { Separator } from "@/components/ui/separator";
 import { Table2, Grid3X3, Download, Link } from "lucide-react";
 
 // Import 2 komponen modular
-import { TableView } from "@/components/assignment/table-view";
-import { GalleryView } from "@/components/assignment/gallery-view";
+import { TableView } from "@/app/(dashboard)/components/assignment/table-view";
+import { GalleryView } from "@/app/(dashboard)/components/assignment/gallery-view";
 
 const AssignmentDetail = () => {
   const params = useParams();
@@ -38,19 +38,6 @@ const AssignmentDetail = () => {
 
     fetchDocuments();
   }, [name]);
-
-  // Filter documents based on search query
-  useEffect(() => {
-    if (searchQuery.trim() === "") {
-      setFilteredDocuments(documents);
-    } else {
-      const filtered = documents.filter(doc => 
-        doc.nameStudent?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredDocuments(filtered);
-    }
-  }, [documents, searchQuery]);
-  
 
   // Filter documents based on search query
   useEffect(() => {

@@ -10,14 +10,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
-<<<<<<< Updated upstream
-import Logo from '@/components/Logo'
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-=======
 import Logo from '@/app/(dashboard)/components/Logo'
->>>>>>> Stashed changes
 
+const navItems = [
+  { name: 'Features', href: '/features' },
+  { name: 'Pricing', href: '/pricing' },
+  { name: 'Resources', href: '/resources' },
+  { name: 'About', href: '/about' },
+
+]
 
 export default function Navbar() {
 
