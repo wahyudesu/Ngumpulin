@@ -51,6 +51,19 @@ const AssignmentDetail = () => {
     }
   }, [documents, searchQuery]);
   
+
+  // Filter documents based on search query
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFilteredDocuments(documents);
+    } else {
+      const filtered = documents.filter(doc => 
+        doc.nameStudent?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredDocuments(filtered);
+    }
+  }, [documents, searchQuery]);
+  
   // Update grade function
   const updateGrade = (id: String, newGrade: any) => {
     setDocuments(documents.map(doc =>
