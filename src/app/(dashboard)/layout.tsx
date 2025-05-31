@@ -1,9 +1,5 @@
-import "@/styles/globals.css";
-
-import { GeistSans } from "geist/font/sans";
-import { type Metadata } from "next";
-import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarInset } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/app/(dashboard)/components/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toaster";
 // import HoverDevCards from "@/components/dock";
@@ -14,14 +10,15 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default function DashboardLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <SidebarProvider>
       <AppSidebar />
+      <AppSidebar />
       <SidebarInset>
-        <div className={`${GeistSans.className} flex flex-col`}>
+        <div className="flex flex-col">
           <main className="flex flex-1 flex-col gap-4 p-4 pt-4 justify-center">
             {children}
           </main>

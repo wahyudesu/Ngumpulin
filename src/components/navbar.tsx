@@ -3,7 +3,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { LogIn } from 'lucide-react';
-import Logo from './Logo';
+import Logo from '../app/(dashboard)/components/Logo';
 import Link from 'next/link';
 
 export default function Navbar() {

@@ -1,0 +1,39 @@
+<svg viewBox="0 0 280 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- No background shape -->
+  
+  <!-- Ngumpul text with improved typography, centered -->
+  <text x="30" y="38" font-family="Poppins, Arial, sans-serif" font-size="32" fill="#262626" font-weight="700" letter-spacing="-0.3">Ngumpul</text>
+  
+  <!-- Gradient button with "In" - positioned further to the right -->
+  <rect x="10" y="10" rx="12" ry="12" width="50" height="40" fill="url(#grad1)" filter="drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.15))"/>
+  <text x="210" y="39" font-family="Poppins, Arial, sans-serif" font-size="26" fill="white" font-weight="700">In</text>
+  
+  <!-- No decorative elements -->
+  
+  <!-- Enhanced gradient -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+</svg>
+  <!-- Enhanced gradient -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+</svg>
+  <!-- Enhanced gradient -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -6,7 +6,7 @@ import { PenSquare } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
-const GradeEditModal = ({ document, onSave }: { document: any, onSave: any }) => {
+const GradeEditModal = ({ document, onSave, onSendEmail }: { document: any, onSave: any, onSendEmail: any }) => {
     const [open, setOpen] = useState(false);
     const [grade, setGrade] = useState(document.grade || "");
 
@@ -15,21 +15,17 @@ const GradeEditModal = ({ document, onSave }: { document: any, onSave: any }) =>
         setOpen(false);
     };
 
+    const handleSendEmail = () => {
+        onSendEmail(document.id, `Nilai: ${grade}`);
+    };
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button  size="sm" className="w-full">
+                <Button size="sm" className="w-full">
                     <PenSquare className="mr-2 h-4 w-4" />
                     {document.grade || "Input Nilai"}
                 </Button>
-                {/* <Button
-                    className="w-full rounded-none shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10"
-                    size="icon"
-                    aria-label="Options"
-                >
-                    <PenSquare className="mr-2 h-4 w-4" />
-                    {document.grade || "Input Nilai"}
-                </Button> */}
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -56,13 +52,14 @@ const GradeEditModal = ({ document, onSave }: { document: any, onSave: any }) =>
                 </div>
                 <DialogFooter>
                     <Button type="submit" onClick={handleSave}>Simpan</Button>
+                    <Button variant="outline" onClick={handleSendEmail}>Kirim ke Email</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
     );
 };
 
-const FeedbackEditModal = ({ document, onSave }: { document: any, onSave: any }) => {
+const FeedbackEditModal = ({ document, onSave, onSendEmail }: { document: any, onSave: any, onSendEmail: any }) => {
     const [open, setOpen] = useState(false);
     const [feedback, setFeedback] = useState(document.feedback || "");
 
@@ -71,22 +68,26 @@ const FeedbackEditModal = ({ document, onSave }: { document: any, onSave: any })
         setOpen(false);
     };
 
+    const handleSendEmail = () => {
+        onSendEmail(document.id, `Feedback: ${feedback}`);
+    };
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline" size="sm" className="w-full">
                     <PenSquare className="mr-2 h-4 w-4" />
-                    {document.feedback ? "Edit Feedback" : "Tambah Feedback"}
+                    {document.feedback ? "Edit Feedback" : "Generate Feedback"}
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[525px]">
                 <DialogHeader>
-                    <DialogTitle>Feedback Tugas</DialogTitle>
+                    <DialogTitle className="">Feedback Tugas</DialogTitle>
                     <DialogDescription>
                         Berikan feedback untuk tugas {document.nameStudent}
                     </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
+                <div className="grid gap-4">
                     <div className="grid grid-cols-1 gap-4">
                         <Label htmlFor="feedback">
                             Feedback
@@ -102,10 +103,11 @@ const FeedbackEditModal = ({ document, onSave }: { document: any, onSave: any })
                 </div>
                 <DialogFooter>
                     <Button type="submit" onClick={handleSave}>Simpan Feedback</Button>
+                    <Button variant="outline" onClick={handleSendEmail}>Kirim ke Email</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
     );
 };
 
-export { FeedbackEditModal, GradeEditModal }
+export { FeedbackEditModal, GradeEditModal };

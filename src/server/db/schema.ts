@@ -49,7 +49,8 @@ export const documents = pgTable('documents', {
   class: text('class'), //backend/fronted
   sentences: integer('sentences'), //backend
   page: integer('page'), //backend
-  isiTugas: text('isiTugas') //backend
+  isiTugas: text('isiTugas'), //backend
+  clustering: integer('clustering') //backend
 });
 
 // Table "classes"
@@ -69,7 +70,7 @@ export const folders = pgTable('folders', {
   className: text('className'),
   description: text('description'),
   attachmentUrl: text('attachmentUrl'),
-  plagiarismThresholds: real('plagiarismThresholds').array(),
+  plagiarismThresholds: numeric('plagiarismThresholds').array(),
   usePassword: boolean('usePassword').default(true),
   password: text('password')
 });

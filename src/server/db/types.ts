@@ -10,10 +10,18 @@ export type Document = {
   uploadedDate: Date;
   embedding?: number[];
   deadline: Date;
-  plagiarismThresholds?: Record<string, any>;
+  plagiarism?: Record<string, any>;
   grade?: number;
   feedback?: string;
   sentences?: number;
   page?: number;
   isiTugas: string;
+  clustering: number;
 };
+
+export type Folder = {
+  id: string;
+  nameAssignment: string;
+  createdAt: Date;
+};
+

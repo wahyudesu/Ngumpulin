@@ -1,32 +1,14 @@
-import "@/styles/globals.css";
-
-import { type Metadata } from "next";
 import Navbar from "./components/navbar";
-import { Footer } from "@/app/(landingpage)/components/footer";
-import { Gabarito } from 'next/font/google'
+import {Footer} from "@/app/(landingpage)/components/footer";
 
-export const metadata: Metadata = {
-  title: "Ngumpulin",
-  description: "Dari mahasiswa untuk dosen",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
-
-const gabarito = Gabarito({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-gabarito',
-})
-
-export default function RootLayout({
+export default function LandingPageLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div
-      className={`${gabarito.variable}`}
-    >
+    <>
       <Navbar />
       {children}
-      <Footer />
-    </div>
+      <Footer/>
+    </>
   );
 }
