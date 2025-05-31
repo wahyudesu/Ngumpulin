@@ -2,6 +2,7 @@ import { SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/app/(dashboard)/components/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toaster";
+import { Metadata } from "next";
 // import HoverDevCards from "@/components/dock";
 
 export const metadata: Metadata = {
