@@ -1,26 +1,16 @@
-import "@/styles/globals.css";
-
-import { type Metadata } from "next";
 import Navbar from "./components/navbar";
+<<<<<<< Updated upstream
 import { Footer } from "@/app/(landingpage)/components/footer";
 import { Gabarito } from 'next/font/google'
+=======
+import {Footer} from "@/app/(landingpage)/components/footer";
+>>>>>>> Stashed changes
 
-export const metadata: Metadata = {
-  title: "Ngumpulin",
-  description: "Dari mahasiswa untuk dosen",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
-
-const gabarito = Gabarito({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-gabarito',
-})
-
-export default function RootLayout({
+export default function LandingPageLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
+<<<<<<< Updated upstream
     <div
       className={`${gabarito.variable}`}
     >
@@ -28,5 +18,12 @@ export default function RootLayout({
       {children}
       <Footer />
     </div>
+=======
+    <>
+      <Navbar />
+      {children}
+      <Footer/>
+    </>
+>>>>>>> Stashed changes
   );
 }

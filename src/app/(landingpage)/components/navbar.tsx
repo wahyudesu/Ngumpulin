@@ -10,9 +10,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+<<<<<<< Updated upstream
 import Logo from '@/components/Logo'
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+=======
+import Logo from '@/app/(dashboard)/components/Logo'
+>>>>>>> Stashed changes
 
 
 export default function Navbar() {

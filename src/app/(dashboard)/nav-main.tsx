@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import Logo from "./Logo";
+import Logo from "./components/Logo";
 
 export function NavMain({
   items,
@@ -43,8 +43,8 @@ export function NavMain({
                   tooltip={item.title}
                   className={`${
                     isActive
-                      ? "border-2 bg-primary-foreground py-5 font-medium"
-                      : "py-5 font-normal opacity-75"
+                      ? "border-2 bg-primary-foreground py-5"
+                      : "py-5 font-semibold opacity-75"
                   }`}
                 >
                   <a href={item.url}>

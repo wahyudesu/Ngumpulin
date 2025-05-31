@@ -3,8 +3,8 @@
 import * as React from "react";
 import { usePathname } from "next/navigation";
 import { BookOpen, Bot, SquareTerminal } from "lucide-react";
-import { SearchForm } from "@/components/search-form";
-import { NavMain } from "@/components/nav-main";
+import { SearchForm } from "@/app/(dashboard)/components/search-form";
+import { NavMain } from "@/app/(dashboard)/components/nav-main";
 import {
   Sidebar,
   SidebarContent,
@@ -15,9 +15,9 @@ import {
   SidebarMenuItem,
   SidebarTrigger
 } from "@/components/ui/sidebar";
-import Logo from "./Logo";
-import Toogletheme  from "@/app/themeswitch";
+import Toogletheme from "@/app/themeswitch";
 import Feedback from "./feedback";
+import Logo from "./Logo";
 
 const data = {
   user: {
@@ -27,14 +27,14 @@ const data = {
   },
   navMain: [
     {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: SquareTerminal,
+    },
+    {
       title: "Assignment",
       url: "/assignment",
       icon: Bot,
-    },
-    {
-      title: "document-ai",
-      url: "/document-ai",
-      icon: SquareTerminal,
     },
     {
       title: "Classes",
@@ -53,7 +53,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu className="ml-2 py-2">
           <SidebarMenuItem className="flex items-center justify-between">
             <SidebarMenuButton size="lg" asChild>
-              <Logo />
+              <div>
+                <Logo/>
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -67,8 +69,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         />
       </SidebarContent>
       <SidebarFooter>
-        <Toogletheme/>
-        <Feedback/>
+        <Toogletheme />
+        <Feedback />
       </SidebarFooter>
     </Sidebar>
   );
