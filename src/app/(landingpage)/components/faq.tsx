@@ -1,59 +1,47 @@
-import { Check, PhoneCall } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem } from "@/components/ui/accordion";
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { Plus } from "lucide-react";
-import Image from "next/image";
-import TabDemo from "./solution";
+import { PhoneCall } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Accordion, AccordionContent, AccordionItem } from "@/components/ui/accordion"
+import * as AccordionPrimitive from "@radix-ui/react-accordion"
+import { Plus } from "lucide-react"
 
 const items = [
   {
     id: "1",
-    title: "Jenis tugas apa saja yang bisa diproses?",
+    title: "What types of tasks can be processed?",
     content:
-      "Untuk saat ini tugas yang paling optimal adalah jenis tugas laprak. Namun di masa mendatang akan dengan berbagai jenis tugas lain seperti essay, ppt, excel, code file, dan lain-lain",
+      "Currently, the most optimized type of task is lab reports. However, in the future, various other types of tasks such as essays, presentations (PPT), Excel files, code files, and more will be supported.",
   },
   {
     id: "2",
-    title: "Apakah platform ini mempunyai sistem yang aman?",
+    title: "Is this platform secure?",
     content:
-      "Yap, sangat aman. Autentifikasinya menggunakan clerk, dan arcjet sebagai secure code injection, dan set up formnya menggunakan password by default.",
+      "Yes, it is very secure. Authentication uses Clerk, Arcjet is used for secure code injection, and the form setup uses a default password.",
   },
   {
     id: "3",
-    title: "Apakah ada integrasi dengan LMS yang dimiliki oleh kampus",
+    title: "Is there integration with the university's LMS?",
     content:
-      "Tidak bisa, sistem kampus biasanya jadul. Tapi hasil penugasan bisa diexport menjadi csv, excel, atau pdf untuk kemudian bisa diolah di proses selanjutnya",
+      "No, university systems are usually outdated. However, the assignment results can be exported to CSV, Excel, or PDF formats to be processed further.",
   },
   {
     id: "4",
-    title: "Apakah hanya untuk tugas saja? untuk ujian bagaimana?",
+    title: "Is it only for assignments? What about exams?",
     content:
-      "Saat ini hanya berfokus ke penugasan, jika banyak feedback terkait fitur ujian, ke depannya memungkinkan untuk terdapat fitur pembuatan dan pengecekan ujian seperti UTS/UAS",
+      "Currently, it is focused on assignments. If there is a lot of feedback requesting exam features, it is possible that in the future there will be features for creating and checking exams like midterms or finals.",
   },
-];
+]
 
 export const FAQ2 = () => (
-  <div className="bg-blue-50 w-full py-10 lg:py-10">
+  <div id="faq" className="bg-blue-50 w-full pt-20 lg:py-10">
     <div className="container mx-auto items-center">
-      {/* <div className="flex max-w-xl justify-center item-center">
-        <TabDemo/>
-      </div> */}
-      {/* FAQ */}
       <div className="flex flex-col gap-10 p-7">
         <div className="flex text-center justify-center items-center gap-4 flex-col">
           <Badge variant="outline">FAQ</Badge>
           <div className="flex gap-2 flex-col">
             <h1 className="text-3xl md:text-5xl tracking-tighter max-w-xl text-center font-semibold">
-              Pertanyaan seputar Ngumpulin
+              Questions Around Ngumpulin
             </h1>
-            <p className="text-lg leading-relaxed tracking-tight text-muted-foreground max-w-xl text-center">
-              Managing a small business today is already tough. Avoid further
-              complications by ditching outdated, tedious trade methods. Our
-              goal is to streamline SMB trade, making it easier and faster than
-              ever.
-            </p>
           </div>
           <div>
             <Button className="gap-4" variant="outline">
@@ -63,27 +51,25 @@ export const FAQ2 = () => (
         </div>
         <div className="max-w-3xl w-full mx-auto text-left">
           <Accordion type="single" collapsible className="w-full" defaultValue="3">
-          {items.map((item) => (
-            <AccordionItem value={item.id} key={item.id} className="border-b">
-              <AccordionPrimitive.Header className="flex">
-                <AccordionPrimitive.Trigger className="flex flex-1 items-center justify-between py-4 text-left text-[15px] font-semibold leading-6 transition-all [&>svg>path:last-child]:origin-center [&>svg>path:last-child]:transition-all [&>svg>path:last-child]:duration-200 [&[data-state=open]>svg>path:last-child]:rotate-90 [&[data-state=open]>svg>path:last-child]:opacity-0 [&[data-state=open]>svg]:rotate-180">
-                  {item.title}
-                  <Plus
-                    size={16}
-                    strokeWidth={2}
-                    className="shrink-0 opacity-60 transition-transform duration-200"
-                    aria-hidden="true"
-                  />
-                </AccordionPrimitive.Trigger>
-              </AccordionPrimitive.Header>
-              <AccordionContent className="pb-2 text-muted-foreground">
-                {item.content}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+            {items.map((item) => (
+              <AccordionItem value={item.id} key={item.id} className="border-b">
+                <AccordionPrimitive.Header className="flex">
+                  <AccordionPrimitive.Trigger className="flex flex-1 items-center justify-between py-4 text-left text-[15px] font-semibold leading-6 transition-all [&>svg>path:last-child]:origin-center [&>svg>path:last-child]:transition-all [&>svg>path:last-child]:duration-200 [&[data-state=open]>svg>path:last-child]:rotate-90 [&[data-state=open]>svg>path:last-child]:opacity-0 [&[data-state=open]>svg]:rotate-180">
+                    {item.title}
+                    <Plus
+                      size={16}
+                      strokeWidth={2}
+                      className="shrink-0 opacity-60 transition-transform duration-200"
+                      aria-hidden="true"
+                    />
+                  </AccordionPrimitive.Trigger>
+                </AccordionPrimitive.Header>
+                <AccordionContent className="pb-2 text-muted-foreground">{item.content}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </div>
     </div>
   </div>
-);
+)
