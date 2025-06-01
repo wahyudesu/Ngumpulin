@@ -36,7 +36,7 @@ const ResponsiveModalBottom = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
-    
+
     // Validasi menggunakan Zod
     const result = assignmentSchema.safeParse({
       nameAssignment,
@@ -71,15 +71,15 @@ const ResponsiveModalBottom = () => {
       );
 
       console.log('Tugas berhasil ditambahkan');
-      
+
       // Reset form setelah sukses
       setNameAssignment('');
       setClassType('');
       setDescription('');
       setDueDate('');
-      
+
       // Menutup modal setelah data disimpan
-      setIsModalOpen(false); 
+      setIsModalOpen(false);
     } catch (error) {
       console.error('Gagal menambahkan tugas:', error);
     } finally {

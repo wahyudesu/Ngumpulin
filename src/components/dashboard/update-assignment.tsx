@@ -124,7 +124,7 @@ const Modal = ({ id, side }: { id: number; side: 'bottom' }) => {
       setIsLoading(false);
     }
   };
-  
+
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
@@ -198,30 +198,30 @@ const Modal = ({ id, side }: { id: number; side: 'bottom' }) => {
               </div>
               <div className='flex justify-between'>
                 <div>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                  <Button variant="destructive" effect="expandIcon" icon={Trash} iconPlacement="left">
-                    Hapus
-                  </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Take a moment to review the details provided to ensure you understand the implications.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        className="bg-red-600 hover:bg-red-700"
-                        onClick={handleDelete}
-                      >
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive" effect="expandIcon" icon={Trash} iconPlacement="left">
                         Hapus
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Take a moment to review the details provided to ensure you understand the implications.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          className="bg-red-600 hover:bg-red-700"
+                          onClick={handleDelete}
+                        >
+                          Hapus
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
                 <div className="flex justify-end gap-2">
                   <ResponsiveModalClose asChild>
