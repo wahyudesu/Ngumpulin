@@ -88,7 +88,7 @@ const mockData = {
     },
     {
       id: 4,
-      title: "UI/UX Prototype",
+      title: "UAS Pemrograman",
       subject: "Desain Interface",
       dueDate: "2025-06-05",
       submitted: 8,
@@ -97,7 +97,7 @@ const mockData = {
     },
     {
       id: 5,
-      title: "Network Security Analysis",
+      title: "MLOps Deployment",
       subject: "Keamanan Jaringan",
       dueDate: "2025-05-25",
       submitted: 20,
@@ -535,7 +535,7 @@ export default function DashboardPage() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <CalendarIcon className="mr-2 h-5 w-5" />
-                  Daftar Kelas
+                  Daftar Tugas
                 </CardTitle>
                 <CardDescription>Kegiatan dalam 7 hari ke depan</CardDescription>
               </CardHeader>

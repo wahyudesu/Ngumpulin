@@ -14,32 +14,34 @@ export default function Feedback() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Rating</Button>
+        <Button variant="outline">Feedback</Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-0 p-0 [&>button:last-child]:top-3.5">
         <DialogHeader className="contents space-y-0 text-left">
           <DialogTitle className="border-b border-border px-6 py-4 text-base">
-            Help us improve
+            Bantu kami berkembang
           </DialogTitle>
         </DialogHeader>
         <div className="px-6 py-4">
           <form className="space-y-5">
-            <div className="space-y-4">
+            <div className="space-y-6">
+              {/* Pertanyaan 1 */}
               <div>
                 <fieldset className="space-y-4">
                   <legend className="text-lg font-semibold leading-none text-foreground">
-                    How hard was it to set up your account?
+                    Seberapa mudah menggunakan platform ini?
                   </legend>
                   <RadioGroup className="flex gap-0 -space-x-px rounded-lg shadow-sm shadow-black/5">
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((number) => (
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
                       <label
                         key={number}
                         className="relative flex size-9 flex-1 cursor-pointer flex-col items-center justify-center gap-3 border border-input text-center text-sm outline-offset-2 transition-colors first:rounded-s-lg last:rounded-e-lg has-[[data-state=checked]]:z-10 has-[[data-disabled]]:cursor-not-allowed has-[[data-state=checked]]:border-ring has-[[data-state=checked]]:bg-accent has-[[data-disabled]]:opacity-50 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-ring/70"
                       >
                         <RadioGroupItem
-                          id={`radio-17-r${number}`}
+                          id={`ease-${number}`}
                           value={number.toString()}
                           className="sr-only after:absolute after:inset-0"
+                          // name="ease"
                         />
                         {number}
                       </label>
@@ -47,22 +49,51 @@ export default function Feedback() {
                   </RadioGroup>
                 </fieldset>
                 <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-                  <p>Very easy</p>
-                  <p>Very dificult</p>
+                  <p>Sangat sulit</p>
+                  <p>Sangat mudah</p>
+                </div>
+              </div>
+
+              {/* Pertanyaan 2 */}
+              <div>
+                <fieldset className="space-y-4">
+                  <legend className="text-lg font-semibold leading-none text-foreground">
+                    Seberapa berguna fitur-fitur yang tersedia?
+                  </legend>
+                  <RadioGroup className="flex gap-0 -space-x-px rounded-lg shadow-sm shadow-black/5">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
+                      <label
+                        key={number}
+                        className="relative flex size-9 flex-1 cursor-pointer flex-col items-center justify-center gap-3 border border-input text-center text-sm outline-offset-2 transition-colors first:rounded-s-lg last:rounded-e-lg has-[[data-state=checked]]:z-10 has-[[data-disabled]]:cursor-not-allowed has-[[data-state=checked]]:border-ring has-[[data-state=checked]]:bg-accent has-[[data-disabled]]:opacity-50 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-ring/70"
+                      >
+                        <RadioGroupItem
+                          id={`usefulness-${number}`}
+                          value={number.toString()}
+                          className="sr-only after:absolute after:inset-0"
+                          // name="usefulness"
+                        />
+                        {number}
+                      </label>
+                    ))}
+                  </RadioGroup>
+                </fieldset>
+                <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+                  <p>Tidak berguna</p>
+                  <p>Sangat berguna</p>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label>Why did you give this rating?</Label>
+                <Label>Mengapa Anda memberikan penilaian tersebut?</Label>
                 <Textarea
                   id="feedback"
-                  placeholder="How can we improve Origin UI?"
-                  aria-label="Send feedback"
+                  placeholder="Bagaimana kami bisa meningkatkan platform ini?"
+                  aria-label="Kirim feedback"
                 />
               </div>
             </div>
             <Button type="button" className="w-full">
-              Send feedback
+              Kirim feedback
             </Button>
           </form>
         </div>

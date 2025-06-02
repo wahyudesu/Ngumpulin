@@ -4,19 +4,37 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@radix-ui/react-label";
 import { PenSquare } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { updateDocumentGrade } from "@/actions/update-grade";
+import { updateDocumentFeedback, generateAIFeedback } from "@/actions/update-feedback";
 
 const GradeEditModal = ({ document, onSave, onSendEmail }: { document: any, onSave: any, onSendEmail: any }) => {
     const [open, setOpen] = useState(false);
     const [grade, setGrade] = useState(document.grade || "");
+    const [isPending, startTransition] = useTransition();
+    const [error, setError] = useState("");
 
     const handleSave = () => {
-        onSave(document.id, parseFloat(grade));
-        setOpen(false);
-    };
+        if (!grade || parseFloat(grade) < 0 || parseFloat(grade) > 100) {
+            setError("Nilai harus antara 0-100");
+            return;
+        }
 
-    const handleSendEmail = () => {
-        onSendEmail(document.id, `Nilai: ${grade}`);
+        startTransition(async () => {
+            try {
+                const result = await updateDocumentGrade(document.id, parseFloat(grade));
+                
+                if (result.success) {
+                    onSave(document.id, parseFloat(grade));
+                    setOpen(false);
+                    setError("");
+                } else {
+                    setError(result.error || "Gagal menyimpan nilai");
+                }
+            } catch (error) {
+                setError("Terjadi kesalahan saat menyimpan nilai");
+            }
+        });
     };
 
     return (
@@ -45,14 +63,28 @@ const GradeEditModal = ({ document, onSave, onSendEmail }: { document: any, onSa
                             min="0"
                             max="100"
                             value={grade}
-                            onChange={(e) => setGrade(e.target.value)}
+                            onChange={(e) => {
+                                setGrade(e.target.value);
+                                setError("");
+                            }}
                             className="col-span-3"
+                            disabled={isPending}
                         />
                     </div>
+                    {error && (
+                        <div className="text-red-500 text-sm text-center">
+                            {error}
+                        </div>
+                    )}
                 </div>
                 <DialogFooter>
-                    <Button type="submit" onClick={handleSave}>Simpan</Button>
-                    <Button variant="outline" onClick={handleSendEmail}>Kirim ke Email</Button>
+                    <Button 
+                        type="submit" 
+                        onClick={handleSave}
+                        disabled={isPending}
+                    >
+                        {isPending ? "Menyimpan..." : "Simpan Nilai"}
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
@@ -62,10 +94,52 @@ const GradeEditModal = ({ document, onSave, onSendEmail }: { document: any, onSa
 const FeedbackEditModal = ({ document, onSave, onSendEmail }: { document: any, onSave: any, onSendEmail: any }) => {
     const [open, setOpen] = useState(false);
     const [feedback, setFeedback] = useState(document.feedback || "");
+    const [isPending, startTransition] = useTransition();
+    const [error, setError] = useState("");
+    const [isGenerating, setIsGenerating] = useState(false);
 
     const handleSave = () => {
-        onSave(document.id, feedback);
-        setOpen(false);
+        if (!feedback.trim()) {
+            setError("Feedback tidak boleh kosong");
+            return;
+        }
+
+        startTransition(async () => {
+            try {
+                const result = await updateDocumentFeedback(document.id, feedback);
+                
+                if (result.success) {
+                    onSave(document.id, feedback);
+                    setOpen(false);
+                    setError("");
+                } else {
+                    setError(result.error || "Gagal menyimpan feedback");
+                }
+            } catch (error) {
+                setError("Terjadi kesalahan saat menyimpan feedback");
+            }
+        });
+    };
+
+    const handleGenerateAI = async () => {
+        setIsGenerating(true);
+        setError("");
+        
+        try {
+            const result = await generateAIFeedback(document);
+            
+            if (result.success) {
+                setFeedback(result.feedback);
+                onSave(document.id, result.feedback);
+                // Don't close modal so user can review and edit the generated feedback
+            } else {
+                setError(result.error || "Gagal menghasilkan feedback AI");
+            }
+        } catch (error) {
+            setError("Terjadi kesalahan saat menghasilkan feedback AI");
+        } finally {
+            setIsGenerating(false);
+        }
     };
 
     const handleSendEmail = () => {
@@ -85,8 +159,7 @@ const FeedbackEditModal = ({ document, onSave, onSendEmail }: { document: any, o
                     <DialogDescription>
                         Berikan feedback untuk tugas {document.nameStudent}
                     </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4">
+                </DialogHeader>                <div className="grid gap-4">
                     <div className="grid grid-cols-1 gap-4">
                         <Label htmlFor="feedback">
                             Feedback
@@ -94,15 +167,44 @@ const FeedbackEditModal = ({ document, onSave, onSendEmail }: { document: any, o
                         <Textarea
                             id="feedback"
                             value={feedback}
-                            onChange={(e) => setFeedback(e.target.value)}
+                            onChange={(e) => {
+                                setFeedback(e.target.value);
+                                setError("");
+                            }}
                             placeholder="Masukkan feedback..."
                             className="h-32"
+                            disabled={isPending || isGenerating}
                         />
                     </div>
+                    {error && (
+                        <div className="text-red-500 text-sm text-center">
+                            {error}
+                        </div>
+                    )}
                 </div>
                 <DialogFooter>
-                    <Button type="submit" onClick={handleSave}>Simpan Feedback</Button>
-                    <Button variant="outline" onClick={handleSendEmail}>Kirim ke Email</Button>
+                    <Button 
+                        variant="outline" 
+                        type="button" 
+                        onClick={handleGenerateAI}
+                        disabled={isPending || isGenerating}
+                    >
+                        {isGenerating ? "Menghasilkan..." : "AI Generate Feedback"}
+                    </Button>
+                    <Button 
+                        type="button" 
+                        onClick={handleSave}
+                        disabled={isPending || isGenerating}
+                    >
+                        {isPending ? "Menyimpan..." : "Simpan"}
+                    </Button>
+                    <Button 
+                        variant="secondary" 
+                        onClick={handleSendEmail}
+                        disabled={!feedback.trim() || isPending || isGenerating}
+                    >
+                        Kirim ke Email
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

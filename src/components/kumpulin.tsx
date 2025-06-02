@@ -1,25 +1,11 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
-import { createClient } from "@supabase/supabase-js"
 import { useParams } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { v4 as uuidv4 } from "uuid"
 import { getDataClass } from "@/actions/class"
+import { uploadassignment } from "@/actions/postassignment"
 import { useToast } from "@/hooks/use-toast"
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_KEY!
-const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-type FileData = {
-  uuid: string
-  nameFile: string
-  urlFile: string
-  class: string
-}
 
 type Class = {
   id: number
@@ -40,17 +26,18 @@ const AssignmentUploadForm = () => {
   const [isLoadingClasses, setIsLoadingClasses] = useState(true)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
-  // Fetch classes from database
   useEffect(() => {
     const fetchClasses = async () => {
       try {
         setIsLoadingClasses(true)
         const data = await getDataClass()
-        const formattedData = data.map((cls) => ({
-          id: cls.id,
-          className: cls.className,
-          totalStudent: Number(cls.totalStudent),
-        }))
+        const formattedData = data
+          .filter((cls) => cls.className !== null)
+          .map((cls) => ({
+            id: cls.id,
+            className: cls.className!,
+            totalStudent: Number(cls.totalStudent),
+          }))
         setClasses(formattedData)
       } catch (error) {
         console.error("Failed to fetch classes:", error)
@@ -67,14 +54,6 @@ const AssignmentUploadForm = () => {
     fetchClasses()
   }, [toast])
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailStudent(e.target.value)
-  }
-
-  const handleClassChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedClass(e.target.value)
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -88,52 +67,25 @@ const AssignmentUploadForm = () => {
       return
     }
 
-    setStatusMessage("Uploading files to Supabase Storage...")
+    setStatusMessage("Uploading assignments...")
+
+    const formData = new FormData()
+    for (const file of files) {
+      formData.append("file", file)
+    }
+    formData.append("nameStudent", emailStudent.split("@")[0] || "")
+    formData.append("email", emailStudent)
+    formData.append("class", selectedClass)
+    formData.append("folder", name)
 
     try {
-      const fileDataList: FileData[] = []
-
-      for (const file of files) {
-        const uuid = uuidv4()
-        const filePath = `${name}/${selectedClass}/${file.name}`
-
-        const { error: uploadError } = await supabase.storage.from("Kumpulin").upload(filePath, file)
-
-        if (uploadError) throw new Error(uploadError.message)
-
-        const { data: publicUrlData } = supabase.storage.from("Kumpulin").getPublicUrl(filePath)
-
-        if (!publicUrlData?.publicUrl) throw new Error("Failed to get public URL")
-
-        fileDataList.push({
-          uuid,
-          nameFile: file.name,
-          urlFile: publicUrlData.publicUrl,
-          class: selectedClass,
-        })
-      }
-
-      if (fileDataList.length === 0) {
-        throw new Error("No files were processed.")
-      }
-
-      setStatusMessage("Saving file metadata to Supabase table...")
-
-      const { error: insertError } = await supabase.from("documents").insert(
-        fileDataList.map((fileData) => ({
-          id: fileData.uuid,
-          documentName: fileData.nameFile,
-          documentUrl: fileData.urlFile,
-          class: fileData.class,
-          email: emailStudent,
-          folder: name,
-          uploadedDate: new Date().toISOString(),
-        })),
-      )
-
-      if (insertError) throw new Error(insertError.message)
-
+      await uploadassignment(formData)
       setStatusMessage("Upload Successful!")
+
+      toast({
+        title: "Success",
+        description: "Assignment uploaded successfully!",
+      })
 
       // Reset form
       setEmailStudent("")
@@ -141,17 +93,12 @@ const AssignmentUploadForm = () => {
       if (fileInputRef.current) {
         fileInputRef.current.value = ""
       }
-
-      toast({
-        title: "Success",
-        description: "Assignment uploaded successfully!",
-      })
     } catch (error) {
-      const errorMessage = `Error: ${error}`
-      setStatusMessage(errorMessage)
+      console.error("Upload failed:", error)
+      setStatusMessage("Upload Failed!")
       toast({
         title: "Upload Failed",
-        description: errorMessage,
+        description: `${error}`,
         variant: "destructive",
       })
     }
@@ -169,7 +116,7 @@ const AssignmentUploadForm = () => {
             type="email"
             id="emailStudent"
             value={emailStudent}
-            onChange={handleNameChange}
+            onChange={(e) => setEmailStudent(e.target.value)}
             className="w-full border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Enter student's email"
             required
@@ -183,7 +130,7 @@ const AssignmentUploadForm = () => {
           <select
             id="classSelect"
             value={selectedClass}
-            onChange={handleClassChange}
+            onChange={(e) => setSelectedClass(e.target.value)}
             className="w-full border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             required
             disabled={isLoadingClasses}
@@ -195,7 +142,6 @@ const AssignmentUploadForm = () => {
               </option>
             ))}
           </select>
-          {isLoadingClasses && <p className="text-sm text-gray-500 mt-1">Loading available classes...</p>}
         </div>
 
         <div>
@@ -223,12 +169,13 @@ const AssignmentUploadForm = () => {
         {statusMessage && (
           <div className="flex items-center justify-center">
             <Badge
-              className={`text-sm ${statusMessage.includes("Error")
-                ? "bg-red-600 hover:bg-red-700"
-                : statusMessage.includes("Successful")
+              className={`text-sm ${
+                statusMessage.includes("Failed")
+                  ? "bg-red-600 hover:bg-red-700"
+                  : statusMessage.includes("Successful")
                   ? "bg-green-600 hover:bg-green-700"
                   : "bg-blue-600 hover:bg-blue-700"
-                }`}
+              }`}
             >
               {statusMessage}
             </Badge>
