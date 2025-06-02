@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ResponsiveModal,
   ResponsiveModalClose,
@@ -11,6 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { cn } from '@/lib/utils';
 import { Textarea } from '../ui/textarea';
 import { z } from 'zod';
@@ -24,6 +25,11 @@ const assignmentSchema = z.object({
   dueDate: z.string().optional(),
 });
 
+interface ClassOption {
+  id: number;
+  className: string;
+}
+
 const ResponsiveModalBottom = () => {
   const [nameAssignment, setNameAssignment] = useState('');
   const [classType, setClassType] = useState('');
@@ -31,7 +37,30 @@ const ResponsiveModalBottom = () => {
   const [dueDate, setDueDate] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State untuk kontrol modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [classOptions, setClassOptions] = useState<ClassOption[]>([]);
+  const [isLoadingClasses, setIsLoadingClasses] = useState(false);
+
+  // Fetch classes from database
+  const fetchClasses = async () => {
+    setIsLoadingClasses(true);
+    try {
+      // You'll need to create this action to fetch classes
+      const response = await fetch('/api/classes'); // Replace with your actual API endpoint
+      const classes = await response.json();
+      setClassOptions(classes);
+    } catch (error) {
+      console.error('Failed to fetch classes:', error);
+    } finally {
+      setIsLoadingClasses(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      fetchClasses();
+    }
+  }, [isModalOpen]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -111,13 +140,18 @@ const ResponsiveModalBottom = () => {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="class">Kelas</Label>
-                <Input
-                  name="class_type"
-                  placeholder="Contoh: 2 IT B"
-                  required
-                  value={classType}
-                  onChange={(e) => setClassType(e.target.value)}
-                />
+                <Select value={classType} onValueChange={setClassType}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={isLoadingClasses ? "Loading..." : "Pilih kelas"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {classOptions.map((classOption) => (
+                      <SelectItem key={classOption.id} value={classOption.className || ''}>
+                        {classOption.className}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 {errors.classType && <p className="text-red-500">{errors.classType}</p>}
               </div>
               <div className="grid gap-2">

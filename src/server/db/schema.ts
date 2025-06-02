@@ -57,8 +57,8 @@ export const documents = pgTable('documents', {
 export const classes = pgTable('classes', {
   id: serial('id').primaryKey(), 
   createdAt: timestamp('createdAt', { withTimezone: true }).defaultNow(),
-  className: text('className').notNull(),
-  totalStudent: numeric('totalStudent').notNull(),
+  className: text('className'),
+  totalStudent: numeric('totalStudent'),
 });
 
 // Table "folders"

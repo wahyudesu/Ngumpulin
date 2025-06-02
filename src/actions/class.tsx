@@ -37,22 +37,39 @@ export const getClassById = async (id: number) => {
 // Add a new class
 export const addClass = async (className: string, totalStudent: number) => {
   try {
-    // Validate input
-    const validatedData = classSchema.parse({ className, totalStudent })
-
-    await db.insert(classes).values({
-      className: validatedData.className,
-      totalStudent: validatedData.totalStudent.toString(),
-    })
-
-    revalidatePath("/classes")
-    return { success: true }
-  } catch (error) {
-    console.error("Failed to add class:", error)
-    if (error instanceof z.ZodError) {
-      return { success: false, error: error.errors }
+    console.log("Adding class:", { className, totalStudent });
+    
+    // Validasi input
+    const validation = classSchema.safeParse({ className, totalStudent });
+    if (!validation.success) {
+      return {
+        success: false,
+        error: validation.error.errors[0]?.message || "Validation failed"
+      };
     }
-    return { success: false, error: "Failed to add class" }
+
+    // Generate random ID
+    const randomId = Math.floor(Math.random() * 1000000);
+
+    // Insert dengan id random
+    const result = await db.insert(classes).values({
+      id: randomId,
+      className: className.trim(),
+      totalStudent: totalStudent.toString(),
+    }).returning();
+
+    console.log("Insert result:", result);
+
+    return {
+      success: true,
+      data: result[0]
+    };
+  } catch (error) {
+    console.error("Database error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to add class"
+    };
   }
 }
 
