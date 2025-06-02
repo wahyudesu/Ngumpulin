@@ -23,7 +23,7 @@ const GradeEditModal = ({ document, onSave, onSendEmail }: { document: any, onSa
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button size="sm" className="w-full">
-                    <PenSquare className="mr-2 h-4 w-4" />
+                    {/* <PenSquare className="mr-2 h-4 w-4" /> */}
                     {document.grade || "Input Nilai"}
                 </Button>
             </DialogTrigger>
@@ -75,8 +75,7 @@ const FeedbackEditModal = ({ document, onSave, onSendEmail }: { document: any, o
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="w-full">
-                    <PenSquare className="mr-2 h-4 w-4" />
+                <Button variant="outline" size="sm" className="w-full ">
                     {document.feedback ? "Edit Feedback" : "Generate Feedback"}
                 </Button>
             </DialogTrigger>

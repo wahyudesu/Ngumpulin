@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import { 
   flexRender,
   getCoreRowModel,
@@ -30,6 +31,20 @@ interface TableViewProps {
 }
 
 export function TableView({ documents, updateGrade, updateFeedback }: TableViewProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredDocuments, setFilteredDocuments] = useState<Document[]>([]);
+
+  // Filter documents based on search query
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFilteredDocuments(documents);
+    } else {
+      const filtered = documents.filter(doc => 
+        doc.nameStudent?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredDocuments(filtered);
+    }
+  }, [documents, searchQuery]);
   const columns = useMemo(() => [
     {
       accessorKey: "index",
@@ -155,11 +170,10 @@ export function TableView({ documents, updateGrade, updateFeedback }: TableViewP
           onSendEmail={undefined}
         />
       ),
-    },
-  ], [updateGrade, updateFeedback]);
+    },  ], [updateGrade, updateFeedback]);
 
   const table = useReactTable({
-    data: documents,
+    data: filteredDocuments,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -168,7 +182,17 @@ export function TableView({ documents, updateGrade, updateFeedback }: TableViewP
   });
 
   return (
-    <div className="mx-auto mt-4 w-full max-w-7xl rounded border">
+    <div className="space-y-4">
+      {/* Search Input */}
+      <Input
+        placeholder="Cari Mahasiswa..."
+        value={searchQuery}
+        onChange={(event) => setSearchQuery(event.target.value)}
+        className="w-full"
+      />
+      
+      {/* Table */}
+      <div className="mx-auto mt-4 w-full max-w-full rounded border">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -218,9 +242,9 @@ export function TableView({ documents, updateGrade, updateFeedback }: TableViewP
                 Tidak ada dokumen ditemukan.
               </TableCell>
             </TableRow>
-          )}
-        </TableBody>
+          )}        </TableBody>
       </Table>
+      </div>
     </div>
   );
 }

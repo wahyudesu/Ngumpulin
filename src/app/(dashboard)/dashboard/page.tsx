@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { addDays, setHours, setMinutes, subDays } from "date-fns";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
@@ -13,15 +14,32 @@ import {
   TrendingUp, 
   CheckCircle, 
   AlertCircle,
-  Calendar,
   Award,
   FileText,
-  BarChart3
+  BarChart3,
+  Calendar as CalendarIcon
 } from "lucide-react";
 import { Breadcrumb, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
+import { 
+  ResponsiveContainer, 
+  LineChart, 
+  Line, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  PieChart, 
+  Pie, 
+  Cell 
+} from "recharts";
+// import {
+//   EventCalendar,
+//   type CalendarEvent,
+// } from "@/registry/default/components/event-calendar"
 
+import { EventCalendar } from "@/components/event-calendar";
 // Mock data untuk demonstrasi
 const mockData = {
   overview: {
@@ -131,6 +149,22 @@ const mockData = {
       completion: 85,
       students: 28
     }
+  ],
+  chartData: [
+    { month: 'Jan', pengumpulan: 65, penilaian: 58, rataRata: 82 },
+    { month: 'Feb', pengumpulan: 72, penilaian: 68, rataRata: 85 },
+    { month: 'Mar', pengumpulan: 78, penilaian: 75, rataRata: 87 },
+    { month: 'Apr', pengumpulan: 85, penilaian: 82, rataRata: 89 },
+    { month: 'May', pengumpulan: 88, penilaian: 85, rataRata: 85 },
+    { month: 'Jun', pengumpulan: 92, penilaian: 89, rataRata: 91 }
+  ],
+  gradeDistribution: [
+    { grade: 'A', count: 8, color: '#22c55e' },
+    { grade: 'A-', count: 6, color: '#84cc16' },
+    { grade: 'B+', count: 7, color: '#3b82f6' },
+    { grade: 'B', count: 4, color: '#6366f1' },
+    { grade: 'B-', count: 2, color: '#f59e0b' },
+    { grade: 'C+', count: 1, color: '#ef4444' }
   ]
 };
 
@@ -165,11 +199,98 @@ const getGradeBadge = (grade: string) => {
   );
 };
 
+// Calendar events data with academic focus
+const calendarEvents: CalendarEvent[] = [
+  {
+    id: "1",
+    title: "Deadline: Analisis Algoritma Sorting",
+    description: "Batas akhir pengumpulan tugas Algoritma & Struktur Data",
+    start: new Date("2025-05-30"),
+    end: new Date("2025-05-30"),
+    allDay: true,
+    color: "rose",
+    location: "Online"
+  },
+  {
+    id: "2",
+    title: "Project Web Development",
+    description: "Batas akhir pengumpulan tugas Pemrograman Web",
+    start: new Date("2025-06-02"),
+    end: new Date("2025-06-02"),
+    allDay: true,
+    color: "amber",
+    location: "Online"
+  },
+  {
+    id: "3",
+    title: "Review Tugas Database Design",
+    description: "Sesi review dan penilaian tugas Basis Data",
+    start: setMinutes(setHours(new Date("2025-05-29"), 10), 0),
+    end: setMinutes(setHours(new Date("2025-05-29"), 12), 0),
+    color: "sky",
+    location: "Lab Komputer"
+  },
+  {
+    id: "4",
+    title: "UI/UX Prototype Presentation",
+    description: "Presentasi hasil tugas Desain Interface",
+    start: setMinutes(setHours(addDays(new Date(), 1), 14), 0),
+    end: setMinutes(setHours(addDays(new Date(), 1), 16), 0),
+    color: "violet",
+    location: "Ruang 301"
+  },
+  {
+    id: "5",
+    title: "Network Security Workshop",
+    description: "Workshop keamanan jaringan dan presentasi tugas",
+    start: setMinutes(setHours(addDays(new Date(), 3), 9), 0),
+    end: setMinutes(setHours(addDays(new Date(), 3), 12), 0),
+    color: "emerald",
+    location: "Lab Jaringan"
+  },
+  {
+    id: "6",
+    title: "Midterm Evaluation",
+    description: "Evaluasi tengah semester untuk semua mata kuliah",
+    start: addDays(new Date(), 7),
+    end: addDays(new Date(), 10),
+    allDay: true,
+    color: "orange",
+    location: "Kampus"
+  },
+  {
+    id: "7",
+    title: "Algorithm Competition",
+    description: "Kompetisi algoritma antar mahasiswa",
+    start: setMinutes(setHours(addDays(new Date(), 14), 9), 0),
+    end: setMinutes(setHours(addDays(new Date(), 14), 17), 0),
+    color: "sky",
+    location: "Auditorium"
+  }
+];
+
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [events, setEvents] = useState<CalendarEvent[]>(calendarEvents);
+
+  const handleEventAdd = (event: CalendarEvent) => {
+    setEvents([...events, event])
+  }
+
+  const handleEventUpdate = (updatedEvent: CalendarEvent) => {
+    setEvents(
+      events.map((event) =>
+        event.id === updatedEvent.id ? updatedEvent : event
+      )
+    )
+  }
+
+  const handleEventDelete = (eventId: string) => {
+    setEvents(events.filter((event) => event.id !== eventId))
+  }
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-fit flex-col ">
       <header className="flex shrink-0 items-center gap-2 h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger className="-ml-1" />
@@ -177,7 +298,7 @@ export default function DashboardPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/assignment" className="text-base">Assignment</BreadcrumbLink>
+                <BreadcrumbList className="text-base">Dashboard</BreadcrumbList>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -243,13 +364,100 @@ export default function DashboardPage() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 p-4">
         <TabsList className="grid w-full max-w-md grid-cols-4">
           <TabsTrigger value="overview">Ringkasan</TabsTrigger>
-          <TabsTrigger value="assignments">Tugas</TabsTrigger>
           <TabsTrigger value="students">Siswa</TabsTrigger>
           <TabsTrigger value="subjects">Mapel</TabsTrigger>
+          <TabsTrigger value="calendar">Kalender</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
+          {/* Top Row: Performance Chart and Grade Distribution */}
           <div className="grid gap-6 lg:grid-cols-2">
+            {/* Performance Chart */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <TrendingUp className="mr-2 h-5 w-5" />
+                  Tren Performa 6 Bulan Terakhir
+                </CardTitle>
+                <CardDescription>Pengumpulan, penilaian, dan rata-rata nilai</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={mockData.chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line 
+                      type="monotone" 
+                      dataKey="pengumpulan" 
+                      stroke="#3b82f6" 
+                      strokeWidth={2}
+                      name="Tingkat Pengumpulan (%)"
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="penilaian" 
+                      stroke="#22c55e" 
+                      strokeWidth={2}
+                      name="Penilaian Selesai (%)"
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="rataRata" 
+                      stroke="#f59e0b" 
+                      strokeWidth={2}
+                      name="Rata-rata Nilai"
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+
+            {/* Grade Distribution */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Award className="mr-2 h-5 w-5" />
+                  Distribusi Nilai
+                </CardTitle>
+                <CardDescription>Sebaran grade siswa</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart>
+                    <Pie
+                      data={mockData.gradeDistribution}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      dataKey="count"
+                      label={({ grade, count }) => `${grade}: ${count}`}
+                    >
+                      {mockData.gradeDistribution.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
+                  {mockData.gradeDistribution.map((item, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <div 
+                        className="w-3 h-3 rounded-full" 
+                        style={{ backgroundColor: item.color }}
+                      />
+                      <span>{item.grade}: {item.count} siswa</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Bottom Row: Weekly Activity, Quick Stats, and Event Calendar */}
+          <div className="grid gap-6 lg:grid-cols-3">
             {/* Weekly Activity Chart */}
             <Card>
               <CardHeader>
@@ -320,45 +528,58 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </TabsContent>
 
-        <TabsContent value="assignments" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Calendar className="mr-2 h-5 w-5" />
-                Tugas Terbaru
-              </CardTitle>
-              <CardDescription>Daftar tugas yang sedang berlangsung</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {mockData.recentAssignments.map((assignment) => (
-                  <div key={assignment.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                    <div className="space-y-1 flex-1 min-w-0">
-                      <h4 className="font-medium truncate">{assignment.title}</h4>
-                      <p className="text-sm text-muted-foreground truncate">{assignment.subject}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Deadline: {new Date(assignment.dueDate).toLocaleDateString('id-ID')}
-                      </p>
-                    </div>
-                    <div className="text-right space-y-2 flex-shrink-0 ml-4">
-                      {getStatusBadge(assignment.status)}
-                      <div className="text-sm">
-                        <span className="font-medium">{assignment.submitted}</span>
-                        <span className="text-muted-foreground">/{assignment.total}</span>
+            {/* Event Calendar Widget */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <CalendarIcon className="mr-2 h-5 w-5" />
+                  Daftar Kelas
+                </CardTitle>
+                <CardDescription>Kegiatan dalam 7 hari ke depan</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {events
+                    .filter(event => {
+                      const eventDate = new Date(event.start);
+                      const today = new Date();
+                      const nextWeek = addDays(today, 7);
+                      return eventDate >= today && eventDate <= nextWeek;
+                    })
+                    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+                    .slice(0, 4)
+                    .map(event => (
+                      <div key={event.id} className="flex items-start space-x-3 p-3 border rounded-lg">
+                        <div 
+                          className={`w-3 h-3 rounded-full mt-1 ${
+                            event.color === 'rose' ? 'bg-rose-500' :
+                            event.color === 'amber' ? 'bg-amber-500' :
+                            event.color === 'sky' ? 'bg-sky-500' :
+                            event.color === 'emerald' ? 'bg-emerald-500' :
+                            event.color === 'violet' ? 'bg-violet-500' :
+                            event.color === 'orange' ? 'bg-orange-500' :
+                            'bg-gray-500'
+                          }`}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-sm truncate">{event.title}</h4>
+                          <p className="text-xs text-muted-foreground truncate">{event.description}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-xs text-muted-foreground">
+                              {new Date(event.start).toLocaleDateString('id-ID')}
+                            </span>
+                            {event.location && (
+                              <span className="text-xs text-muted-foreground">• {event.location}</span>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      <Progress 
-                        value={(assignment.submitted / assignment.total) * 100} 
-                        className="w-20 h-2" 
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                    ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="students" className="space-y-4">
@@ -436,6 +657,77 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="calendar" className="space-y-4">
+          <div className="grid gap-6 lg:grid-cols-3">
+            {/* EventCalendar */}
+            <Card className="lg:col-span-2">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <CalendarIcon className="mr-2 h-5 w-5" />
+                  Kalender Akademik
+                </CardTitle>
+                <CardDescription>Jadwal deadline dan kegiatan akademik</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <EventCalendar
+                  events={events}
+                  onEventAdd={handleEventAdd}
+                  onEventUpdate={handleEventUpdate}
+                  onEventDelete={handleEventDelete}
+                />
+              </CardContent>
+            </Card>
+
+            {/* Upcoming Events */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Kegiatan Mendatang</CardTitle>
+                <CardDescription>Agenda dalam 7 hari ke depan</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {events
+                    .filter(event => {
+                      const eventDate = new Date(event.start);
+                      const today = new Date();
+                      const nextWeek = addDays(today, 7);
+                      return eventDate >= today && eventDate <= nextWeek;
+                    })
+                    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+                    .slice(0, 5)
+                    .map(event => (
+                      <div key={event.id} className="flex items-start space-x-3 p-3 border rounded-lg">
+                        <div 
+                          className={`w-3 h-3 rounded-full mt-1 ${
+                            event.color === 'rose' ? 'bg-rose-500' :
+                            event.color === 'amber' ? 'bg-amber-500' :
+                            event.color === 'sky' ? 'bg-sky-500' :
+                            event.color === 'emerald' ? 'bg-emerald-500' :
+                            event.color === 'violet' ? 'bg-violet-500' :
+                            event.color === 'orange' ? 'bg-orange-500' :
+                            'bg-gray-500'
+                          }`}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-sm truncate">{event.title}</h4>
+                          <p className="text-xs text-muted-foreground truncate">{event.description}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-xs text-muted-foreground">
+                              {new Date(event.start).toLocaleDateString('id-ID')}
+                            </span>
+                            {event.location && (
+                              <span className="text-xs text-muted-foreground">• {event.location}</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
       </Tabs>
