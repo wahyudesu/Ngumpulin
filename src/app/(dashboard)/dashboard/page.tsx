@@ -39,7 +39,8 @@ import {
 //   type CalendarEvent,
 // } from "@/registry/default/components/event-calendar"
 
-import { EventCalendar } from "@/components/event-calendar";
+import { EventCalendar} from "@/components/event-calendar";
+import type { CalendarEvent } from "@/components";
 // Mock data untuk demonstrasi
 const mockData = {
   overview: {
