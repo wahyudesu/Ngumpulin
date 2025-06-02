@@ -1,11 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react";
-import { ExternalLink, FileText, Loader2, ZoomIn, ZoomOut, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Document } from "@/server/db/types";
 import { GradeEditModal, FeedbackEditModal } from "@/app/(dashboard)/assignment/[nameAssignment]/modals";
 
@@ -22,50 +20,7 @@ export function GalleryView({ documents, updateGrade, updateFeedback }: GalleryV
     if (documents.length > 0 && !selectedDoc) {
       setSelectedDoc(documents[0] || null);
     }
-  }, [documents, selectedDoc]);
-
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-    setPdfLoading(false);
-    setPdfError(false);
-  };
-
-  const onDocumentLoadError = (error: Error) => {
-    console.error('PDF loading error:', error);
-    setPdfLoading(false);
-    setPdfError(true);
-  };  const handlePdfLoad = () => {
-    setPdfLoading(false);
-    setPdfError(false);
-  };
-
-  const handlePdfError = () => {
-    setPdfLoading(false);
-    setPdfError(true);
-  };
-
-  // Zoom functions
-  const handleZoomIn = () => {
-    setZoomLevel(prev => Math.min(prev + 25, 300)); // Max zoom 300%
-  };
-
-  const handleZoomOut = () => {
-    setZoomLevel(prev => Math.max(prev - 25, 50)); // Min zoom 50%
-  };
-
-  const handleZoomReset = () => {
-    setZoomLevel(100);
-  };
-
-  // Page navigation functions
-  const goToPrevPage = () => {
-    setCurrentPage(prev => Math.max(prev - 1, 1));
-  };
-
-  const goToNextPage = () => {
-    setCurrentPage(prev => Math.min(prev + 1, numPages || 1));
-  };
-  const getStatusColor = (doc: Document) => {
+  }, [documents, selectedDoc]);  const getStatusColor = (doc: Document) => {
     if (doc.grade) return "bg-green-100 text-green-800";
     if (doc.feedback) return "bg-yellow-100 text-yellow-800";
     return "bg-blue-100 text-blue-800";
@@ -77,19 +32,39 @@ export function GalleryView({ documents, updateGrade, updateFeedback }: GalleryV
     return "Dikumpulkan";
   };
 
+  // Function to format upload date with deadline status (similar to table-view)
+  const formatUploadDate = (doc: Document) => {
+    if (!doc.uploadedDate) return { date: "-", time: "", isOnTime: true };
+
+    const date = new Date(doc.uploadedDate);
+    const hour = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const formattedTime = `${hour}:${minutes}`;
+    const formattedDate = date.toLocaleDateString("id-ID");
+
+    // Check if on time based on plagiarism (using same logic as table-view)
+    const isOnTime = doc.plagiarism?.every((item: any) => item.similarity <= 70) ?? true;
+
+    return {
+      date: formattedDate,
+      time: formattedTime,
+      isOnTime
+    };
+  };
   return (
-    <div className="flex">
+    <div className="flex h-full">
       {/* Left Section - Document List (30%) */}
-      <div className="w-[30%] border-r bg-muted/20">        <div className="p-4 border-b flex items-center  justify-between">
+      <div className="w-[30%] border-r bg-muted/20">
+        <div className="p-4 border-b flex items-center justify-between">
           <div>
             <h2 className="font-semibold text-sm">{documents.length} Tugas Terkumpul</h2>
           </div>
         </div>
 
-        <div className="h-[calc(100vh-20rem)] overflow-y-auto">
-          <div className="p-2 space-y-2">            {documents.map((doc, index) => {
-              const uploadedDate = doc.uploadedDate ? new Date(doc.uploadedDate) : null;
-              const formattedDate = uploadedDate ? uploadedDate.toLocaleDateString("id-ID") : "-";
+        <div className="h-[calc(100vh-12rem)] overflow-y-auto">
+          <div className="p-2 space-y-2">
+            {documents.map((doc, index) => {
+              const uploadInfo = formatUploadDate(doc);
               
               return (
                 <Card
@@ -105,7 +80,19 @@ export function GalleryView({ documents, updateGrade, updateFeedback }: GalleryV
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium truncate">{doc.nameStudent}</p>
                           <div className="flex flex-col items-start gap-2 mt-1">
-                            <span className="text-xs text-muted-foreground">{formattedDate}</span>
+                            <div className="flex items-center gap-2">
+                              <Badge 
+                                variant={uploadInfo.isOnTime ? "default" : "destructive"}
+                                className="text-xs"
+                              >
+                                {uploadInfo.time}
+                              </Badge>
+                              <span 
+                                className={`text-xs ${uploadInfo.isOnTime ? 'text-green-800' : 'text-red-800'}`}
+                              >
+                                {uploadInfo.date}
+                              </span>
+                            </div>
                             <Badge variant="secondary" className={`text-xs ${getStatusColor(doc)}`}>
                               {getStatusText(doc)}
                             </Badge>
@@ -140,23 +127,10 @@ export function GalleryView({ documents, updateGrade, updateFeedback }: GalleryV
       {/* Right Section - Document Preview (70%) */}
       <div className="flex-1 relative">
         {selectedDoc ? (
-          <>            <div className="p-4 border-b">
-              <h3 className="font-semibold">{selectedDoc.nameStudent}</h3>
-              <p className="text-sm text-muted-foreground">
-                Dikumpulkan: {selectedDoc.uploadedDate ? new Date(selectedDoc.uploadedDate).toLocaleDateString("id-ID") : "-"}
-              </p>
-            </div>            {/* Document Preview Area */}
-            <div className="h-[calc(100vh-24rem)] bg-gray-50 flex flex-col">
-              <div className="p-4 border-b bg-white">
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="font-medium">Kalimat:</span> {selectedDoc.sentences || 0}
-                  </div>
-                  <div>
-                    <span className="font-medium">Halaman:</span> {selectedDoc.page || 0}
-                  </div>
-                </div>
-              </div>              <div className="flex-1 relative">
+          <>
+            <div className="h-full bg-gray-50 flex flex-col">
+
+              <div className="flex-1 relative">
                 {/* Check if file is PDF */}
                 {selectedDoc.documentUrl?.toLowerCase().endsWith('.pdf') ? (
                   <iframe
@@ -171,7 +145,7 @@ export function GalleryView({ documents, updateGrade, updateFeedback }: GalleryV
                       <ExternalLink className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                       <p className="text-lg font-medium">Document Preview</p>
                       <p className="text-sm text-muted-foreground mb-4">
-                        {selectedDoc.nameStudent} - {selectedDoc.uploadedDate ? new Date(selectedDoc.uploadedDate).toLocaleDateString("id-ID") : "-"}
+                        {selectedDoc.nameStudent} - {formatUploadDate(selectedDoc).date}
                       </p>
                       <a
                         href={selectedDoc.documentUrl}
