@@ -92,7 +92,9 @@ export async function uploadassignment(formData: FormData): Promise<any> {
         fastApiFormData.append("uuid", uuid);
         fastApiFormData.append("file_url", publicUrl);
 
-        const fastApiResponse = await fetch("http://localhost:8000/assignment/upload?token=ngumpulin-fastapi", {
+        const fastApiResponse = await fetch("http://localhost:8000/upload", {
+
+        // const fastApiResponse = await fetch("http://localhost:8000/assignment/upload?token=ngumpulin-fastapi", {
           method: "POST",
           body: fastApiFormData,
         });
