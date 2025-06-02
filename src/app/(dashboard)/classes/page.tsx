@@ -35,7 +35,7 @@ const ClassCRUD: React.FC = () => {
       const data = await getDataClass()
       const formattedData = data.map((cls) => ({
         id: cls.id,
-        className: cls.className,
+        className: cls.className !== null && cls.className !== undefined ? cls.className : "",
         totalStudent: Number(cls.totalStudent),
       }))
       setClassesList(formattedData)
