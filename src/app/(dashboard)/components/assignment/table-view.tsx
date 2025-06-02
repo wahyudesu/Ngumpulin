@@ -61,15 +61,14 @@ export function TableView({ documents, updateGrade, updateFeedback }: TableViewP
       accessorKey: "uploadedDate",
       header: "Tanggal Mengumpulkan",
       cell: ({ row }: any) => {
-        if (!row.original.uploadedDate) return "-";
-
-        const date = new Date(row.original.uploadedDate);
+        if (!row.original.uploadedDate) return "-";        const date = new Date(row.original.uploadedDate);
         const hour = date.getHours().toString().padStart(2, "0");
         const minutes = date.getMinutes().toString().padStart(2, "0");
         const formattedTime = `${hour}:${minutes}`;
         const formattedDate = date.toLocaleDateString("id-ID");
 
-        const isOnTime = row.original.plagiarism?.every((item: any) => item.similarity <= 70) ?? true;
+        const plagiarismArray = Array.isArray(row.original.plagiarism) ? row.original.plagiarism : [];
+        const isOnTime = plagiarismArray.length === 0 || plagiarismArray.every((item: any) => item.similarity <= 70);
 
         if (isOnTime) {
           return (
@@ -89,9 +88,8 @@ export function TableView({ documents, updateGrade, updateFeedback }: TableViewP
     },
     {
       accessorKey: "plagiarism",
-      header: "Plagiarisme",
-      cell: ({ row }: any) => {
-        const plagiarism = row.original.plagiarism || [];
+      header: "Plagiarisme",      cell: ({ row }: any) => {
+        const plagiarism = Array.isArray(row.original.plagiarism) ? row.original.plagiarism : [];
         const label = plagiarism.length === 0 ||
           plagiarism.every((item: any) => item.similarity < 70) ? "aman" : "terdeteksi";
 
@@ -236,13 +234,13 @@ export function TableView({ documents, updateGrade, updateFeedback }: TableViewP
                 ))}
               </TableRow>
             ))
-          ) : (
-            <TableRow>
+          ) : (            <TableRow>
               <TableCell colSpan={columns.length} className="text-center">
                 Tidak ada dokumen ditemukan.
               </TableCell>
             </TableRow>
-          )}        </TableBody>
+          )}
+        </TableBody>
       </Table>
       </div>
     </div>

@@ -79,19 +79,28 @@ const AssignmentUploadForm = () => {
     formData.append("folder", name)
 
     try {
-      await uploadassignment(formData)
-      setStatusMessage("Upload Successful!")
+      const result = await uploadassignment(formData)
+      
+      if (result.success) {
+        setStatusMessage("Upload Successful!")
+        toast({
+          title: "Success",
+          description: "Assignment uploaded successfully!",
+        })
 
-      toast({
-        title: "Success",
-        description: "Assignment uploaded successfully!",
-      })
-
-      // Reset form
-      setEmailStudent("")
-      setSelectedClass("")
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ""
+        // Reset form
+        setEmailStudent("")
+        setSelectedClass("")
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ""
+        }
+      } else {
+        setStatusMessage("Upload Failed!")
+        toast({
+          title: "Upload Failed",
+          description: result.error || "An error occurred during upload",
+          variant: "destructive",
+        })
       }
     } catch (error) {
       console.error("Upload failed:", error)

@@ -40,10 +40,9 @@ export function GalleryView({ documents, updateGrade, updateFeedback }: GalleryV
     const hour = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const formattedTime = `${hour}:${minutes}`;
-    const formattedDate = date.toLocaleDateString("id-ID");
-
-    // Check if on time based on plagiarism (using same logic as table-view)
-    const isOnTime = doc.plagiarism?.every((item: any) => item.similarity <= 70) ?? true;
+    const formattedDate = date.toLocaleDateString("id-ID");    // Check if on time based on plagiarism (using same logic as table-view)
+    const plagiarismArray = Array.isArray(doc.plagiarism) ? doc.plagiarism : [];
+    const isOnTime = plagiarismArray.length === 0 || plagiarismArray.every((item: any) => item.similarity <= 70);
 
     return {
       date: formattedDate,
