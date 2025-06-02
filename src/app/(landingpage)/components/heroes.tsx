@@ -74,7 +74,7 @@ export function Heroes() {
                 className="dark:hidden block"
                 animationStyle="from-center"
                 videoSrc="https://www.youtube.com/embed/qh3NGpYRG3I?si=4rb-zSdDkVK9qxxb"
-                thumbnailSrc="/fitur/assignment.jpg"
+                thumbnailSrc="/fitur/dashboard.png"
                 thumbnailAlt="Hero Video"
               />
 
@@ -83,7 +83,7 @@ export function Heroes() {
                 className="hidden dark:block"
                 animationStyle="from-center"
                 videoSrc="https://www.youtube.com/embed/qh3NGpYRG3I?si=4rb-zSdDkVK9qxxb"
-                thumbnailSrc="/fitur/assignment.jpg"
+                thumbnailSrc="/fitur/dashboard.png"
                 thumbnailAlt="Hero Video"
               />
             </div>

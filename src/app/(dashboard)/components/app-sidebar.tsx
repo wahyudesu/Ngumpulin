@@ -18,11 +18,12 @@ import {
 import Toogletheme from "@/app/themeswitch";
 import Feedback from "./feedback";
 import Logo from "./Logo";
+import { NavUser } from "./nav-user";
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "user",
+    // email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
@@ -71,6 +72,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <Toogletheme />
         <Feedback />
+        <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
   );

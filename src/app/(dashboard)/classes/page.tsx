@@ -152,7 +152,7 @@ const ClassCRUD: React.FC = () => {
     <div className="container mx-auto py-6">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-2xl">Class Management</CardTitle>
+          <CardTitle className="text-2xl">Manajemen Kelas</CardTitle>
           <Button onClick={() => setIsAddDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Add Class
