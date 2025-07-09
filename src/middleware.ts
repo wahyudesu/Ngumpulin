@@ -15,15 +15,22 @@
 //   ],
 // }
 
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+// import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+//
+// const isPublicRoute = createRouteMatcher(['/', '/sign-in(.*)', '/sign-up(.*)'])
+//
+// export default clerkMiddleware(async (auth, req) => {
+//   if (!isPublicRoute(req)) {
+//     await auth.protect()
+//   }
+// })
 
-const isPublicRoute = createRouteMatcher(['/', '/sign-in(.*)', '/sign-up(.*)'])
+import { type NextRequest } from 'next/server'
+import { updateSession } from './lib/supabase/middleware';
 
-export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
-    await auth.protect()
-  }
-})
+export async function middleware(request: NextRequest) {
+  return await updateSession(request)
+}
 
 export const config = {
   matcher: [

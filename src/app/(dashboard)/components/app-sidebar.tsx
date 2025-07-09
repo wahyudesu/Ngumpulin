@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { usePathname } from "next/navigation";
-import { BookOpen, Bot, SquareTerminal } from "lucide-react";
-import { SearchForm } from "@/app/(dashboard)/components/search-form";
-import { NavMain } from "@/app/(dashboard)/components/nav-main";
+import type * as React from "react"
+import { usePathname } from "next/navigation"
+import { BookOpen, Bot, SquareTerminal, User } from "lucide-react"
+import { SearchForm } from "@/app/(dashboard)/components/search-form"
+import { NavMain } from "@/app/(dashboard)/components/nav-main"
 import {
   Sidebar,
   SidebarContent,
@@ -13,40 +13,42 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger
-} from "@/components/ui/sidebar";
-import Toogletheme from "@/app/themeswitch";
-import Feedback from "./feedback";
-import Logo from "./Logo";
-import { NavUser } from "./nav-user";
+} from "@/components/ui/sidebar"
+import { Skeleton } from "@/components/ui/skeleton"
+import Toogletheme from "@/app/themeswitch"
+import Feedback from "./feedback"
+import Logo from "./Logo"
+import { NavUser } from "./nav-user"
+import { useUser } from "@/hooks/use-user"
 
-const data = {
-  user: {
-    name: "user",
-    // email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+const navMainItems = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: SquareTerminal,
   },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: SquareTerminal,
-    },
-    {
-      title: "Assignment",
-      url: "/assignment",
-      icon: Bot,
-    },
-    {
-      title: "Classes",
-      url: "/classes",
-      icon: BookOpen,
-    },
-  ],
-};
+  {
+    title: "Assignment",
+    url: "/assignment",
+    icon: Bot,
+  },
+  {
+    title: "Classes",
+    url: "/classes",
+    icon: BookOpen,
+  },
+]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const pathname = usePathname();
+  const pathname = usePathname()
+  const { userProfile, loading, error } = useUser()
+
+  // Default user data for loading/error states
+  const defaultUser = {
+    name: "User",
+    email: "",
+    avatar: "/avatars/default.jpg",
+  }
 
   return (
     <Sidebar variant="inset" {...props} className="box-shadow">
@@ -55,25 +57,40 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem className="flex items-center justify-between">
             <SidebarMenuButton size="lg" asChild>
               <div>
-                <Logo/>
+                <Logo />
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent>
         <SearchForm className="py-2" />
-        <NavMain
-          items={data.navMain.map((item) => ({
-            ...item,
-          }))}
-        />
+        <NavMain items={navMainItems} />
       </SidebarContent>
+
       <SidebarFooter>
         <Toogletheme />
         <Feedback />
-        <NavUser user={data.user} />
+
+        {/* User section with loading state */}
+        {loading ? (
+          <div className="flex items-center space-x-2 p-2">
+            <Skeleton className="h-8 w-8 rounded-full" />
+            <div className="space-y-1">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-3 w-32" />
+            </div>
+          </div>
+        ) : error ? (
+          <div className="flex items-center space-x-2 p-2 text-red-500">
+            <User className="h-4 w-4" />
+            <span className="text-sm">Error loading user</span>
+          </div>
+        ) : (
+          <NavUser user={userProfile || defaultUser} />
+        )}
       </SidebarFooter>
     </Sidebar>
-  );
+  )
 }
