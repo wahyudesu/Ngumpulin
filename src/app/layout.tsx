@@ -2,15 +2,8 @@ import "@/styles/globals.css";
 import { Inter, Gabarito } from 'next/font/google';
 
 import { type Metadata } from 'next';
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs';
 import { PostHogProvider } from "./providers";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -36,14 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="id" className={`${inter.variable} ${gabarito.variable}`} suppressHydrationWarning>
-        <body className={inter.className}>
-          <PostHogProvider>
-            {children}
-          </PostHogProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="id" className={`${inter.variable} ${gabarito.variable}`} suppressHydrationWarning>
+      <body className={inter.className}>
+        <PostHogProvider>
+          {children}
+        </PostHogProvider>
+        <Toaster />
+      </body>
+    </html>
   );
 }

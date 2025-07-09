@@ -16,7 +16,7 @@ const items = [
     id: "2",
     title: "Is this platform secure?",
     content:
-      "Yes, it is very secure. Authentication uses Clerk, Arcjet is used for secure code injection, and the form setup uses a default password.",
+      "Yes, it is very secure. Authentication uses Supabase Auth, Arcjet is used for secure code injection, and the form setup uses a default password.",
   },
   {
     id: "3",
