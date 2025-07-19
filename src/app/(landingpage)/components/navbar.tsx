@@ -84,9 +84,11 @@ export default function Navbar() {
             ))}
           </div>
           <div className="hidden md:flex items-center gap-2">
-            <Button>
-              <Link href={"/sign-in"}>Get started for free</Link>
-            </Button>
+            <Link href={"/sign-in"}>
+              <Button>
+                Get started for free
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
