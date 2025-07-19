@@ -12,7 +12,7 @@ Next js, Drizzle, Supabase, Flask, Clerk, Shdcn UI
    - Copy all text in file `.env.example` ke `.env`.
    - Insert environtment on file `.env`.
 
-3. Run NEXT js :
+3. Run NEXT js :a
    ```bash
    npm run dev
    ```
