@@ -1,6 +1,7 @@
-import { Check, MoveRight, PhoneCall } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const CTA1 = () => (
   <div className=" w-full py-10 lg:py-10">
@@ -15,13 +16,15 @@ export const CTA1 = () => (
               Get Started with Ngumpulin
             </h3>
             <p className="text-lg leading-relaxed tracking-tight text-muted-foreground max-w-xl">
-              Simplify assignments and grading today
+              Simplify your assignments and grading today
             </p>
           </div>
           <div className="flex flex-row gap-4">
-            <Button className="gap-4">
-              Sign up here <MoveRight className="w-4 h-4" />
-            </Button>
+            <Link href="/sign-up">
+              <Button className="gap-4">
+                Sign up here <MoveRight className="w-4 h-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
