@@ -45,8 +45,8 @@ export function SigninForm() {
       <Logo />
       <Card className="w-96 shadow-lg border-primary/20 mt-5">
         <CardHeader className="text-center space-y-4">
-          <CardTitle className="text-xl font-bold">Get Started</CardTitle>
-          <p className="text-sm text-muted-foreground">Create your new account.</p>
+          <CardTitle className="text-xl font-bold">Welcome Back</CardTitle>
+          <p className="text-sm text-muted-foreground">Sign in to your account.</p>
         </CardHeader>
         <CardContent>
           <form action={handleSubmit} className="space-y-6">

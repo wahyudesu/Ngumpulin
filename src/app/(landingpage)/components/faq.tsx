@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem } from "@/components/ui/accordion"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { Plus } from "lucide-react"
+import Link from "next/link"
 
 const items = [
   {
@@ -44,9 +45,11 @@ export const FAQ2 = () => (
             </h1>
           </div>
           <div>
-            <Button className="gap-4" variant="outline">
-              Any questions? Reach out <PhoneCall className="w-4 h-4" />
-            </Button>
+            <Link href="contact">
+              <Button className="gap-4" variant="outline">
+                Any questions? Reach out <PhoneCall className="w-4 h-4" />
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="max-w-3xl w-full mx-auto text-left">

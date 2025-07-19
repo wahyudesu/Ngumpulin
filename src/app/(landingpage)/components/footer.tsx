@@ -24,6 +24,8 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href="sign-in"> Sign In</Link></li>
               <li><Link href="sign-up">Sign Up</Link></li>
+              <li><Link href="contact">Contact Us</Link></li>
+              <li><Link href="about">About Us</Link></li>
             </ul>
           </div>
           <div className="space-y-3">
