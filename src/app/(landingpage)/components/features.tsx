@@ -51,7 +51,7 @@ export function Features() {
       id="features"
       className="h-fit pt-20 [perspective:1000px] relative b flex flex-col lg:max-w-3xl md:max-w-xl max-w-sm mx-auto items-start justify-start"
     >
-      <h1 className="text-3xl lg:text-4xl font-bold mb-6 text-black dark:text-white">Main Features</h1>
+      <h1 className="text-3xl lg:text-4xl font-bold mb-6 text-black dark:text-white">What we offer</h1>
       <div className="h-[90vh] w-full">
         <Tabs tabs={tabs} />
       </div>

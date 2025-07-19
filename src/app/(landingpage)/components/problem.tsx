@@ -62,7 +62,7 @@ export default function Problem() {
   })
   return (
     <div ref={ref} className="flex flex-col items-center justify-center px-6 py-20 space-y-8 bg-primary">
-      <h1 className="text-4xl font-bold text-white text-center">Our Education Needs Innovation.</h1>
+      <h1 className="text-4xl font-bold text-white text-center">Education Needs Innovation.</h1>
       <BentoGrid className="max-w-4xl mx-auto md:auto-rows-[20rem] h-fit">
         {bentoItems.map((item, i) => (
           <BentoGridItem

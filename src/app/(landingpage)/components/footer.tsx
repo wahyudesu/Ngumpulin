@@ -11,32 +11,26 @@ export function Footer() {
             <Logo />
           </div>
           <div className="space-y-3">
-            <h4 className="font-medium">Documentation</h4>
+            {/* <h4 className="font-medium">Documentation</h4> */}
+            {/* <ul className="space-y-2 text-sm text-muted-foreground"> */}
+            {/*   <li><Link href="#">Getting Started</Link></li> */}
+            {/*   <li><Link href="#">Components</Link></li> */}
+            {/*   <li><Link href="#">API playground</Link></li> */}
+            {/*   <li><Link href="#">Pricing</Link></li> */}
+            {/* </ul> */}
+          </div>
+          <div className="space-y-3">
+            <h4 className="font-medium">Useful Links</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="#">Getting Started</Link></li>
-              <li><Link href="#">Components</Link></li>
-              <li><Link href="#">API playground</Link></li>
-              <li><Link href="#">Pricing</Link></li>
+              <li><Link href="sign-in"> Sign In</Link></li>
+              <li><Link href="sign-up">Sign Up</Link></li>
             </ul>
           </div>
           <div className="space-y-3">
-            <h4 className="font-medium">Resources</h4>
+            <h4 className="font-medium">Legal</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="#">Customers</Link></li>
-              <li><Link href="#">Enterprise</Link></li>
-              <li><Link href="#">Request Preview</Link></li>
-              <li><Link href="#">Integrations</Link></li>
-              <li><Link href="#">Templates</Link></li>
-              <li><Link href="#">Wall of Love</Link></li>
-            </ul>
-          </div>
-          <div className="space-y-3">
-            <h4 className="font-medium">Company</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="#">Blog</Link></li>
-              <li><Link href="#">Careers</Link></li>
-              <li><Link href="#">Public Roadmap</Link></li>
-              <li><Link href="#">Security</Link></li>
+              <li><Link href="terms">Terms of Service</Link></li>
+              <li><Link href="privacy">Privacy Policy</Link></li>
             </ul>
           </div>
         </div>
