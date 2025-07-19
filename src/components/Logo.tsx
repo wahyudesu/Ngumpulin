@@ -10,10 +10,7 @@ export default function Logo() {
         className="h-8 w-auto"
       />
       <span className="text-xl font-bold">
-        Ngumpul
-        <span className="ml-1 rounded-md bg-gradient-to-br from-violet-400 to-cyan-500 p-1 text-background">
-          In
-        </span>
+        Ngumpulin
       </span>
     </Link>
   );
