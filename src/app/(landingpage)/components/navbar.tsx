@@ -1,7 +1,4 @@
 "use client"
-
-import type React from "react"
-
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
@@ -11,18 +8,16 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 
 const navItems = [
-  { name: "Features", href: "#features" },
-  { name: "FAQ", href: "#faq" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ]
 
 export default function Navbar() {
   const [hasScrolled, setHasScrolled] = useState(false)
 
   useEffect(() => {
-    // Function to handle scroll events
     const handleScroll = () => {
       const scrollPosition = window.scrollY
-      // You can adjust this threshold as needed (e.g., 10px, 50px, etc.)
       if (scrollPosition > 10) {
         setHasScrolled(true)
       } else {
@@ -30,62 +25,39 @@ export default function Navbar() {
       }
     }
 
-    // Add event listener when component mounts
     window.addEventListener("scroll", handleScroll)
 
-    // Initial check in case page loads with scroll already
     handleScroll()
 
-    // Remove event listener when component unmounts
     return () => {
       window.removeEventListener("scroll", handleScroll)
     }
   }, [])
 
-  // Smooth scroll function
-  const handleScrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-
-    // Get the target element
-    const targetId = href.replace("#", "")
-    const targetElement = document.getElementById(targetId)
-
-    if (targetElement) {
-      // Scroll to the element smoothly
-      targetElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      })
-
-      // Update URL without causing a page reload
-      window.history.pushState(null, "", href)
-    }
-  }
-
   return (
     <nav className="fixed flex w-full z-50">
       <div className="max-w-7xl z-40 w-full mx-auto px-4 sm:px-6 lg:px-24">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-centerspace-x-4 gap-4">
-            <Logo />
+          <div className="flex items-center space-x-4 gap-4">
+            <Link href="/">
+              <Logo />
+            </Link>
           </div>
           <div className="hidden md:flex items-center space-x-4">
             {navItems.map((item, index) => (
-              <Button key={index} variant="ghost">
-                <a
-                  key={index}
+              <Button key={index} variant="ghost" asChild>
+                <Link
                   href={item.href}
-                  onClick={(e) => handleScrollToSection(e, item.href)}
-                  className="text-gray-700 hover:text-indigo-600 px-0 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
                 >
                   {item.name}
-                </a>
+                </Link>
               </Button>
             ))}
           </div>
           <div className="hidden md:flex items-center gap-2">
-            <Button>
-              <Link href={"/sign-in"}>Get started for free</Link>
+            <Button asChild>
+              <Link href="/sign-in">Get started for free</Link>
             </Button>
           </div>
 
@@ -97,31 +69,30 @@ export default function Navbar() {
                   <Menu className="h-6 w-6" />
                 </Button>
               </DrawerTrigger>
-              <DrawerContent className="">
+              <DrawerContent>
                 <DrawerHeader className="text-left p-4">
                   <DrawerTitle>
-                    <Logo />
+                    <Link href="/">
+                      <Logo />
+                    </Link>
                   </DrawerTitle>
                   <div className="flex flex-col gap-1 items-start mt-4">
                     {navItems.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
                         href={item.href}
-                        onClick={(e) => handleScrollToSection(e, item.href)}
                         className="text-gray-700 hover:text-indigo-600 py-2 rounded-md text-md font-semibold"
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
-                  <Link href={"/assignment"}>
-                    <Button variant="outline" className="w-full">
-                      Login
-                    </Button>
-                  </Link>
-                  <Link href={"/assignment"}>
-                    <Button className="w-full">Sign Up</Button>
-                  </Link>
+                  <Button variant="outline" className="w-full mt-4 bg-transparent" asChild>
+                    <Link href="/assignment">Login</Link>
+                  </Button>
+                  <Button className="w-full mt-2" asChild>
+                    <Link href="/assignment">Sign Up</Link>
+                  </Button>
                 </DrawerHeader>
               </DrawerContent>
             </Drawer>

@@ -1,14 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { ComputerIcon as Windows } from "lucide-react";
-import ShimmerButton from "@/components/ui/shimmer-button";
 import HeroVideoDialog from "@/components/ui/hero-video-dialog";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
 import { FormEvent, useForm } from "@formspree/react";
 import { useState } from "react";
 import { SubmissionData, FieldValues } from "@formspree/core";
-import { BackgroundBeams } from "@/components/ui/background-beams";
 import { FlipWords } from "@/components/ui/flip-words";
 import { Spotlight } from "@/components/ui/spotlight-new";
 
