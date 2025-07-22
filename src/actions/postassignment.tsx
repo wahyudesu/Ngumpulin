@@ -7,7 +7,7 @@ import { createClient } from '@supabase/supabase-js';
 import { documents, folders } from "@/server/db/schema"; // Import schema sesuai dengan struktur Drizzle
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_KEY!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // export const savefolders = async (formData: FormData) => {
@@ -94,9 +94,17 @@ export async function uploadassignment(formData: FormData): Promise<any> {
 
         // const fastApiResponse = await fetch("http://localhost:8000/upload", {
 
-        const fastApiResponse = await fetch("http://localhost:8000/assignment/upload?token=ngumpulin-fastapi", {
+        const fastApiResponse = await fetch(`${process.env.BACKEND_URL}/assignment`, {
           method: "POST",
-          body: fastApiFormData,
+          headers: {
+            "Content-Type": "application/json",
+            "key": process.env.KEY || ""
+          },
+          body: JSON.stringify({
+            id: uuid,
+            documentUrl: publicUrl,
+            // "propertyName*": null
+          }),
         });
 
         if (!fastApiResponse.ok) {
