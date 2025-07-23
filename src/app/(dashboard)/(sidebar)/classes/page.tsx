@@ -7,8 +7,8 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/compone
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table"
 import { Pencil, Trash2, Plus } from "lucide-react"
 import { getDataClass, addClass, updateClass, deleteClass } from "@/actions/class"
-import { ClassForm } from "../components/class-form"
-import { DeleteClassDialog } from "../components/delete-class-dialog"
+import { ClassForm } from "../../components/class-form"
+import { DeleteClassDialog } from "../../components/delete-class-dialog"
 import { useToast } from "@/hooks/use-toast"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 

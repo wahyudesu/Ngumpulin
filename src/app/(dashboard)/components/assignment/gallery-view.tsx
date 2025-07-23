@@ -5,7 +5,8 @@ import { ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Document } from "@/server/db/types";
-import { GradeEditModal, FeedbackEditModal } from "@/app/(dashboard)/assignment/[nameAssignment]/modals";
+import { GradeEditModal, FeedbackEditModal } from "@/app/(dashboard)/(sidebar)/assignment/[nameAssignment]/modals";
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 interface GalleryViewProps {
   documents: Document[];

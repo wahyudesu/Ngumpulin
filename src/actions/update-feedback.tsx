@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/server/db";
-import { documents } from "@/server/db/schema";
+import { documents, folders } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -50,20 +50,38 @@ export async function generateAIFeedback(document: any) {
       };
     }
 
+
+    // Ambil folder yang sesuai dengan document.folder
+    let folderData = { nameAssignment: "Tugas", description: "Konten tugas tidak tersedia" };
+    try {
+      const folderResult = await db.select().from(folders).where(eq(folders.nameAssignment, document.folder));
+      if (folderResult && folderResult.length > 0 && folderResult[0]) {
+        folderData = {
+          nameAssignment: folderResult[0]?.nameAssignment || "Tugas",
+          description: folderResult[0]?.description || "Konten tugas tidak tersedia"
+        };
+      }
+    } catch (e) {
+      // fallback ke default jika gagal
+    }
+
     // Prepare data for AI feedback generation
     const feedbackData = {
-      title: document.documentName || "Tugas",
-      description: document.isiTugas || "Konten tugas tidak tersedia",
-      content: document.isiTugas || "Konten tugas tidak tersedia", 
-      persona: "teacher" // Default persona as teacher
+      nameAssignment: folderData.nameAssignment,
+      description: folderData.description,
+      isiTugas: document.isiTugas || "Konten tugas tidak tersedia",
+      personalization: "teacher" // Default personalization as teacher
     };
 
+    // console.log("Feedback data prepared for AI:", feedbackData);
+
     // Send request to AI feedback service
-    const response = await fetch('http://localhost:8000/feedback/?token=ngumpulin-fastapi', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const response = await fetch(`${process.env.BACKEND_URL}/feedback`, {
+      method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "key": process.env.KEY || ""
+        },
       body: JSON.stringify(feedbackData)
     });
 
@@ -72,9 +90,10 @@ export async function generateAIFeedback(document: any) {
     }
 
     const result = await response.json();
+    console.log("AI feedback response:", result);
     
     // Extract combined_output from the response
-    const generatedFeedback = result.combined_output || "Feedback tidak dapat dihasilkan";
+    const generatedFeedback = result.data.final_evaluation || "Feedback tidak dapat dihasilkan";
 
     // Update the feedback in the database
     const updateResult = await updateDocumentFeedback(document.id, generatedFeedback);
@@ -96,7 +115,7 @@ export async function generateAIFeedback(document: any) {
     console.error("Error generating AI feedback:", error);
     return {
       success: false,
-      error: "Gagal menghasilkan feedback AI. Pastikan service AI berjalan di http://127.0.0.1:8000"
+      error: "Gagal menghasilkan feedback AI. Pastikan service AI berjalan di http://localhost:8787"
     };
   }
 }

@@ -2,7 +2,7 @@
 
 import type * as React from "react"
 import { usePathname } from "next/navigation"
-import { BookOpen, Bot, SquareTerminal, User } from "lucide-react"
+import { BookOpen, Bot, Settings, SquareTerminal, User } from "lucide-react"
 import { SearchForm } from "@/app/(dashboard)/components/search-form"
 import { NavMain } from "@/app/(dashboard)/components/nav-main"
 import {
@@ -20,6 +20,8 @@ import Feedback from "./feedback"
 import Logo from "./Logo"
 import { NavUser } from "./nav-user"
 import { useUser } from "@/hooks/use-user"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 const navMainItems = [
   {
@@ -72,8 +74,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <Toogletheme />
         <Feedback />
+        <Button variant="ghost" asChild>
+          <Link href="/settings">
+            Settings
+          </Link>
+        </Button>
 
-        {/* User section with loading state */}
         {loading ? (
           <div className="flex items-center space-x-2 p-2">
             <Skeleton className="h-8 w-8 rounded-full" />

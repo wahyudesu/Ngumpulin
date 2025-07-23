@@ -22,7 +22,8 @@ import { ArrowUp, ArrowDown, ArrowUpDown, ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Document } from "@/server/db/types";
-import { GradeEditModal, FeedbackEditModal } from "@/app/(dashboard)/assignment/[nameAssignment]/modals";
+import { GradeEditModal, FeedbackEditModal } from "@/app/(dashboard)/(sidebar)/assignment/[nameAssignment]/modals";
+import { useParams } from "next/navigation";
 
 interface TableViewProps {
   documents: Document[];

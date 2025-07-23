@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import Logo from "./components/Logo";
+import Logo from "../components/Logo";
 
 export function NavMain({
   items,

@@ -2,11 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@radix-ui/react-label";
-import { PenSquare } from "lucide-react";
+import { PenSquare, Bot, Save, Mail, Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState, useTransition } from "react";
 import { updateDocumentGrade } from "@/actions/update-grade";
 import { updateDocumentFeedback, generateAIFeedback } from "@/actions/update-feedback";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
 const GradeEditModal = ({ document, onSave, onSendEmail }: { document: any, onSave: any, onSendEmail: any }) => {
     const [open, setOpen] = useState(false);
@@ -45,7 +47,7 @@ const GradeEditModal = ({ document, onSave, onSendEmail }: { document: any, onSa
                     {document.grade || "Input Nilai"}
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[900px] min-h-[500px] p-8">
                 <DialogHeader>
                     <DialogTitle>Input Nilai</DialogTitle>
                     <DialogDescription>
@@ -92,6 +94,7 @@ const GradeEditModal = ({ document, onSave, onSendEmail }: { document: any, onSa
 };
 
 const FeedbackEditModal = ({ document, onSave, onSendEmail }: { document: any, onSave: any, onSendEmail: any }) => {
+    const router = useRouter();
     const [open, setOpen] = useState(false);
     const [feedback, setFeedback] = useState(document.feedback || "");
     const [isPending, startTransition] = useTransition();
@@ -153,28 +156,55 @@ const FeedbackEditModal = ({ document, onSave, onSendEmail }: { document: any, o
                     {document.feedback ? "Edit Feedback" : "Generate Feedback"}
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[525px]">
+            <DialogContent className="sm:max-w-2xl">
                 <DialogHeader>
                     <DialogTitle className="">Feedback Tugas</DialogTitle>
                     <DialogDescription>
                         Berikan feedback untuk tugas {document.nameStudent}
                     </DialogDescription>
-                </DialogHeader>                <div className="grid gap-4">
+                </DialogHeader>
+                <div className="grid gap-4">
                     <div className="grid grid-cols-1 gap-4">
                         <Label htmlFor="feedback">
                             Feedback
                         </Label>
-                        <Textarea
-                            id="feedback"
-                            value={feedback}
-                            onChange={(e) => {
-                                setFeedback(e.target.value);
-                                setError("");
-                            }}
-                            placeholder="Masukkan feedback..."
-                            className="h-32"
-                            disabled={isPending || isGenerating}
-                        />
+                        <div className="relative">
+                            <Textarea
+                                id="feedback"
+                                value={feedback}
+                                onChange={(e) => {
+                                    setFeedback(e.target.value);
+                                    setError("");
+                                }}
+                                placeholder="Masukkan feedback..."
+                                className="h-60"
+                                disabled={isPending || isGenerating}
+                            />
+                            {(isPending || isGenerating) && (
+                                <>
+                                    <div className="absolute top-0 right-0 bg-blue-500 text-white px-2 py-1 text-xs font-bold z-50">
+                                        {isPending ? "PENDING" : "GENERATING"}
+                                    </div>
+                                    <div className="absolute inset-0 border-4 border-blue-500 rounded-sm pointer-events-none z-10"></div>
+                                    <div className="space-y-3 absolute inset-0 bg-blue-100/50 rounded-sm p-3 overflow-hidden pointer-events-none">
+                                        <Skeleton className="h-5 w-[95%] bg-blue-300" />
+                                        <Skeleton className="h-5 w-[88%] bg-blue-300" />
+                                        <div className="space-y-2 mt-4">
+                                            <Skeleton className="h-4 w-[90%] bg-blue-300" />
+                                            <Skeleton className="h-4 w-[85%] bg-blue-300" />
+                                        </div>
+                                        <div className="space-y-2 mt-4">
+                                            <Skeleton className="h-4 w-[87%] bg-blue-300" />
+                                            <Skeleton className="h-4 w-[75%] bg-blue-300" />
+                                        </div>
+                                        <div className="space-y-2 mt-4">
+                                            <Skeleton className="h-4 w-[92%] bg-blue-300" />
+                                            <Skeleton className="h-4 w-[78%] bg-blue-300" />
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
                     {error && (
                         <div className="text-red-500 text-sm text-center">
@@ -182,29 +212,48 @@ const FeedbackEditModal = ({ document, onSave, onSendEmail }: { document: any, o
                         </div>
                     )}
                 </div>
-                <DialogFooter>
-                    <Button 
-                        variant="outline" 
-                        type="button" 
-                        onClick={handleGenerateAI}
-                        disabled={isPending || isGenerating}
-                    >
-                        {isGenerating ? "Menghasilkan..." : "AI Generate Feedback"}
-                    </Button>
-                    <Button 
-                        type="button" 
-                        onClick={handleSave}
-                        disabled={isPending || isGenerating}
-                    >
-                        {isPending ? "Menyimpan..." : "Simpan"}
-                    </Button>
-                    <Button 
-                        variant="secondary" 
-                        onClick={handleSendEmail}
-                        disabled={!feedback.trim() || isPending || isGenerating}
-                    >
-                        Kirim ke Email
-                    </Button>
+                <DialogFooter className="flex justify-between items-center w-full">
+                    <div>
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            className="rounded-full mr-2"
+                            onClick={() => router.push("/settings/personalization")}
+                            title="Personalisasi"
+                        >
+                            <Settings className="h-4 w-4" />
+                        </Button>
+                    </div>
+                    <div className="flex gap-2">
+                        <Button 
+                            variant="outline" 
+                            type="button" 
+                            onClick={handleGenerateAI}
+                            disabled={isPending || isGenerating}
+                            className="flex items-center gap-2"
+                        >
+                            <Bot className="h-4 w-4" />
+                            {isGenerating ? "Menghasilkan..." : "AI Generate Feedback"}
+                        </Button>
+                        <Button 
+                            type="button" 
+                            onClick={handleSave}
+                            disabled={isPending || isGenerating}
+                            className="flex items-center gap-2"
+                        >
+                            <Save className="h-4 w-4" />
+                            {isPending ? "Menyimpan..." : "Simpan"}
+                        </Button>
+                        <Button 
+                            variant="secondary" 
+                            onClick={handleSendEmail}
+                            disabled={!feedback.trim() || isPending || isGenerating}
+                            className="flex items-center gap-2"
+                        >
+                            <Mail className="h-4 w-4" />
+                            Kirim ke Email
+                        </Button>
+                    </div>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
