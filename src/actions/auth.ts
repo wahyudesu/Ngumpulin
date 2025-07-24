@@ -1,6 +1,4 @@
-
 "use server"
-
 import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
 import { createClient } from "@/lib/supabase/server"
@@ -8,6 +6,7 @@ import { createClient } from "@/lib/supabase/server"
 export type AuthResult = {
   success: boolean
   message: string
+  data?: any
 }
 
 export async function login(formData: FormData): Promise<AuthResult> {
@@ -22,7 +21,6 @@ export async function login(formData: FormData): Promise<AuthResult> {
   }
 
   const supabase = await createClient()
-
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -37,6 +35,30 @@ export async function login(formData: FormData): Promise<AuthResult> {
 
   revalidatePath("/", "layout")
   redirect("/dashboard")
+}
+
+export async function signInWithGoogle(): Promise<AuthResult> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+    },
+  })
+
+  if (error) {
+    return {
+      success: false,
+      message: error.message,
+    }
+  }
+
+  return {
+    success: true,
+    message: "Redirecting to Google...",
+    data: data.url,
+  }
 }
 
 export async function signup(formData: FormData): Promise<AuthResult> {
@@ -58,7 +80,6 @@ export async function signup(formData: FormData): Promise<AuthResult> {
   }
 
   const supabase = await createClient()
-
   const { error } = await supabase.auth.signUp({
     email,
     password,
@@ -77,10 +98,8 @@ export async function signup(formData: FormData): Promise<AuthResult> {
   }
 }
 
-
 export async function logout() {
   const supabase = await createClient()
-
   const { error } = await supabase.auth.signOut()
 
   if (error) {
