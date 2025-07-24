@@ -291,16 +291,11 @@ export function EventCalendar({
           <div className="flex items-center gap-1 sm:gap-4">
             <Button
               variant="outline"
-              className="aspect-square max-[479px]:p-0!"
               onClick={handleToday}
             >
-              <RiCalendarCheckLine
-                className="min-[480px]:hidden"
-                size={16}
-                aria-hidden="true"
-              />
-              <span className="max-[479px]:sr-only">Today</span>
+              Today
             </Button>
+
             <div className="flex items-center sm:gap-2">
               <Button
                 variant="ghost"
@@ -365,11 +360,11 @@ export function EventCalendar({
               }}
             >
               <PlusIcon
-                className="opacity-60 sm:-ms-1"
+                className="opacity-100 sm:-ms-1"
                 size={16}
                 aria-hidden="true"
               />
-              <span className="max-sm:sr-only">New event</span>
+              {/* <span className="max-sm:sr-only">New event</span> */}
             </Button>
           </div>
         </div>
@@ -377,6 +372,7 @@ export function EventCalendar({
         <div className="flex flex-1 flex-col">
           {view === "month" && (
             <MonthView
+            
               currentDate={currentDate}
               events={events}
               onEventSelect={handleEventSelect}
