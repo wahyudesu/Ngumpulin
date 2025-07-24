@@ -88,11 +88,10 @@ export async function uploadassignment(formData: FormData): Promise<any> {
         });
 
         // 4. Kirim ke FastAPI untuk processing
-        const fastApiFormData = new FormData();
-        fastApiFormData.append("uuid", uuid);
-        fastApiFormData.append("file_url", publicUrl);
-
-        // const fastApiResponse = await fetch("http://localhost:8000/upload", {
+        console.log("[FastAPI] Sending payload:", {
+          id: uuid,
+          documentUrl: publicUrl,
+        });
 
         const fastApiResponse = await fetch(`${process.env.BACKEND_URL}/assignment`, {
           method: "POST",
@@ -103,17 +102,25 @@ export async function uploadassignment(formData: FormData): Promise<any> {
           body: JSON.stringify({
             id: uuid,
             documentUrl: publicUrl,
-            // "propertyName*": null
           }),
         });
 
+        console.log("[FastAPI] Response status:", fastApiResponse.status);
+
+        let fastApiResponseBody;
+        try {
+          fastApiResponseBody = await fastApiResponse.clone().json();
+          console.log("[FastAPI] Response body:", fastApiResponseBody);
+        } catch (jsonError) {
+          fastApiResponseBody = await fastApiResponse.text();
+          console.log("[FastAPI] Response text (not JSON):", fastApiResponseBody);
+        }
+
         if (!fastApiResponse.ok) {
-          const errorData = await fastApiResponse.json();
-          console.error(`FastAPI processing failed for ${file.name}:`, errorData);
+          console.error(`[FastAPI] Error for ${file.name}:`, fastApiResponseBody);
           // Continue with next file, don't fail the entire upload
         } else {
-          const processingResult = await fastApiResponse.json();
-          console.log(`FastAPI processing completed for ${file.name}:`, processingResult);
+          console.log(`[FastAPI] Success for ${file.name}:`, fastApiResponseBody);
         }
 
         results.push({ 

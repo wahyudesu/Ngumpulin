@@ -22,13 +22,23 @@ export const vector = customType<{
 	},
 });
 
+export const authUsers = pgTable("auth.users", {
+  id: uuid("id").primaryKey().notNull(),
+});
+
 // Table "users"
-export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  name: text('name').notNull(),
-  email: text('email').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+export const profiles = pgTable("profiles", {
+  id: uuid("id")
+    .primaryKey()
+    .notNull()
+    .references(() => authUsers.id, { onDelete: "cascade" }),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  personalization: text("personalization").default(
+    "Koreksi tugas ini dengan karakter dosen yang tegas namun adil, memberikan umpan balik secara objektif, langsung ke poin, dan tetap menghargai usaha mahasiswa."
+  ),
 });
 
 // Table "documents"

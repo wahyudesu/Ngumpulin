@@ -73,14 +73,13 @@ export async function generateAIFeedback(document: any) {
       personalization: "teacher" // Default personalization as teacher
     };
 
-    // console.log("Feedback data prepared for AI:", feedbackData);
+    console.log("Feedback data prepared for AI:", feedbackData);
 
-    // Send request to AI feedback service
-    const response = await fetch(`${process.env.BACKEND_URL}/feedback`, {
+    const response = await fetch(`https://ngumpulin-backend.bun-hono-backend.workers.dev/feedback`, {
       method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "key": process.env.KEY || ""
+          "Key": process.env.KEY || ""
         },
       body: JSON.stringify(feedbackData)
     });

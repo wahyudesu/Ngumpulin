@@ -72,8 +72,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
 
       <SidebarFooter>
-        <Toogletheme />
         <Feedback />
+        <Toogletheme />
         <Button variant="ghost" asChild>
           <Link href="/settings">
             Settings
