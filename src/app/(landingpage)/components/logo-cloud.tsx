@@ -15,7 +15,7 @@ const LogoCloud = () => {
         {/* Teks Deskripsi */}
         <div className="text-center mb-4 lg:mb-12">
           <p className="text-sm md:text-xl font-normal text-gray-500 max-w-xs md:max-w-lg mx-auto">
-            150+ teachers from numerous institutions trust us with their assignments
+            100+ teachers from numerous institutions trust us with their assignments
           </p>
         </div>
 

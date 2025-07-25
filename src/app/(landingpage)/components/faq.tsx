@@ -31,6 +31,12 @@ const items = [
     content:
       "Currently, it is focused on assignments. If there is a lot of feedback requesting exam features, it is possible that in the future there will be features for creating and checking exams like midterms or finals.",
   },
+  {
+  id: "5",
+  title: "Apakah aplikasi ini benar-benar terpakai?",
+  content:
+    "Berdasarkan data dan tren edukasi, penerapan teknologi AI dalam pendidikan sudah menjadi kebutuhan. Dari pengalaman kami, guru dapat menghemat minimal 6 jam per minggu dalam mengoreksi tugas. Waktu tersebut bisa dialihkan untuk fokus mengajar dan membimbing siswa, bukan sekadar memeriksa tugas.",
+  }
 ]
 
 export const FAQ2 = () => (
