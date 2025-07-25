@@ -38,9 +38,9 @@ export const FAQ2 = () => (
     <div className="container mx-auto items-center">
       <div className="flex flex-col gap-10 p-7">
         <div className="flex text-center justify-center items-center gap-4 flex-col">
-          <Badge variant="outline">FAQ</Badge>
+          <Badge variant="outline" className="text-black">FAQ</Badge>
           <div className="flex gap-2 flex-col">
-            <h1 className="text-3xl md:text-5xl tracking-tighter max-w-xl text-center font-semibold">
+            <h1 className="text-3xl md:text-5xl tracking-tighter text-black max-w-xl text-center font-semibold">
               Questions Around Ngumpulin
             </h1>
           </div>
@@ -57,7 +57,7 @@ export const FAQ2 = () => (
             {items.map((item) => (
               <AccordionItem value={item.id} key={item.id} className="border-b">
                 <AccordionPrimitive.Header className="flex">
-                  <AccordionPrimitive.Trigger className="flex flex-1 items-center justify-between py-4 text-left text-[15px] font-semibold leading-6 transition-all [&>svg>path:last-child]:origin-center [&>svg>path:last-child]:transition-all [&>svg>path:last-child]:duration-200 [&[data-state=open]>svg>path:last-child]:rotate-90 [&[data-state=open]>svg>path:last-child]:opacity-0 [&[data-state=open]>svg]:rotate-180">
+                  <AccordionPrimitive.Trigger className="flex flex-1 text-black items-center justify-between py-4 text-left text-[15px] font-semibold leading-6 transition-all [&>svg>path:last-child]:origin-center [&>svg>path:last-child]:transition-all [&>svg>path:last-child]:duration-200 [&[data-state=open]>svg>path:last-child]:rotate-90 [&[data-state=open]>svg>path:last-child]:opacity-0 [&[data-state=open]>svg]:rotate-180">
                     {item.title}
                     <Plus
                       size={16}

@@ -75,7 +75,7 @@ export default function PersonalizationForm() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Personalisasi Dosen</h3>
+        <h3 className="text-2xl font-bold">Personalisasi Dosen</h3>
         <p className="text-sm text-muted-foreground">
           Atur karakter dan bidang yang diampu oleh dosen AI Anda.
         </p>
@@ -85,7 +85,7 @@ export default function PersonalizationForm() {
         <CardHeader>
           <CardTitle>Karakter Dosen</CardTitle>
           <CardDescription>
-            Pilih gaya komunikasi dosen virtual Anda, atau tulis sendiri.
+            Pilih gaya komunikasi anda untuk personalisasi AI Agent.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react"; // ✅ modified
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,9 +12,23 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 export default function FeedbackCard() {
+  const [openForm, setOpenForm] = useState(false); // ✅ modified
+  const [openThanks, setOpenThanks] = useState(false); // ✅ modified
+
+  const handleSubmit = () => {
+    setOpenForm(false); // tutup form dialog
+    setTimeout(() => setOpenThanks(true), 300); // buka thanks dialog
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -23,7 +38,8 @@ export default function FeedbackCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="text-center">
-        <Dialog>
+        {/* Form Dialog */}
+        <Dialog open={openForm} onOpenChange={setOpenForm}> {/* ✅ modified */}
           <DialogTrigger asChild>
             <Button variant="outline">Berikan Feedback</Button>
           </DialogTrigger>
@@ -34,7 +50,7 @@ export default function FeedbackCard() {
               </DialogTitle>
             </DialogHeader>
             <div className="px-6 py-4">
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}> {/* ✅ modified */}
                 <div className="space-y-6">
                   {/* Pertanyaan 1 */}
                   <div>
@@ -102,11 +118,20 @@ export default function FeedbackCard() {
                     />
                   </div>
                 </div>
-                <Button type="button" className="w-full">
+                <Button type="submit" className="w-full">
                   Kirim feedback
                 </Button>
               </form>
             </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Terima kasih Dialog */}
+        <Dialog open={openThanks} onOpenChange={setOpenThanks}> {/* ✅ modified */}
+          <DialogContent className="text-center">
+            <DialogHeader>
+              <DialogTitle>Terima kasih atas responnya! 🙏</DialogTitle>
+            </DialogHeader>
           </DialogContent>
         </Dialog>
       </CardContent>

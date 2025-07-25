@@ -25,6 +25,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import Link from 'next/link'
 
 const settingsFormSchema = z.object({
   name: z.string().min(2, {
@@ -63,13 +64,15 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto">
+
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Pengaturan</h1>
+        <h1 className="text-2xl font-bold">Pengaturan</h1>
         <p className="text-muted-foreground">Kelola pengaturan akun dan preferensi Anda.</p>
       </div>
 
       <div className="grid gap-6">
+        
         <Card>
           <CardHeader>
             <CardTitle>Profil</CardTitle>

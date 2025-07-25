@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 interface SettingsLayoutProps {
   children: React.ReactNode
@@ -12,12 +13,17 @@ interface SettingsLayoutProps {
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
   return (
     <div className="space-y-6 p-4 md:p-10 pb-16">
-      <div className="space-y-0.5">
+      <div className="mb-4">
+        <Link href="/dashboard">
+          <Button variant="outline">← Kembali ke Dashboard</Button>
+        </Link>
+      </div>
+      {/* <div className="space-y-0.5">
         <h2 className="text-2xl font-bold tracking-tight">Pengaturan</h2>
         <p className="text-muted-foreground">
           Kelola pengaturan akun dan preferensi Anda.
         </p>
-      </div>
+      </div> */}
       <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
         <aside className="-mx-4 lg:w-1/5">
           <SidebarNav />
